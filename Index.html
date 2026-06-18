@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Report - PT Murinda Sentra Baja</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            blue: '#2563eb',
+                            green: '#16a34a',
+                            orange: '#ea580c',
+                            bgLight: '#eec2f6'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: linear-gradient(135deg, #e2e8f0 0%, #dbeafe 100%);
+            min-height: 100vh;
+        }
+        
+        /* Fresh Bright Gradient Utilities */
+        .fresh-gradient-bg {
+            background: linear-gradient(135deg, #2563eb, #16a34a, #ea580c);
+        }
+        .fresh-gradient-text {
+            background: linear-gradient(135deg, #2563eb, #16a34a, #ea580c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Sidebar Styling */
+        .sidebar { 
+            background-color: #ffffff;
+            border-right: 2px solid #cbd5e1;
+        }
+
+        /* High Visibility & Clear Table Styling */
+        .dataTables_wrapper {
+            padding: 0.5rem 0;
+        }
+        table.dataTable {
+            border-collapse: collapse !important;
+            border: 2px solid #94a3b8 !important;
+            width: 100% !important;
+        }
+        table.dataTable thead {
+            background: linear-gradient(90deg, #f1f5f9 0%, #e2e8f0 100%);
+        }
+        table.dataTable thead th {
+            border: 1px solid #64748b !important;
+            color: #1e293b;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.05em;
+            padding: 12px 16px !important;
+            text-align: left;
+        }
+        table.dataTable tbody tr { 
+            background-color: #ffffff;
+        }
+        table.dataTable tbody tr:nth-child(even) {
+            background-color: #f8fafc !important;
+        }
+        
+        table.dataTable tbody td {
+            border: 1px solid #cbd5e1 !important;
+            padding: 12px 16px !important;
+            color: #334155;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        
+        table.dataTable tbody tr:hover { 
+            background-color: #e0f2fe !important;
+            transition: background-color 0.2s ease;
+        }
+
+        /* Sembunyikan tombol default bawaan datatable */
+        .dt-buttons {
+            display: none !important;
+        }
+
+        /* Pagination Styling */
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            border-radius: 8px !important;
+            border: 1px solid #cbd5e1 !important;
+            font-weight: 600;
+            background: #ffffff !important;
+            color: #475569 !important;
+            margin: 0 2px;
+        }
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+            background: linear-gradient(135deg, #2563eb, #16a34a) !important; 
+            color: white !important; 
+            border: 1px solid #2563eb !important;
+        }
+
+        /* Loader */
+        .loader {
+            border-top-color: transparent;
+            border-right-color: #16a34a;
+            border-bottom-color: #ea580c;
+            border-left-color: #2563eb;
+            animation: spinner 1s linear infinite;
+        }
+        @keyframes spinner {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden text-gray-800">
+
+    <aside class="sidebar w-72 flex flex-col hidden md:flex z-20 shadow-xl">
+        <div class="h-24 flex flex-col justify-center px-8 border-b-2 border-slate-200 bg-slate-50">
+            <h1 class="text-3xl font-extrabold tracking-tight text-slate-800">
+                Maintenance
+            </h1>
+        </div>
+        <div class="p-6 flex-1 overflow-y-auto bg-white">
+            <p class="text-[11px] text-slate-400 font-bold uppercase tracking-widest mb-4 ml-2">Navigasi Menu</p>
+            <ul id="sheet-nav" class="space-y-2">
+                <li class="text-center text-sm py-4 text-gray-400">
+                    <i class="fas fa-spinner fa-spin mr-2"></i>Loading Menu...
+                </li>
+            </ul>
+        </div>
+        <div class="p-6 border-t-2 border-slate-200 text-xs text-center text-gray-400 bg-slate-50">
+            <p class="font-bold text-slate-600 mb-1">PT Murinda Sentra Baja</p>
+            <p class="text-[10px] text-slate-500">Developed by Aspuro Amarulloh Khoiri<br>Kalijati, Subang</p>
+        </div>
+    </aside>
+
+    <div class="flex-1 flex flex-col h-screen overflow-hidden relative">
+        <header class="h-24 bg-white/90 backdrop-blur-md flex items-center justify-between px-10 z-10 sticky top-0 border-b-2 border-slate-200 shadow-sm">
+            <div class="flex items-center">
+                <button id="mobile-menu-btn" class="md:hidden text-gray-500 hover:text-blue-500 transition mr-4">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+                <div>
+                    <h2 id="current-sheet-title" class="text-2xl font-bold text-gray-800 tracking-tight">Loading Data...</h2>
+                    <div class="flex items-center mt-1">
+                        <span class="w-2 h-2 rounded-full bg-green-500 mr-2 animate-pulse"></span>
+                        <p class="text-xs text-slate-500 font-semibold uppercase">Terhubung MSB ERP System</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-3">
+                <button onclick="triggerExcel()" class="flex items-center px-4 py-2.5 bg-emerald-600 text-white text-sm font-bold rounded-xl hover:bg-emerald-700 hover:shadow-md transition-all">
+                    <i class="fas fa-file-excel mr-2"></i>Excel
+                </button>
+                <button onclick="triggerPrint()" class="flex items-center px-4 py-2.5 bg-amber-600 text-white text-sm font-bold rounded-xl hover:bg-amber-700 hover:shadow-md transition-all">
+                    <i class="fas fa-print mr-2"></i>Print
+                </button>
+                <button onclick="fetchData()" class="flex items-center px-4 py-2.5 bg-slate-100 border border-slate-300 text-slate-700 text-sm font-bold rounded-xl hover:bg-slate-200 transition-all">
+                    <i class="fas fa-sync-alt mr-2 text-blue-600"></i>Refresh
+                </button>
+            </div>
+        </header>
+
+        <div id="loading-overlay" class="absolute inset-0 bg-slate-900/20 backdrop-blur-sm z-30 flex flex-col items-center justify-center hidden">
+            <div class="bg-white p-8 rounded-2xl shadow-2xl flex flex-col items-center border border-slate-200">
+                <div class="loader ease-linear rounded-full border-4 h-14 w-14 mb-4"></div>
+                <h2 class="text-xl font-bold text-slate-800">Mengambil Data MSB ERP System...</h2>
+                <p class="text-sm text-gray-500 mt-1">Sinkronisasi awan sedang berjalan</p>
+            </div>
+        </div>
+
+        <main class="flex-1 overflow-y-auto p-8">
+            <div class="bg-white rounded-xl shadow-md border-2 border-slate-200 p-6">
+                <div class="overflow-x-auto w-full">
+                    <table id="data-table" class="display responsive nowrap cell-border w-full text-sm text-left">
+                        <thead id="table-head">
+                            </thead>
+                        <tbody id="table-body">
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+    
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+
+    <script>
+        let spreadsheetData = {};
+        let currentActiveSheet = "";
+        let dataTableInstance = null;
+        let currentHeaders = [];
+
+        function fetchData() {
+            $('#loading-overlay').removeClass('hidden');
+            
+            if (typeof google !== 'undefined' && google.script && google.script.run) {
+                google.script.run
+                    .withSuccessHandler(onDataSuccess)
+                    .withFailureHandler(onDataFailure)
+                    .getSpreadsheetData();
+            } else {
+                console.warn('Google Apps Script tidak terdeteksi. Menggunakan data simulasi lokal.');
+                setTimeout(() => {
+                    onDataSuccess({
+                        "Master Aset": [
+                            ["Area", "Kategori", "Jenis", "Periode", "Keterangan"],
+                            ["Area 1", "Mesin Potong", "PC130", "Bulanan", "Berjalan Baik"],
+                            ["Area 2", "Crane", "OH-05", "Mingguan", "Perlu Inspeksi"],
+                            ["Area 3", "Genset", "GS-01", "Harian", "Standby"]
+                        ],
+                        "Preventive": [
+                            ["Process Name", "Process", "Quality Assurance", "PIC", "Interval"],
+                            ["Material Receiving", "Visual", "Check List", "QC", "All"],
+                            ["Cutting", "Dimensional", "Roll Meter", "Prod", "All"]
+                        ]
+                    });
+                }, 1000);
+            }
+        }
+
+        function onDataSuccess(data) {
+            spreadsheetData = data;
+            $('#loading-overlay').addClass('hidden');
+            renderNavigation();
+            
+            const sheetNames = Object.keys(data);
+            if (sheetNames.length > 0) {
+                const firstSheet = currentActiveSheet || $('#sheet-nav button').first().attr('data-sheet');
+                if(firstSheet) renderSheetData(firstSheet);
+            } else {
+                $('#current-sheet-title').text('Tidak ada data tersedia.');
+            }
+        }
+
+        function onDataFailure(error) {
+            $('#loading-overlay').addClass('hidden');
+            alert('Gagal memproses data: ' + error.message);
+        }
+
+      function getMenuConfig(sheetName) {
+            const configs = {
+                "Master Aset": { icon: "fa-server", color: "text-blue-600", bg: "bg-blue-50" },
+                "Preventive": { icon: "fa-shield-halved", color: "text-green-600", bg: "bg-green-50" },
+                "Kalibrasi": { icon: "fa-gauge-high", color: "text-orange-600", bg: "bg-orange-50" },
+                "Work Order": { icon: "fa-clipboard-check", color: "text-teal-600", bg: "bg-teal-50" },
+                // Tambahan Ikon Baru
+                "Sparepart": { icon: "fa-boxes-stacked", color: "text-purple-600", bg: "bg-purple-50" },
+                "Master Sparepart": { icon: "fa-toolbox", color: "text-rose-600", bg: "bg-rose-50" }
+            };
+            return configs[sheetName] || { icon: "fa-table", color: "text-slate-600", bg: "bg-slate-100" };
+        }
+        function renderNavigation() {
+            const navContainer = $('#sheet-nav');
+            navContainer.empty();
+            // Menambahkan Sparepart ke dalam urutan prioritas
+            const order = ["Master Aset", "Preventive", "Kalibrasi", "Work Order", "Sparepart", "Master Sparepart"];
+            const allSheets = Object.keys(spreadsheetData);
+            const sortedSheets = [...order].filter(name => allSheets.includes(name));
+            
+            allSheets.forEach(name => {
+                if (!order.includes(name) && name !== "Database") sortedSheets.push(name);
+            });
+
+            sortedSheets.forEach((sheetName) => {
+                const config = getMenuConfig(sheetName);
+                
+                // Perubahan class untuk efek HOVER gradasi warna yang elegan
+                const baseClass = "w-full flex items-center px-4 py-3 text-sm font-semibold rounded-xl transition-all duration-300 group sheet-link border border-slate-200 mb-1.5 bg-slate-50 hover:bg-gradient-to-r hover:from-blue-50 hover:via-indigo-50 hover:to-purple-50 hover:border-indigo-300 hover:shadow-md hover:-translate-y-0.5";
+                
+                const html = `
+                    <li>
+                        <button onclick="renderSheetData('${sheetName}')" class="${baseClass}" data-sheet="${sheetName}">
+                            <div class="w-8 h-8 rounded-lg ${config.bg} flex items-center justify-center mr-3 border border-white shadow-sm group-hover:scale-110 transition-transform">
+                                <i class="fas ${config.icon} ${config.color}"></i>
+                            </div>
+                            <span class="text-slate-600 group-hover:text-slate-900">${sheetName}</span>
+                        </button>
+                    </li>
+                `;
+                navContainer.append(html);
+            });
+        }
+
+       function renderSheetData(sheetName) {
+            currentActiveSheet = sheetName;
+            
+            // Hapus efek aktif dari semua menu dan kembalikan ke default
+            $('.sheet-link')
+                .removeClass('bg-gradient-to-r from-blue-100 via-indigo-100 to-purple-100 border-indigo-400 shadow-md ring-2 ring-blue-100 border-blue-500 bg-white')
+                .addClass('bg-slate-50 border-slate-200');
+                
+            // Tambahkan efek gradasi aktif ke menu yang sedang dipilih
+            $(`.sheet-link[data-sheet="${sheetName}"]`)
+                .addClass('bg-gradient-to-r from-blue-100 via-indigo-100 to-purple-100 border-indigo-400 shadow-md')
+                .removeClass('bg-slate-50 border-slate-200 hover:-translate-y-0.5');
+            
+            $('#current-sheet-title').text(sheetName);
+            const rawData = spreadsheetData[sheetName];
+            
+            if (dataTableInstance !== null) {
+                dataTableInstance.destroy();
+                $('#data-table').empty();
+            }
+
+            if (!rawData || rawData.length === 0) {
+                $('#data-table').html('<tr><td class="p-8 text-center text-gray-500 font-medium">Sheet kosong.</td></tr>');
+                return;
+            }
+
+            let maxCols = 0;
+            rawData.forEach(row => { if(row.length > maxCols) maxCols = row.length; });
+
+            currentHeaders = rawData[0];
+            let theadHtml = '<tr>';
+            for(let i = 0; i < maxCols; i++) {
+                let cellValue = currentHeaders[i] || `Kolom ${i+1}`;
+                theadHtml += `<th>${cellValue}</th>`;
+            }
+            theadHtml += '</tr>';
+            
+            let tbodyHtml = '';
+            for(let i = 1; i < rawData.length; i++) {
+                const row = rawData[i];
+                if(row.every(cell => !cell || String(cell).trim() === '')) continue; 
+
+                tbodyHtml += '<tr>';
+                for(let j = 0; j < maxCols; j++) {
+                    let cellValue = row[j] !== undefined && row[j] !== null ? row[j] : '-';
+                    cellValue = String(cellValue).split('\n').join('<br>');
+                    tbodyHtml += `<td>${cellValue}</td>`;
+                }
+                tbodyHtml += '</tr>';
+            }
+
+            $('#data-table').html(`<thead>${theadHtml}</thead><tbody>${tbodyHtml}</tbody>`);
+
+            // Inisialisasi DataTables dengan plugin Ekspor dan Cetak tersembunyi
+            dataTableInstance = $('#data-table').DataTable({
+                responsive: true,
+                pageLength: 15,
+                dom: 'Bfrtip',
+                buttons: [
+                    { extend: 'excel', title: 'Report_' + sheetName },
+                    { extend: 'print', title: 'Report_' + sheetName }
+                ],
+                language: {
+                    search: "",
+                    searchPlaceholder: "🔍 Cari data...",
+                    lengthMenu: "Tampilkan _MENU_ baris",
+                    info: "Menampilkan _START_ - _END_ dari _TOTAL_ data",
+                    zeroRecords: "Data tidak ditemukan",
+                    paginate: { next: "›", previous: "‹" }
+                }
+            });
+            
+            $('.dataTables_filter input').addClass('border border-slate-300 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white shadow-inner w-64');
+        }
+
+        // Fungsi Trigger Button Custom ke Ekstensi DataTables
+        function triggerExcel() {
+            if(dataTableInstance) dataTableInstance.button('.buttons-excel').trigger();
+        }
+        function triggerPrint() {
+            if(dataTableInstance) dataTableInstance.button('.buttons-print').trigger();
+        }
+
+        // Fetch data pertama kali ketika halaman dimuat
+        $(document).ready(function() {
+            fetchData();
+        });
+    </script>
+</body>
+</html>
