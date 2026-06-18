@@ -180,7 +180,7 @@
             <div class="bg-white p-8 rounded-2xl shadow-2xl flex flex-col items-center border border-slate-200">
                 <div class="loader ease-linear rounded-full border-4 h-14 w-14 mb-4"></div>
                 <h2 class="text-xl font-bold text-slate-800">Mengambil Data MSB ERP System...</h2>
-                <p class="text-sm text-gray-500 mt-1">Sinkronisasi awan sedang berjalan</p>
+                <p class="text-sm text-gray-500 mt-1">Sinkronisasi API sedang berjalan</p>
             </div>
         </div>
 
@@ -201,13 +201,17 @@
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
-    
     <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
 
     <script>
+        // =================================================================
+        // GANTI URL DI BAWAH INI DENGAN URL WEB APP GOOGLE APPS SCRIPT ANDA
+        // =================================================================
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyRfZZ9LPr-FaLxZCAtzuw-nYZ6ELa0RNTMQkpM0zqQwdJbEzXYB1HWWbVPy3ChEnvh/exec'; 
+
         let spreadsheetData = {};
         let currentActiveSheet = "";
         let dataTableInstance = null;
@@ -216,13 +220,9 @@
         function fetchData() {
             $('#loading-overlay').removeClass('hidden');
             
-            if (typeof google !== 'undefined' && google.script && google.script.run) {
-                google.script.run
-                    .withSuccessHandler(onDataSuccess)
-                    .withFailureHandler(onDataFailure)
-                    .getSpreadsheetData();
-            } else {
-                console.warn('Google Apps Script tidak terdeteksi. Menggunakan data simulasi lokal.');
+            // Peringatan jika URL belum diganti
+            if (SCRIPT_URL === 'MASUKKAN_URL_WEB_APP_DISINI') {
+                console.warn('URL Web App belum diatur. Menampilkan data simulasi.');
                 setTimeout(() => {
                     onDataSuccess({
                         "Master Aset": [
@@ -238,7 +238,24 @@
                         ]
                     });
                 }, 1000);
+                return;
             }
+
+            // Mengambil data dari Google Apps Script menggunakan Fetch API
+            fetch(SCRIPT_URL)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Jaringan bermasalah atau URL tidak valid');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    onDataSuccess(data);
+                })
+                .catch(error => {
+                    console.error('Terjadi kesalahan:', error);
+                    onDataFailure(error);
+                });
         }
 
         function onDataSuccess(data) {
@@ -257,7 +274,7 @@
 
         function onDataFailure(error) {
             $('#loading-overlay').addClass('hidden');
-            alert('Gagal memproses data: ' + error.message);
+            alert('Gagal mengambil data dari server. Pastikan URL Web App sudah benar. Detail: ' + error.message);
         }
 
       function getMenuConfig(sheetName) {
@@ -266,16 +283,15 @@
                 "Preventive": { icon: "fa-shield-halved", color: "text-green-600", bg: "bg-green-50" },
                 "Kalibrasi": { icon: "fa-gauge-high", color: "text-orange-600", bg: "bg-orange-50" },
                 "Work Order": { icon: "fa-clipboard-check", color: "text-teal-600", bg: "bg-teal-50" },
-                // Tambahan Ikon Baru
                 "Sparepart": { icon: "fa-boxes-stacked", color: "text-purple-600", bg: "bg-purple-50" },
                 "Master Sparepart": { icon: "fa-toolbox", color: "text-rose-600", bg: "bg-rose-50" }
             };
             return configs[sheetName] || { icon: "fa-table", color: "text-slate-600", bg: "bg-slate-100" };
         }
+
         function renderNavigation() {
             const navContainer = $('#sheet-nav');
             navContainer.empty();
-            // Menambahkan Sparepart ke dalam urutan prioritas
             const order = ["Master Aset", "Preventive", "Kalibrasi", "Work Order", "Sparepart", "Master Sparepart"];
             const allSheets = Object.keys(spreadsheetData);
             const sortedSheets = [...order].filter(name => allSheets.includes(name));
@@ -287,7 +303,6 @@
             sortedSheets.forEach((sheetName) => {
                 const config = getMenuConfig(sheetName);
                 
-                // Perubahan class untuk efek HOVER gradasi warna yang elegan
                 const baseClass = "w-full flex items-center px-4 py-3 text-sm font-semibold rounded-xl transition-all duration-300 group sheet-link border border-slate-200 mb-1.5 bg-slate-50 hover:bg-gradient-to-r hover:from-blue-50 hover:via-indigo-50 hover:to-purple-50 hover:border-indigo-300 hover:shadow-md hover:-translate-y-0.5";
                 
                 const html = `
@@ -307,12 +322,10 @@
        function renderSheetData(sheetName) {
             currentActiveSheet = sheetName;
             
-            // Hapus efek aktif dari semua menu dan kembalikan ke default
             $('.sheet-link')
                 .removeClass('bg-gradient-to-r from-blue-100 via-indigo-100 to-purple-100 border-indigo-400 shadow-md ring-2 ring-blue-100 border-blue-500 bg-white')
                 .addClass('bg-slate-50 border-slate-200');
                 
-            // Tambahkan efek gradasi aktif ke menu yang sedang dipilih
             $(`.sheet-link[data-sheet="${sheetName}"]`)
                 .addClass('bg-gradient-to-r from-blue-100 via-indigo-100 to-purple-100 border-indigo-400 shadow-md')
                 .removeClass('bg-slate-50 border-slate-200 hover:-translate-y-0.5');
@@ -357,7 +370,6 @@
 
             $('#data-table').html(`<thead>${theadHtml}</thead><tbody>${tbodyHtml}</tbody>`);
 
-            // Inisialisasi DataTables dengan plugin Ekspor dan Cetak tersembunyi
             dataTableInstance = $('#data-table').DataTable({
                 responsive: true,
                 pageLength: 15,
@@ -379,7 +391,6 @@
             $('.dataTables_filter input').addClass('border border-slate-300 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white shadow-inner w-64');
         }
 
-        // Fungsi Trigger Button Custom ke Ekstensi DataTables
         function triggerExcel() {
             if(dataTableInstance) dataTableInstance.button('.buttons-excel').trigger();
         }
@@ -387,7 +398,6 @@
             if(dataTableInstance) dataTableInstance.button('.buttons-print').trigger();
         }
 
-        // Fetch data pertama kali ketika halaman dimuat
         $(document).ready(function() {
             fetchData();
         });
