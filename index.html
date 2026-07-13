@@ -34,16 +34,6 @@
             min-height: 100vh;
         }
         
-        /* Fresh Bright Gradient Utilities */
-        .fresh-gradient-bg {
-            background: linear-gradient(135deg, #2563eb, #16a34a, #ea580c);
-        }
-        .fresh-gradient-text {
-            background: linear-gradient(135deg, #2563eb, #16a34a, #ea580c);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
         /* Sidebar Styling */
         .sidebar { 
             background-color: #ffffff;
@@ -125,55 +115,44 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* =========================================================
-           MASUK SISTEM — Login & AppSheet views, transitions, logo
-           ========================================================= */
-
-        /* Tombol Masuk Sistem di header */
-        .btn-masuk-sistem {
-            position: relative;
-            overflow: hidden;
-        }
-        .btn-masuk-sistem::after {
-            content: '';
-            position: absolute;
-            top: 0; left: -75%;
-            width: 50%; height: 100%;
-            background: linear-gradient(120deg, transparent, rgba(255,255,255,.45), transparent);
-            transform: skewX(-20deg);
-            animation: sheen 3.2s infinite;
-        }
-        @keyframes sheen {
-            0% { left: -75%; }
-            35%, 100% { left: 130%; }
-        }
-
-        /* Logo fallback badge (dipakai via onerror pada <img>) */
+        /* Logo fallback badge */
         .logo-fallback {
             display: flex; align-items: center; justify-content: center;
             font-weight: 800; letter-spacing: .02em; color: #fff;
         }
 
-        /* Overlay transisi perpindahan halaman */
+        /* Overlay Efek Lingkaran Neon */
         #transition-overlay {
             position: fixed; inset: 0; z-index: 200;
-            background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 35%, #16a34a 70%, #ea580c 100%);
+            background: rgba(15, 23, 42, 0.96); 
             display: flex; align-items: center; justify-content: center; flex-direction: column;
             opacity: 0; pointer-events: none;
             transition: opacity .45s ease;
         }
         #transition-overlay.active { opacity: 1; pointer-events: all; }
+        
         #transition-overlay .logo-wrap {
-            width: 5.5rem; height: 5.5rem; border-radius: 1.25rem;
-            background: rgba(255,255,255,.12); backdrop-filter: blur(6px);
+            border-radius: 50%;
+            width: 140px; height: 140px;
+            background: #1e293b;
             display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 8px 30px rgba(0,0,0,.25);
-            animation: logoPulse 1.4s ease-in-out infinite;
+            box-shadow: 0 0 20px #2563eb, 0 0 40px #2563eb, inset 0 0 15px rgba(37,99,235,0.6);
+            border: 3px solid #2563eb;
+            animation: neonPulse 1.5s ease-in-out infinite;
             margin-bottom: 1.5rem; overflow: hidden;
+            padding: 12px;
         }
-        @keyframes logoPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.08); }
+        @keyframes neonPulse {
+            0%, 100% { 
+                transform: scale(1); 
+                box-shadow: 0 0 20px #2563eb, 0 0 45px #2563eb, inset 0 0 15px rgba(37,99,235,0.6);
+                border-color: #2563eb;
+            }
+            50% { 
+                transform: scale(1.06); 
+                box-shadow: 0 0 25px #ea580c, 0 0 55px #ea580c, inset 0 0 20px rgba(234,88,12,0.6);
+                border-color: #ea580c;
+            }
         }
         #transition-overlay .transition-text {
             color: #fff; font-weight: 700; letter-spacing: .02em; font-size: 1rem;
@@ -201,16 +180,7 @@
 
         /* ---------- LOGIN VIEW ---------- */
         #login-view {
-            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 45%, #0f172a 100%);
-        }
-        #login-view::before {
-            content: '';
-            position: absolute; inset: 0;
-            background-image:
-                radial-gradient(circle at 15% 20%, rgba(37,99,235,.35), transparent 40%),
-                radial-gradient(circle at 85% 80%, rgba(22,163,74,.30), transparent 40%),
-                radial-gradient(circle at 85% 15%, rgba(234,88,12,.25), transparent 35%);
-            pointer-events: none;
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
         }
         .login-card {
             position: relative; z-index: 1;
@@ -229,7 +199,7 @@
             width: 100%;
             border: 2px solid #e2e8f0;
             border-radius: .85rem;
-            padding: .8rem 1rem .8rem 2.8rem;
+            padding: .8rem 1.5rem .8rem 2.8rem;
             font-size: .9rem; font-weight: 500;
             transition: border-color .2s ease, box-shadow .2s ease;
             background: #f8fafc;
@@ -288,22 +258,20 @@
 </head>
 <body class="text-gray-800">
 
-<!-- ================= TRANSITION OVERLAY ================= -->
 <div id="transition-overlay">
     <div class="logo-wrap">
-        <img src="MSB Logo.png" alt="MSB" class="w-12 h-12 object-contain" onerror="this.onerror=null;this.outerHTML='<div class=&quot;logo-fallback text-xl&quot;>MSB</div>';">
+        <img src="MSB Logo.png" alt="MSB" class="w-full h-full object-contain" onerror="this.onerror=null;this.outerHTML='<div class=&quot;logo-fallback text-xl&quot;>MSB</div>';">
     </div>
     <p id="transition-text" class="transition-text">Memuat...</p>
     <div class="transition-bar"><span></span></div>
 </div>
 
-<!-- ================= DASHBOARD VIEW ================= -->
 <div id="dashboard-view" class="view-container flex h-screen overflow-hidden w-full">
 
     <aside class="sidebar w-72 flex flex-col hidden md:flex z-20 shadow-xl">
-        <div class="h-24 flex items-center px-6 border-b-2 border-slate-200 bg-slate-50 gap-3">
-            <img src="MSB Logo.png" alt="Logo MSB" class="w-11 h-11 rounded-xl object-contain flex-shrink-0" onerror="this.onerror=null;this.outerHTML='<div class=&quot;logo-fallback w-11 h-11 rounded-xl fresh-gradient-bg text-sm flex-shrink-0&quot;>MSB</div>';">
-            <h1 class="text-2xl font-extrabold tracking-tight text-slate-800 leading-tight">
+        <div class="py-6 flex flex-col items-start justify-center px-6 border-b-2 border-slate-200 bg-slate-50 gap-2">
+            <img src="MSB Logo.png" alt="Logo MSB" class="h-9 max-w-[160px] object-contain flex-shrink-0" onerror="this.onerror=null;this.outerHTML='<div class=&quot;logo-fallback w-11 h-11 rounded-xl fresh-gradient-bg text-sm flex-shrink-0&quot;>MSB</div>';">
+            <h1 class="text-xl font-extrabold tracking-tight text-slate-800 leading-none mt-1">
                 Maintenance
             </h1>
         </div>
@@ -337,7 +305,7 @@
             </div>
             
             <div class="flex items-center space-x-3">
-                <button onclick="openLoginPage()" class="btn-masuk-sistem flex items-center px-5 py-2.5 fresh-gradient-bg text-white text-sm font-bold rounded-xl hover:shadow-lg hover:-translate-y-0.5 transition-all">
+                <button onclick="openLoginPage()" class="flex items-center px-5 py-2.5 bg-blue-600 text-white text-sm font-bold rounded-xl hover:bg-blue-700 hover:shadow-md hover:-translate-y-0.5 transition-all">
                     <i class="fas fa-right-to-bracket mr-2"></i>Masuk Sistem
                 </button>
                 <div class="w-px h-8 bg-slate-200"></div>
@@ -357,7 +325,7 @@
             <div class="bg-white p-8 rounded-2xl shadow-2xl flex flex-col items-center border border-slate-200">
                 <div class="loader ease-linear rounded-full border-4 h-14 w-14 mb-4"></div>
                 <h2 class="text-xl font-bold text-slate-800">Mengambil Data MSB ERP System...</h2>
-                <p class="text-sm text-gray-500 mt-1">Sinkronisasi API sedang berjalan</p>
+                <p class="text-sm text-gray-500 mt-1">Loading...</p>
             </div>
         </div>
 
@@ -365,32 +333,31 @@
             <div class="bg-white rounded-xl shadow-md border-2 border-slate-200 p-6">
                 <div class="overflow-x-auto w-full">
                     <table id="data-table" class="display responsive nowrap cell-border w-full text-sm text-left">
-                        <thead id="table-head">
-                            </thead>
-                        <tbody id="table-body">
-                            </tbody>
+                        <thead id="table-head"></thead>
+                        <tbody id="table-body"></tbody>
                     </table>
                 </div>
             </div>
         </main>
     </div>
 </div>
-<!-- ================= /DASHBOARD VIEW ================= -->
-
-<!-- ================= LOGIN VIEW ================= -->
 <div id="login-view" class="hidden-view fixed inset-0 z-40 flex items-center justify-center p-4 overflow-hidden">
     <div class="login-card">
         <div class="text-center mb-7">
-            <img src="MSB Logo.png" alt="Logo MSB" class="w-20 h-20 mx-auto mb-4 rounded-2xl object-contain shadow-lg" onerror="this.onerror=null;this.outerHTML='<div class=&quot;logo-fallback w-20 h-20 mx-auto mb-4 rounded-2xl fresh-gradient-bg text-2xl shadow-lg&quot;>MSB</div>';">
+            <img src="MSB Logo.png" alt="Logo MSB" class="h-14 max-w-[220px] mx-auto mb-4 object-contain" onerror="this.onerror=null;this.outerHTML='<div class=&quot;logo-fallback w-20 h-20 mx-auto mb-4 rounded-2xl fresh-gradient-bg text-2xl shadow-lg&quot;>MSB</div>';">
             <h2 class="text-xl font-extrabold text-slate-800">Masuk ke Sistem</h2>
             <p class="text-xs text-slate-500 font-semibold uppercase tracking-wide mt-1">PT Murinda Sentra Baja &middot; MSB ERP System</p>
         </div>
 
         <form id="login-form" onsubmit="return handleLoginSubmit(event)" class="space-y-4">
             <div class="relative">
-                <i class="fas fa-user login-field-icon"></i>
-                <input id="login-username" type="text" autocomplete="username" required
-                    class="login-input" placeholder="Username">
+                <i class="fas fa-user login-field-icon z-10"></i>
+                <select id="login-username" required class="login-input bg-white cursor-pointer appearance-none">
+                    <option value="" disabled selected hidden>Memuat data user...</option>
+                </select>
+                <div class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+                    <i class="fas fa-chevron-down text-xs"></i>
+                </div>
             </div>
             <div class="relative">
                 <i class="fas fa-lock login-field-icon"></i>
@@ -406,7 +373,7 @@
             </div>
 
             <button type="submit" id="login-submit-btn"
-                class="w-full fresh-gradient-bg text-white font-bold py-3 rounded-xl hover:shadow-lg hover:-translate-y-0.5 transition-all flex items-center justify-center">
+                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl hover:shadow-lg hover:-translate-y-0.5 transition-all flex items-center justify-center">
                 <span id="login-btn-text">Masuk</span>
                 <i id="login-btn-spinner" class="fas fa-circle-notch fa-spin ml-2 hidden"></i>
             </button>
@@ -417,14 +384,14 @@
         </button>
     </div>
 </div>
-<!-- ================= /LOGIN VIEW ================= -->
-
-<!-- ================= APPSHEET VIEW ================= -->
 <div id="appsheet-view" class="hidden-view view-container fixed inset-0 z-40 flex flex-col">
     <div class="appsheet-topbar h-14 flex items-center justify-between px-4 flex-shrink-0">
         <div class="flex items-center gap-2.5 min-w-0">
-            <img src="logo-msb.png" alt="Logo MSB" class="w-8 h-8 rounded-lg object-contain flex-shrink-0" onerror="this.onerror=null;this.outerHTML='<div class=&quot;logo-fallback w-8 h-8 rounded-lg fresh-gradient-bg text-[10px] flex-shrink-0&quot;>MSB</div>';">
-            <span class="text-white font-bold text-sm truncate">MSB ERP System <span class="text-slate-300 font-medium hidden sm:inline">&middot; AppSheet</span></span>
+            <img src="MSB Logo.png" alt="Logo MSB" class="h-7 max-w-[120px] object-contain flex-shrink-0" onerror="this.onerror=null;this.outerHTML='<div class=&quot;logo-fallback w-8 h-8 rounded-lg fresh-gradient-bg text-[10px] flex-shrink-0&quot;>MSB</div>';">
+            <div class="flex flex-col justify-center">
+                <span class="text-white font-bold text-sm leading-tight truncate">MSB ERP System <span class="text-slate-300 font-medium hidden sm:inline">&middot;Maintenance</span></span>
+                <span id="active-user-display" class="text-[11px] text-green-400 font-semibold tracking-wide mt-0.5">User: -</span>
+            </div>
         </div>
         <div class="flex items-center gap-2 flex-shrink-0">
             <button onclick="toggleAppSheetFullscreen()" class="btn-fullscreen w-9 h-9 rounded-lg flex items-center justify-center" title="Layar Penuh">
@@ -438,15 +405,13 @@
     <div id="appsheet-iframe-wrap">
         <div id="appsheet-loading">
             <div class="loader ease-linear rounded-full border-4 h-14 w-14 mb-4"></div>
-            <h2 class="text-lg font-bold text-slate-800">Memuat Aplikasi AppSheet...</h2>
+            <h2 class="text-lg font-bold text-slate-800">Memuat MSB ERP System...</h2>
             <p class="text-sm text-gray-500 mt-1">Mohon tunggu sebentar</p>
         </div>
         <iframe id="appsheet-iframe" title="MSB AppSheet" allow="camera; geolocation; microphone"></iframe>
     </div>
 </div>
-<!-- ================= /APPSHEET VIEW ================= -->
-
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
@@ -455,10 +420,8 @@
     <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
 
     <script>
-        // =================================================================
-        // GANTI URL DI BAWAH INI DENGAN URL WEB APP GOOGLE APPS SCRIPT ANDA
-        // =================================================================
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxeqODtuylYfqcpJOqzj_Pg38Uu_FDU9DEKfIy_584xZMzRIMcVAAVSw9TBXXKjWvGJ/exec'; 
+        // Masukkan URL Web App utama Anda yang mengambil seluruh data spreadsheet di sini
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbztgKKAxMy0bLM0NYZTzlUgiQwtwz_XPKjLd28Bidr4QFLaKLfrnQa-5kgFBLMc--XN/exec'; 
 
         let spreadsheetData = {};
         let currentActiveSheet = "";
@@ -468,33 +431,21 @@
         function fetchData() {
             $('#loading-overlay').removeClass('hidden');
             
-            // Peringatan jika URL belum diganti
             if (SCRIPT_URL === 'MASUKKAN_URL_WEB_APP_DISINI') {
                 console.warn('URL Web App belum diatur. Menampilkan data simulasi.');
                 setTimeout(() => {
                     onDataSuccess({
-                        "Master Aset": [
-                            ["Area", "Kategori", "Jenis", "Periode", "Keterangan"],
-                            ["Area 1", "Mesin Potong", "PC130", "Bulanan", "Berjalan Baik"],
-                            ["Area 2", "Crane", "OH-05", "Mingguan", "Perlu Inspeksi"],
-                            ["Area 3", "Genset", "GS-01", "Harian", "Standby"]
-                        ],
-                        "Preventive": [
-                            ["Process Name", "Process", "Quality Assurance", "PIC", "Interval"],
-                            ["Material Receiving", "Visual", "Check List", "QC", "All"],
-                            ["Cutting", "Dimensional", "Roll Meter", "Prod", "All"]
-                        ]
+                        "Master Aset": [["Area", "Kategori", "Jenis"], ["Area 1", "Mesin", "PC130"]],
+                        "Preventive": [["Process Name", "PIC"], ["Material Check", "QC"]],
+                        "Login": [["Username", "Password"], ["Admin", "123"], ["Maintenance", "456"], ["Supervisor", "789"]]
                     });
                 }, 1000);
                 return;
             }
 
-            // Mengambil data dari Google Apps Script menggunakan Fetch API
             fetch(SCRIPT_URL)
                 .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Jaringan bermasalah atau URL tidak valid');
-                    }
+                    if (!response.ok) throw new Error('Jaringan bermasalah');
                     return response.json();
                 })
                 .then(data => {
@@ -509,6 +460,10 @@
         function onDataSuccess(data) {
             spreadsheetData = data;
             $('#loading-overlay').addClass('hidden');
+            
+            // Otomatisasi Dropdown Mengikuti isi Sheet "Login"
+            populateUsernameDropdown(data);
+            
             renderNavigation();
             
             const sheetNames = Object.keys(data);
@@ -520,16 +475,44 @@
             }
         }
 
-        function onDataFailure(error) {
-            $('#loading-overlay').addClass('hidden');
-            alert('Gagal mengambil data dari server. Pastikan URL Web App sudah benar. Detail: ' + error.message);
+        // Fungsi mengekstrak Username dari sheet Login secara dinamis
+        function populateUsernameDropdown(data) {
+            const dropdown = $('#login-username');
+            dropdown.html('<option value="" disabled selected hidden>Pilih Username</option>');
+            
+            // Mencari sheet yang bernama "Login" (Case Insensitive)
+            const loginKey = Object.keys(data).find(k => k.toLowerCase() === 'login');
+            
+            if (loginKey && data[loginKey] && data[loginKey].length > 1) {
+                const rows = data[loginKey];
+                const cleanUsernames = [];
+                
+                // Dimulai dari baris indeks ke-1 (melewati header baris ke-0)
+                for (let i = 1; i < rows.length; i++) {
+                    const uname = rows[i][0] ? String(rows[i][0]).trim() : '';
+                    if (uname && !cleanUsernames.includes(uname)) {
+                        cleanUsernames.push(uname);
+                        dropdown.append(`<option value="${uname}">${uname}</option>`);
+                    }
+                }
+            } else {
+                // Opsi Cadangan Standar jika sheet Login gagal termuat
+                const fallbacks = ["Admin", "Maintenance", "Supervisor", "PIC Area"];
+                fallbacks.forEach(u => dropdown.append(`<option value="${u}">${u}</option>`));
+            }
         }
 
-      function getMenuConfig(sheetName) {
+        function onDataFailure(error) {
+            $('#loading-overlay').addClass('hidden');
+            alert('Gagal mengambil data dari server. Detail: ' + error.message);
+        }
+
+        function getMenuConfig(sheetName) {
             const configs = {
                 "Master Aset": { icon: "fa-server", color: "text-blue-600", bg: "bg-blue-50" },
                 "Preventive": { icon: "fa-shield-halved", color: "text-green-600", bg: "bg-green-50" },
                 "Kalibrasi": { icon: "fa-gauge-high", color: "text-orange-600", bg: "bg-orange-50" },
+                "Permintaan": { icon: "fa-file-invoice", color: "text-indigo-600", bg: "bg-indigo-50" },
                 "Work Order": { icon: "fa-clipboard-check", color: "text-teal-600", bg: "bg-teal-50" },
                 "Sparepart": { icon: "fa-boxes-stacked", color: "text-purple-600", bg: "bg-purple-50" },
                 "Master Sparepart": { icon: "fa-toolbox", color: "text-rose-600", bg: "bg-rose-50" }
@@ -540,17 +523,22 @@
         function renderNavigation() {
             const navContainer = $('#sheet-nav');
             navContainer.empty();
-            const order = ["Master Aset", "Preventive", "Kalibrasi", "Work Order", "Sparepart", "Master Sparepart"];
+            
+            // Menempatkan "Permintaan" tepat di atas "Work Order"
+            const order = ["Master Aset", "Preventive", "Kalibrasi", "Permintaan", "Work Order", "Sparepart", "Master Sparepart"];
             const allSheets = Object.keys(spreadsheetData);
             const sortedSheets = [...order].filter(name => allSheets.includes(name));
             
             allSheets.forEach(name => {
-                if (!order.includes(name) && name !== "Database") sortedSheets.push(name);
+                const lowerName = name.toLowerCase();
+                // Menyembunyikan data sheet login atau user agar tidak tampil di menu utama
+                if (!order.includes(name) && name !== "Database" && !lowerName.includes("login") && !lowerName.includes("user")) {
+                    sortedSheets.push(name);
+                }
             });
 
             sortedSheets.forEach((sheetName) => {
                 const config = getMenuConfig(sheetName);
-                
                 const baseClass = "w-full flex items-center px-4 py-3 text-sm font-semibold rounded-xl transition-all duration-300 group sheet-link border border-slate-200 mb-1.5 bg-slate-50 hover:bg-gradient-to-r hover:from-blue-50 hover:via-indigo-50 hover:to-purple-50 hover:border-indigo-300 hover:shadow-md hover:-translate-y-0.5";
                 
                 const html = `
@@ -567,7 +555,7 @@
             });
         }
 
-       function renderSheetData(sheetName) {
+        function renderSheetData(sheetName) {
             currentActiveSheet = sheetName;
             
             $('.sheet-link')
@@ -639,23 +627,16 @@
             $('.dataTables_filter input').addClass('border border-slate-300 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white shadow-inner w-64');
         }
 
-        function triggerExcel() {
-            if(dataTableInstance) dataTableInstance.button('.buttons-excel').trigger();
-        }
-        function triggerPrint() {
-            if(dataTableInstance) dataTableInstance.button('.buttons-print').trigger();
-        }
+        function triggerExcel() { if(dataTableInstance) dataTableInstance.button('.buttons-excel').trigger(); }
+        function triggerPrint() { if(dataTableInstance) dataTableInstance.button('.buttons-print').trigger(); }
 
         // =================================================================
-        // MASUK SISTEM — Login (Google Apps Script) + AppSheet Embed
+        // SISTEM LOGIN & INTEGRASI UTAMA APPSHEET
         // =================================================================
 
-        // GANTI URL DI BAWAH INI DENGAN URL WEB APP GOOGLE APPS SCRIPT LOGIN ANDA
-        const LOGIN_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbygfxoQwJZc4wRasXJgMxE1NqRDoQvnavlhunglogaiXbStH8XIcmwuB0zSvguop2_l/exec';
-
-        // URL Aplikasi AppSheet
+        // Masukkan URL Web App Login Khusus Anda di sini
+        const LOGIN_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyRHztTVkAuLV-toHChFJhf7PHLV-z5MVKQbk4nwTVag3jNEsWIy8X-K-2eEfakdMxy/exec';
         const APPSHEET_URL = 'https://www.appsheet.com/start/e64f69ea-9ae9-4443-b17d-b56775247bd2';
-
         const SESSION_KEY = 'msb_erp_logged_in';
         let appsheetLoaded = false;
 
@@ -665,7 +646,8 @@
             });
         }
 
-        function runTransition(message, callback, minDuration = 550) {
+        // Efek transisi overlay lingkaran neon yang menyala 
+        function runTransition(message, callback, minDuration = 650) {
             const overlay = document.getElementById('transition-overlay');
             document.getElementById('transition-text').textContent = message;
             overlay.classList.add('active');
@@ -675,25 +657,23 @@
                 const elapsed = Date.now() - start;
                 const remaining = Math.max(0, minDuration - elapsed);
                 setTimeout(() => overlay.classList.remove('active'), remaining);
-            }, 380);
+            }, 400);
         }
 
         function openLoginPage() {
-            // Jika sesi login masih aktif di tab ini, langsung ke AppSheet
             if (sessionStorage.getItem(SESSION_KEY) === '1') {
                 goToAppSheet();
                 return;
             }
-            runTransition('Membuka Halaman Login...', () => {
+            runTransition('Membuka Akses Masuk Sistem...', () => {
                 showView('login-view');
                 document.getElementById('login-error').classList.add('hidden');
                 document.getElementById('login-form').reset();
-                setTimeout(() => document.getElementById('login-username').focus(), 100);
             });
         }
 
         function backToDashboard() {
-            runTransition('Kembali ke Dashboard...', () => {
+            runTransition('Kembali ke Dashboard Utama...', () => {
                 showView('dashboard-view');
             });
         }
@@ -713,34 +693,24 @@
             document.getElementById('login-error-text').textContent = message;
             errorBox.classList.remove('hidden');
             card.classList.remove('shake');
-            void card.offsetWidth; // reflow agar animasi shake bisa diulang
+            void card.offsetWidth; 
             card.classList.add('shake');
         }
 
         function setLoginLoading(isLoading) {
             document.getElementById('login-submit-btn').disabled = isLoading;
-            document.getElementById('login-btn-text').textContent = isLoading ? 'Memeriksa...' : 'Masuk';
+            document.getElementById('login-btn-text').textContent = isLoading ? 'Otentikasi...' : 'Masuk';
             document.getElementById('login-btn-spinner').classList.toggle('hidden', !isLoading);
         }
 
         function handleLoginSubmit(event) {
             event.preventDefault();
-            const username = document.getElementById('login-username').value.trim();
+            const username = document.getElementById('login-username').value;
             const password = document.getElementById('login-password').value.trim();
             document.getElementById('login-error').classList.add('hidden');
 
             if (!username || !password) return false;
             setLoginLoading(true);
-
-            // Mode simulasi jika URL script login belum diatur, agar tampilan bisa langsung dicoba
-            if (LOGIN_SCRIPT_URL === 'MASUKKAN_URL_WEB_APP_LOGIN_DISINI') {
-                console.warn('LOGIN_SCRIPT_URL belum diatur. Menjalankan mode simulasi login.');
-                setTimeout(() => {
-                    setLoginLoading(false);
-                    onLoginSuccess(username);
-                }, 900);
-                return false;
-            }
 
             const url = LOGIN_SCRIPT_URL
                 + '?action=login'
@@ -749,7 +719,7 @@
 
             fetch(url)
                 .then(response => {
-                    if (!response.ok) throw new Error('Jaringan bermasalah atau URL Script tidak valid');
+                    if (!response.ok) throw new Error('Koneksi server terputus');
                     return response.json();
                 })
                 .then(result => {
@@ -763,7 +733,7 @@
                 .catch(error => {
                     setLoginLoading(false);
                     console.error('Terjadi kesalahan login:', error);
-                    showLoginError('Gagal terhubung ke server. Coba lagi.');
+                    showLoginError('Gagal terhubung ke database. Silakan coba kembali.');
                 });
 
             return false;
@@ -771,16 +741,20 @@
 
         function onLoginSuccess(nama) {
             sessionStorage.setItem(SESSION_KEY, '1');
+            sessionStorage.setItem('active_username', nama);
             goToAppSheet();
         }
 
         function goToAppSheet() {
-            runTransition('Menyiapkan AppSheet...', () => {
+            runTransition('Menghubungkan ke MSB ERP System...', () => {
                 showView('appsheet-view');
+                
+                const activeUser = sessionStorage.getItem('active_username') || 'User';
+                document.getElementById('active-user-display').textContent = 'User: ' + activeUser;
+
                 const iframe = document.getElementById('appsheet-iframe');
                 const loadingEl = document.getElementById('appsheet-loading');
                 if (!appsheetLoaded) {
-                    loadingEl.classList.remove('hidden-view');
                     loadingEl.style.display = 'flex';
                     iframe.onload = () => { loadingEl.style.display = 'none'; };
                     iframe.src = APPSHEET_URL;
@@ -788,7 +762,7 @@
                 } else {
                     loadingEl.style.display = 'none';
                 }
-            }, 700);
+            }, 800);
         }
 
         function toggleAppSheetFullscreen() {
