@@ -124,13 +124,186 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+
+        /* =========================================================
+           MASUK SISTEM — Login & AppSheet views, transitions, logo
+           ========================================================= */
+
+        /* Tombol Masuk Sistem di header */
+        .btn-masuk-sistem {
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-masuk-sistem::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -75%;
+            width: 50%; height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(255,255,255,.45), transparent);
+            transform: skewX(-20deg);
+            animation: sheen 3.2s infinite;
+        }
+        @keyframes sheen {
+            0% { left: -75%; }
+            35%, 100% { left: 130%; }
+        }
+
+        /* Logo fallback badge (dipakai via onerror pada <img>) */
+        .logo-fallback {
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 800; letter-spacing: .02em; color: #fff;
+        }
+
+        /* Overlay transisi perpindahan halaman */
+        #transition-overlay {
+            position: fixed; inset: 0; z-index: 200;
+            background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 35%, #16a34a 70%, #ea580c 100%);
+            display: flex; align-items: center; justify-content: center; flex-direction: column;
+            opacity: 0; pointer-events: none;
+            transition: opacity .45s ease;
+        }
+        #transition-overlay.active { opacity: 1; pointer-events: all; }
+        #transition-overlay .logo-wrap {
+            width: 5.5rem; height: 5.5rem; border-radius: 1.25rem;
+            background: rgba(255,255,255,.12); backdrop-filter: blur(6px);
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 8px 30px rgba(0,0,0,.25);
+            animation: logoPulse 1.4s ease-in-out infinite;
+            margin-bottom: 1.5rem; overflow: hidden;
+        }
+        @keyframes logoPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
+        #transition-overlay .transition-text {
+            color: #fff; font-weight: 700; letter-spacing: .02em; font-size: 1rem;
+            text-shadow: 0 2px 10px rgba(0,0,0,.2);
+        }
+        #transition-overlay .transition-bar {
+            width: 220px; height: 4px; border-radius: 999px; margin-top: 1.1rem;
+            background: rgba(255,255,255,.25); overflow: hidden;
+        }
+        #transition-overlay .transition-bar span {
+            display: block; height: 100%; width: 40%; border-radius: 999px;
+            background: #fff; animation: barSlide 1.1s ease-in-out infinite;
+        }
+        @keyframes barSlide {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(350%); }
+        }
+
+        /* View containers */
+        .view-container { animation: viewFadeIn .5s ease; }
+        @keyframes viewFadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ---------- LOGIN VIEW ---------- */
+        #login-view {
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 45%, #0f172a 100%);
+        }
+        #login-view::before {
+            content: '';
+            position: absolute; inset: 0;
+            background-image:
+                radial-gradient(circle at 15% 20%, rgba(37,99,235,.35), transparent 40%),
+                radial-gradient(circle at 85% 80%, rgba(22,163,74,.30), transparent 40%),
+                radial-gradient(circle at 85% 15%, rgba(234,88,12,.25), transparent 35%);
+            pointer-events: none;
+        }
+        .login-card {
+            position: relative; z-index: 1;
+            width: 100%; max-width: 400px;
+            background: rgba(255,255,255,.98);
+            border-radius: 1.5rem;
+            box-shadow: 0 25px 60px -12px rgba(0,0,0,.45);
+            padding: 2.5rem 2rem;
+            animation: cardRise .55s cubic-bezier(.22,1,.36,1);
+        }
+        @keyframes cardRise {
+            from { opacity: 0; transform: translateY(24px) scale(.97); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .login-input {
+            width: 100%;
+            border: 2px solid #e2e8f0;
+            border-radius: .85rem;
+            padding: .8rem 1rem .8rem 2.8rem;
+            font-size: .9rem; font-weight: 500;
+            transition: border-color .2s ease, box-shadow .2s ease;
+            background: #f8fafc;
+        }
+        .login-input:focus {
+            outline: none; border-color: #2563eb; background: #fff;
+            box-shadow: 0 0 0 4px rgba(37,99,235,.12);
+        }
+        .login-field-icon {
+            position: absolute; left: 1rem; top: 50%; transform: translateY(-50%);
+            color: #94a3b8; font-size: .9rem;
+        }
+        .login-card.shake { animation: shakeCard .45s ease; }
+        @keyframes shakeCard {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-8px); }
+            40% { transform: translateX(8px); }
+            60% { transform: translateX(-6px); }
+            80% { transform: translateX(6px); }
+        }
+
+        /* ---------- APPSHEET VIEW ---------- */
+        #appsheet-view { background: #0f172a; }
+        .appsheet-topbar {
+            background: linear-gradient(90deg, #1e293b, #1e3a8a 60%, #1e293b);
+            border-bottom: 1px solid rgba(255,255,255,.08);
+        }
+        .btn-kembali {
+            background: rgba(255,255,255,.08);
+            border: 1px solid rgba(255,255,255,.18);
+            color: #fff;
+            transition: all .2s ease;
+            backdrop-filter: blur(4px);
+        }
+        .btn-kembali:hover {
+            background: rgba(255,255,255,.18);
+            transform: translateX(-2px);
+        }
+        .btn-fullscreen {
+            background: rgba(255,255,255,.08);
+            border: 1px solid rgba(255,255,255,.18);
+            color: #fff;
+            transition: all .2s ease;
+        }
+        .btn-fullscreen:hover { background: rgba(255,255,255,.18); }
+        #appsheet-iframe-wrap { position: relative; flex: 1; min-height: 0; }
+        #appsheet-iframe { width: 100%; height: 100%; border: 0; display: block; background: #fff; }
+        #appsheet-loading {
+            position: absolute; inset: 0; z-index: 5;
+            background: #f1f5f9;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+
+        .hidden-view { display: none !important; }
     </style>
 </head>
-<body class="flex h-screen overflow-hidden text-gray-800">
+<body class="text-gray-800">
+
+<!-- ================= TRANSITION OVERLAY ================= -->
+<div id="transition-overlay">
+    <div class="logo-wrap">
+        <img src="MSB Logo.png" alt="MSB" class="w-12 h-12 object-contain" onerror="this.onerror=null;this.outerHTML='<div class=&quot;logo-fallback text-xl&quot;>MSB</div>';">
+    </div>
+    <p id="transition-text" class="transition-text">Memuat...</p>
+    <div class="transition-bar"><span></span></div>
+</div>
+
+<!-- ================= DASHBOARD VIEW ================= -->
+<div id="dashboard-view" class="view-container flex h-screen overflow-hidden w-full">
 
     <aside class="sidebar w-72 flex flex-col hidden md:flex z-20 shadow-xl">
-        <div class="h-24 flex flex-col justify-center px-8 border-b-2 border-slate-200 bg-slate-50">
-            <h1 class="text-3xl font-extrabold tracking-tight text-slate-800">
+        <div class="h-24 flex items-center px-6 border-b-2 border-slate-200 bg-slate-50 gap-3">
+            <img src="MSB Logo.png" alt="Logo MSB" class="w-11 h-11 rounded-xl object-contain flex-shrink-0" onerror="this.onerror=null;this.outerHTML='<div class=&quot;logo-fallback w-11 h-11 rounded-xl fresh-gradient-bg text-sm flex-shrink-0&quot;>MSB</div>';">
+            <h1 class="text-2xl font-extrabold tracking-tight text-slate-800 leading-tight">
                 Maintenance
             </h1>
         </div>
@@ -164,6 +337,10 @@
             </div>
             
             <div class="flex items-center space-x-3">
+                <button onclick="openLoginPage()" class="btn-masuk-sistem flex items-center px-5 py-2.5 fresh-gradient-bg text-white text-sm font-bold rounded-xl hover:shadow-lg hover:-translate-y-0.5 transition-all">
+                    <i class="fas fa-right-to-bracket mr-2"></i>Masuk Sistem
+                </button>
+                <div class="w-px h-8 bg-slate-200"></div>
                 <button onclick="triggerExcel()" class="flex items-center px-4 py-2.5 bg-emerald-600 text-white text-sm font-bold rounded-xl hover:bg-emerald-700 hover:shadow-md transition-all">
                     <i class="fas fa-file-excel mr-2"></i>Excel
                 </button>
@@ -197,6 +374,77 @@
             </div>
         </main>
     </div>
+</div>
+<!-- ================= /DASHBOARD VIEW ================= -->
+
+<!-- ================= LOGIN VIEW ================= -->
+<div id="login-view" class="hidden-view fixed inset-0 z-40 flex items-center justify-center p-4 overflow-hidden">
+    <div class="login-card">
+        <div class="text-center mb-7">
+            <img src="MSB Logo.png" alt="Logo MSB" class="w-20 h-20 mx-auto mb-4 rounded-2xl object-contain shadow-lg" onerror="this.onerror=null;this.outerHTML='<div class=&quot;logo-fallback w-20 h-20 mx-auto mb-4 rounded-2xl fresh-gradient-bg text-2xl shadow-lg&quot;>MSB</div>';">
+            <h2 class="text-xl font-extrabold text-slate-800">Masuk ke Sistem</h2>
+            <p class="text-xs text-slate-500 font-semibold uppercase tracking-wide mt-1">PT Murinda Sentra Baja &middot; MSB ERP System</p>
+        </div>
+
+        <form id="login-form" onsubmit="return handleLoginSubmit(event)" class="space-y-4">
+            <div class="relative">
+                <i class="fas fa-user login-field-icon"></i>
+                <input id="login-username" type="text" autocomplete="username" required
+                    class="login-input" placeholder="Username">
+            </div>
+            <div class="relative">
+                <i class="fas fa-lock login-field-icon"></i>
+                <input id="login-password" type="password" autocomplete="current-password" required
+                    class="login-input" placeholder="Password">
+                <button type="button" onclick="togglePasswordVisibility()" class="absolute right-1 top-1/2 -translate-y-1/2 w-9 h-9 flex items-center justify-center text-slate-400 hover:text-slate-600">
+                    <i id="password-toggle-icon" class="fas fa-eye"></i>
+                </button>
+            </div>
+
+            <div id="login-error" class="hidden bg-red-50 border border-red-200 text-red-600 text-xs font-semibold rounded-lg px-4 py-2.5 flex items-center">
+                <i class="fas fa-circle-exclamation mr-2"></i><span id="login-error-text">Username atau password salah.</span>
+            </div>
+
+            <button type="submit" id="login-submit-btn"
+                class="w-full fresh-gradient-bg text-white font-bold py-3 rounded-xl hover:shadow-lg hover:-translate-y-0.5 transition-all flex items-center justify-center">
+                <span id="login-btn-text">Masuk</span>
+                <i id="login-btn-spinner" class="fas fa-circle-notch fa-spin ml-2 hidden"></i>
+            </button>
+        </form>
+
+        <button onclick="backToDashboard()" class="w-full mt-3 text-slate-500 hover:text-slate-700 text-sm font-semibold py-2 transition-colors">
+            <i class="fas fa-arrow-left mr-1.5"></i>Kembali ke Dashboard
+        </button>
+    </div>
+</div>
+<!-- ================= /LOGIN VIEW ================= -->
+
+<!-- ================= APPSHEET VIEW ================= -->
+<div id="appsheet-view" class="hidden-view view-container fixed inset-0 z-40 flex flex-col">
+    <div class="appsheet-topbar h-14 flex items-center justify-between px-4 flex-shrink-0">
+        <div class="flex items-center gap-2.5 min-w-0">
+            <img src="logo-msb.png" alt="Logo MSB" class="w-8 h-8 rounded-lg object-contain flex-shrink-0" onerror="this.onerror=null;this.outerHTML='<div class=&quot;logo-fallback w-8 h-8 rounded-lg fresh-gradient-bg text-[10px] flex-shrink-0&quot;>MSB</div>';">
+            <span class="text-white font-bold text-sm truncate">MSB ERP System <span class="text-slate-300 font-medium hidden sm:inline">&middot; AppSheet</span></span>
+        </div>
+        <div class="flex items-center gap-2 flex-shrink-0">
+            <button onclick="toggleAppSheetFullscreen()" class="btn-fullscreen w-9 h-9 rounded-lg flex items-center justify-center" title="Layar Penuh">
+                <i id="fullscreen-icon" class="fas fa-expand text-sm"></i>
+            </button>
+            <button onclick="backToDashboard()" class="btn-kembali flex items-center px-3.5 py-2 rounded-lg text-sm font-bold">
+                <i class="fas fa-arrow-left mr-2"></i><span class="hidden sm:inline">Kembali ke</span>&nbsp;Dashboard
+            </button>
+        </div>
+    </div>
+    <div id="appsheet-iframe-wrap">
+        <div id="appsheet-loading">
+            <div class="loader ease-linear rounded-full border-4 h-14 w-14 mb-4"></div>
+            <h2 class="text-lg font-bold text-slate-800">Memuat Aplikasi AppSheet...</h2>
+            <p class="text-sm text-gray-500 mt-1">Mohon tunggu sebentar</p>
+        </div>
+        <iframe id="appsheet-iframe" title="MSB AppSheet" allow="camera; geolocation; microphone"></iframe>
+    </div>
+</div>
+<!-- ================= /APPSHEET VIEW ================= -->
 
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
@@ -397,6 +645,168 @@
         function triggerPrint() {
             if(dataTableInstance) dataTableInstance.button('.buttons-print').trigger();
         }
+
+        // =================================================================
+        // MASUK SISTEM — Login (Google Apps Script) + AppSheet Embed
+        // =================================================================
+
+        // GANTI URL DI BAWAH INI DENGAN URL WEB APP GOOGLE APPS SCRIPT LOGIN ANDA
+        const LOGIN_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbygfxoQwJZc4wRasXJgMxE1NqRDoQvnavlhunglogaiXbStH8XIcmwuB0zSvguop2_l/exec';
+
+        // URL Aplikasi AppSheet
+        const APPSHEET_URL = 'https://www.appsheet.com/start/e64f69ea-9ae9-4443-b17d-b56775247bd2';
+
+        const SESSION_KEY = 'msb_erp_logged_in';
+        let appsheetLoaded = false;
+
+        function showView(viewId) {
+            ['dashboard-view', 'login-view', 'appsheet-view'].forEach(id => {
+                document.getElementById(id).classList.toggle('hidden-view', id !== viewId);
+            });
+        }
+
+        function runTransition(message, callback, minDuration = 550) {
+            const overlay = document.getElementById('transition-overlay');
+            document.getElementById('transition-text').textContent = message;
+            overlay.classList.add('active');
+            const start = Date.now();
+            setTimeout(() => {
+                callback();
+                const elapsed = Date.now() - start;
+                const remaining = Math.max(0, minDuration - elapsed);
+                setTimeout(() => overlay.classList.remove('active'), remaining);
+            }, 380);
+        }
+
+        function openLoginPage() {
+            // Jika sesi login masih aktif di tab ini, langsung ke AppSheet
+            if (sessionStorage.getItem(SESSION_KEY) === '1') {
+                goToAppSheet();
+                return;
+            }
+            runTransition('Membuka Halaman Login...', () => {
+                showView('login-view');
+                document.getElementById('login-error').classList.add('hidden');
+                document.getElementById('login-form').reset();
+                setTimeout(() => document.getElementById('login-username').focus(), 100);
+            });
+        }
+
+        function backToDashboard() {
+            runTransition('Kembali ke Dashboard...', () => {
+                showView('dashboard-view');
+            });
+        }
+
+        function togglePasswordVisibility() {
+            const input = document.getElementById('login-password');
+            const icon = document.getElementById('password-toggle-icon');
+            const isHidden = input.type === 'password';
+            input.type = isHidden ? 'text' : 'password';
+            icon.classList.toggle('fa-eye', !isHidden);
+            icon.classList.toggle('fa-eye-slash', isHidden);
+        }
+
+        function showLoginError(message) {
+            const card = document.querySelector('#login-view .login-card');
+            const errorBox = document.getElementById('login-error');
+            document.getElementById('login-error-text').textContent = message;
+            errorBox.classList.remove('hidden');
+            card.classList.remove('shake');
+            void card.offsetWidth; // reflow agar animasi shake bisa diulang
+            card.classList.add('shake');
+        }
+
+        function setLoginLoading(isLoading) {
+            document.getElementById('login-submit-btn').disabled = isLoading;
+            document.getElementById('login-btn-text').textContent = isLoading ? 'Memeriksa...' : 'Masuk';
+            document.getElementById('login-btn-spinner').classList.toggle('hidden', !isLoading);
+        }
+
+        function handleLoginSubmit(event) {
+            event.preventDefault();
+            const username = document.getElementById('login-username').value.trim();
+            const password = document.getElementById('login-password').value.trim();
+            document.getElementById('login-error').classList.add('hidden');
+
+            if (!username || !password) return false;
+            setLoginLoading(true);
+
+            // Mode simulasi jika URL script login belum diatur, agar tampilan bisa langsung dicoba
+            if (LOGIN_SCRIPT_URL === 'MASUKKAN_URL_WEB_APP_LOGIN_DISINI') {
+                console.warn('LOGIN_SCRIPT_URL belum diatur. Menjalankan mode simulasi login.');
+                setTimeout(() => {
+                    setLoginLoading(false);
+                    onLoginSuccess(username);
+                }, 900);
+                return false;
+            }
+
+            const url = LOGIN_SCRIPT_URL
+                + '?action=login'
+                + '&username=' + encodeURIComponent(username)
+                + '&password=' + encodeURIComponent(password);
+
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) throw new Error('Jaringan bermasalah atau URL Script tidak valid');
+                    return response.json();
+                })
+                .then(result => {
+                    setLoginLoading(false);
+                    if (result.success) {
+                        onLoginSuccess(result.nama || username);
+                    } else {
+                        showLoginError(result.message || 'Username atau password salah.');
+                    }
+                })
+                .catch(error => {
+                    setLoginLoading(false);
+                    console.error('Terjadi kesalahan login:', error);
+                    showLoginError('Gagal terhubung ke server. Coba lagi.');
+                });
+
+            return false;
+        }
+
+        function onLoginSuccess(nama) {
+            sessionStorage.setItem(SESSION_KEY, '1');
+            goToAppSheet();
+        }
+
+        function goToAppSheet() {
+            runTransition('Menyiapkan AppSheet...', () => {
+                showView('appsheet-view');
+                const iframe = document.getElementById('appsheet-iframe');
+                const loadingEl = document.getElementById('appsheet-loading');
+                if (!appsheetLoaded) {
+                    loadingEl.classList.remove('hidden-view');
+                    loadingEl.style.display = 'flex';
+                    iframe.onload = () => { loadingEl.style.display = 'none'; };
+                    iframe.src = APPSHEET_URL;
+                    appsheetLoaded = true;
+                } else {
+                    loadingEl.style.display = 'none';
+                }
+            }, 700);
+        }
+
+        function toggleAppSheetFullscreen() {
+            const el = document.getElementById('appsheet-view');
+            const icon = document.getElementById('fullscreen-icon');
+            if (!document.fullscreenElement) {
+                el.requestFullscreen().catch(() => {});
+                icon.classList.replace('fa-expand', 'fa-compress');
+            } else {
+                document.exitFullscreen();
+                icon.classList.replace('fa-compress', 'fa-expand');
+            }
+        }
+
+        document.addEventListener('fullscreenchange', () => {
+            const icon = document.getElementById('fullscreen-icon');
+            if (!document.fullscreenElement) icon.classList.replace('fa-compress', 'fa-expand');
+        });
 
         $(document).ready(function() {
             fetchData();
