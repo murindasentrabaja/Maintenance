@@ -3,336 +3,394 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Report - PT Murinda Sentra Baja</title>
+    <title>Dashboard Report - PT Murinda Sentra Baja (Soft Liquid Glass)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
     
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            blue: '#2563eb',
-                            green: '#16a34a',
-                            orange: '#ea580c',
-                            bgLight: '#eec2f6'
-                        }
-                    }
-                }
-            }
-        }
-    </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+        
+        /* Background Liquid Dinamis - Soft & Calm */
         body { 
             font-family: 'Plus Jakarta Sans', sans-serif; 
-            background: linear-gradient(135deg, #e2e8f0 0%, #dbeafe 100%);
+            background: linear-gradient(45deg, #f8fafc, #e0f2fe, #f3e8ff, #ecfdf5);
+            background-size: 400% 400%;
+            animation: gradientBG 20s ease infinite;
+            color: #334155;
             min-height: 100vh;
-        }
-        
-        /* Sidebar Styling */
-        .sidebar { 
-            background-color: #ffffff;
-            border-right: 2px solid #cbd5e1;
+            overflow-x: hidden;
+            position: relative;
         }
 
-        /* High Visibility & Clear Table Styling */
-        .dataTables_wrapper {
-            padding: 0.5rem 0;
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
-        table.dataTable {
-            border-collapse: collapse !important;
-            border: 2px solid #94a3b8 !important;
-            width: 100% !important;
+
+        /* Blobs Cair di Background - Warna Pastel Soft */
+        .liquid-blob {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+            animation: float 20s infinite alternate;
+            opacity: 0.6;
         }
-        table.dataTable thead {
-            background: linear-gradient(90deg, #f1f5f9 0%, #e2e8f0 100%);
+        .blob-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background: #bae6fd; } /* Soft Blue */
+        .blob-2 { bottom: -20%; right: -10%; width: 60vw; height: 60vw; background: #e9d5ff; animation-delay: -5s; } /* Soft Purple */
+        .blob-3 { top: 40%; left: 40%; width: 40vw; height: 40vw; background: #a7f3d0; animation-delay: -10s; } /* Soft Mint */
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(5%, 5%) scale(1.05); }
         }
-        table.dataTable thead th {
-            border: 1px solid #64748b !important;
+
+        /* 3D Liquid Glass Panel Base - Terang (Light Glass) */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.55);
+            backdrop-filter: blur(20px) saturate(120%);
+            -webkit-backdrop-filter: blur(20px) saturate(120%);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            border-top: 1px solid rgba(255, 255, 255, 1);
+            border-left: 1px solid rgba(255, 255, 255, 1);
+            box-shadow: 
+                0 15px 35px rgba(15, 23, 42, 0.05),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+        }
+
+        /* Interactive Glass Button with 3D Reflection Effect */
+        .glass-interactive {
+            position: relative;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-top: 1px solid rgba(255, 255, 255, 0.9);
+            border-left: 1px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.03);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            z-index: 1;
+            color: #475569;
+        }
+
+        /* Efek Light Sweep (Pantulan Cahaya) */
+        .glass-interactive::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -150%;
+            width: 100%; height: 100%;
+            background: linear-gradient(
+                to right,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.8) 50%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            transform: skewX(-25deg);
+            transition: all 0.6s ease;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Hover State */
+        .glass-interactive:hover {
+            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.7);
+            box-shadow: 
+                0 12px 25px rgba(0, 0, 0, 0.06),
+                0 0 15px rgba(255, 255, 255, 0.5),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+            border-top: 1px solid rgba(255, 255, 255, 1);
+            border-left: 1px solid rgba(255, 255, 255, 1);
             color: #1e293b;
-            font-weight: 700;
+        }
+
+        .glass-interactive:hover::before {
+            left: 150%;
+            transition: all 0.6s ease;
+        }
+
+        /* Click / Active State (3D Press) */
+        .glass-interactive:active {
+            transform: translateY(2px) scale(0.98);
+            background: rgba(255, 255, 255, 0.3);
+            box-shadow: 
+                0 2px 10px rgba(0, 0, 0, 0.02),
+                inset 0 4px 15px rgba(0, 0, 0, 0.06),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+            border-top: 1px solid rgba(255, 255, 255, 0.4);
+            border-left: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        /* Input 3D Glass (Untuk form Login/Search) */
+        .glass-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-bottom: 2px solid rgba(148, 163, 184, 0.3);
+            color: #334155;
+            border-radius: 1rem;
+            padding: 1rem 1.5rem 1rem 3.2rem;
+            font-size: 0.95rem; font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.02);
+        }
+        
+        .glass-input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.9);
+            border-color: rgba(59, 130, 246, 0.5);
+            border-bottom: 2px solid #3b82f6;
+            box-shadow: 
+                inset 0 2px 5px rgba(0,0,0,0.02),
+                0 0 15px rgba(59, 130, 246, 0.15);
+        }
+        
+        .glass-input::placeholder { color: #94a3b8; font-weight: 500; }
+        .glass-input option { background: #ffffff; color: #334155; }
+
+        /* DataTables Glass Customization - Mode Terang */
+        .dataTables_wrapper { padding: 0.5rem 0; color: #475569; }
+        
+        table.dataTable {
+            border-collapse: separate !important;
+            border-spacing: 0 4px; /* Memberi jarak antar baris */
+            width: 100% !important;
+            border: none !important;
+            background: transparent !important;
+        }
+        
+        table.dataTable thead { background: transparent; }
+        
+        table.dataTable thead th {
+            border: none !important;
+            border-bottom: 2px solid rgba(148, 163, 184, 0.2) !important;
+            color: #475569;
+            font-weight: 800;
             text-transform: uppercase;
-            font-size: 0.8rem;
-            letter-spacing: 0.05em;
+            font-size: 0.75rem;
+            letter-spacing: 0.08em;
             padding: 12px 16px !important;
-            text-align: left;
         }
+        
+        /* Baris Tabel Efek Kaca */
         table.dataTable tbody tr { 
-            background-color: #ffffff;
-        }
-        table.dataTable tbody tr:nth-child(even) {
-            background-color: #f8fafc !important;
+            background-color: rgba(255, 255, 255, 0.4) !important; 
+            transition: all 0.2s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.01);
         }
         
         table.dataTable tbody td {
-            border: 1px solid #cbd5e1 !important;
-            padding: 12px 16px !important;
+            border: none !important;
+            border-top: 1px solid rgba(255, 255, 255, 0.8) !important;
+            border-bottom: 1px solid rgba(226, 232, 240, 0.5) !important;
+            padding: 14px 16px !important;
             color: #334155;
-            font-size: 0.875rem;
             font-weight: 500;
         }
+
+        table.dataTable tbody td:first-child { border-top-left-radius: 12px; border-bottom-left-radius: 12px; border-left: 1px solid rgba(255,255,255,0.8) !important; }
+        table.dataTable tbody td:last-child { border-top-right-radius: 12px; border-bottom-right-radius: 12px; border-right: 1px solid rgba(255,255,255,0.8) !important; }
         
         table.dataTable tbody tr:hover { 
-            background-color: #e0f2fe !important;
-            transition: background-color 0.2s ease;
+            background-color: rgba(255, 255, 255, 0.8) !important;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+            transform: scale(1.002);
+            z-index: 10;
+            position: relative;
         }
 
-        /* Sembunyikan tombol default bawaan datatable */
-        .dt-buttons {
-            display: none !important;
-        }
+        .dataTables_info, .dataTables_length, .dataTables_filter { color: #64748b !important; font-weight: 500; }
+        .dt-buttons { display: none !important; }
 
-        /* Pagination Styling */
+        /* Custom Pagination Glass */
         .dataTables_wrapper .dataTables_paginate .paginate_button {
-            border-radius: 8px !important;
-            border: 1px solid #cbd5e1 !important;
-            font-weight: 600;
-            background: #ffffff !important;
+            border-radius: 10px !important;
+            border: 1px solid rgba(255, 255, 255, 0.6) !important;
+            background: rgba(255, 255, 255, 0.4) !important;
             color: #475569 !important;
-            margin: 0 2px;
+            backdrop-filter: blur(5px);
+            margin: 0 3px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .dataTables_wrapper .dataTables_paginate .paginate_button:hover:not(.current):not(.disabled) {
+            background: rgba(255, 255, 255, 0.9) !important;
+            border-color: rgba(255, 255, 255, 1) !important;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            color: #2563eb !important;
+            transform: translateY(-2px);
         }
         .dataTables_wrapper .dataTables_paginate .paginate_button.current {
-            background: linear-gradient(135deg, #2563eb, #16a34a) !important; 
+            background: linear-gradient(135deg, #3b82f6, #2563eb) !important; 
             color: white !important; 
-            border: 1px solid #2563eb !important;
+            border: 1px solid #60a5fa !important;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
         }
+        
+        /* Custom Scrollbar - Soft */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.03); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.3); border-radius: 10px; backdrop-filter: blur(5px); }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(148, 163, 184, 0.6); }
 
-        /* Loader */
-        .loader {
-            border-top-color: transparent;
-            border-right-color: #16a34a;
-            border-bottom-color: #ea580c;
-            border-left-color: #2563eb;
-            animation: spinner 1s linear infinite;
+        /* Loader Glass Soft */
+        .glass-loader {
+            width: 50px; height: 50px;
+            border-radius: 50%;
+            border: 4px solid rgba(255,255,255,0.4);
+            border-top-color: #3b82f6;
+            border-right-color: #10b981;
+            animation: spinGlass 1s linear infinite;
+            box-shadow: 0 0 20px rgba(255,255,255,0.5);
         }
-        @keyframes spinner {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+        @keyframes spinGlass { to { transform: rotate(360deg); } }
 
-        /* Logo fallback badge */
-        .logo-fallback {
-            display: flex; align-items: center; justify-content: center;
-            font-weight: 800; letter-spacing: .02em; color: #fff;
-        }
-
-        /* Overlay Efek Lingkaran Neon */
+        /* Transition Overlay Glass Soft */
         #transition-overlay {
             position: fixed; inset: 0; z-index: 200;
-            background: rgba(15, 23, 42, 0.96); 
+            background: rgba(248, 250, 252, 0.7);
+            backdrop-filter: blur(20px);
             display: flex; align-items: center; justify-content: center; flex-direction: column;
             opacity: 0; pointer-events: none;
-            transition: opacity .45s ease;
+            transition: opacity 0.4s ease;
         }
         #transition-overlay.active { opacity: 1; pointer-events: all; }
         
         #transition-overlay .logo-wrap {
-            border-radius: 50%;
-            width: 140px; height: 140px;
-            background: #1e293b;
+            border-radius: 50%; width: 120px; height: 120px;
+            background: rgba(255,255,255,0.6);
             display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 0 20px #2563eb, 0 0 40px #2563eb, inset 0 0 15px rgba(37,99,235,0.6);
-            border: 3px solid #2563eb;
-            animation: neonPulse 1.5s ease-in-out infinite;
-            margin-bottom: 1.5rem; overflow: hidden;
-            padding: 12px;
+            border: 1px solid rgba(255,255,255,1);
+            box-shadow: 
+                0 15px 35px rgba(0,0,0,0.05), 
+                inset 0 0 15px rgba(255,255,255,0.8);
+            animation: floatLogo 3s ease-in-out infinite alternate;
+            padding: 15px; margin-bottom: 1.5rem;
         }
-        @keyframes neonPulse {
-            0%, 100% { 
-                transform: scale(1); 
-                box-shadow: 0 0 20px #2563eb, 0 0 45px #2563eb, inset 0 0 15px rgba(37,99,235,0.6);
-                border-color: #2563eb;
-            }
-            50% { 
-                transform: scale(1.06); 
-                box-shadow: 0 0 25px #ea580c, 0 0 55px #ea580c, inset 0 0 20px rgba(234,88,12,0.6);
-                border-color: #ea580c;
-            }
+        
+        @keyframes floatLogo {
+            0% { transform: translateY(0); box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+            100% { transform: translateY(-10px); box-shadow: 0 20px 35px rgba(0,0,0,0.08); }
         }
-        #transition-overlay .transition-text {
-            color: #fff; font-weight: 700; letter-spacing: .02em; font-size: 1rem;
-            text-shadow: 0 2px 10px rgba(0,0,0,.2);
+
+        .transition-bar {
+            width: 200px; height: 6px; border-radius: 999px; margin-top: 1rem;
+            background: rgba(0,0,0,0.05); overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.8);
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
         }
-        #transition-overlay .transition-bar {
-            width: 220px; height: 4px; border-radius: 999px; margin-top: 1.1rem;
-            background: rgba(255,255,255,.25); overflow: hidden;
-        }
-        #transition-overlay .transition-bar span {
+        .transition-bar span {
             display: block; height: 100%; width: 40%; border-radius: 999px;
-            background: #fff; animation: barSlide 1.1s ease-in-out infinite;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            animation: barSlide 1.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
         }
-        @keyframes barSlide {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(350%); }
-        }
+        @keyframes barSlide { 0% { transform: translateX(-100%); } 100% { transform: translateX(300%); } }
 
-        /* View containers */
-        .view-container { animation: viewFadeIn .5s ease; }
-        @keyframes viewFadeIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* ---------- LOGIN VIEW ---------- */
-        #login-view {
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-        }
-        .login-card {
-            position: relative; z-index: 1;
-            width: 100%; max-width: 400px;
-            background: rgba(255,255,255,.98);
-            border-radius: 1.5rem;
-            box-shadow: 0 25px 60px -12px rgba(0,0,0,.45);
-            padding: 2.5rem 2rem;
-            animation: cardRise .55s cubic-bezier(.22,1,.36,1);
-        }
-        @keyframes cardRise {
-            from { opacity: 0; transform: translateY(24px) scale(.97); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
-        }
-        .login-input {
-            width: 100%;
-            border: 2px solid #e2e8f0;
-            border-radius: .85rem;
-            padding: .8rem 1.5rem .8rem 2.8rem;
-            font-size: .9rem; font-weight: 500;
-            transition: border-color .2s ease, box-shadow .2s ease;
-            background: #f8fafc;
-        }
-        .login-input:focus {
-            outline: none; border-color: #2563eb; background: #fff;
-            box-shadow: 0 0 0 4px rgba(37,99,235,.12);
-        }
-        .login-field-icon {
-            position: absolute; left: 1rem; top: 50%; transform: translateY(-50%);
-            color: #94a3b8; font-size: .9rem;
-        }
-        .login-card.shake { animation: shakeCard .45s ease; }
-        @keyframes shakeCard {
-            0%, 100% { transform: translateX(0); }
-            20% { transform: translateX(-8px); }
-            40% { transform: translateX(8px); }
-            60% { transform: translateX(-6px); }
-            80% { transform: translateX(6px); }
-        }
-
-        /* ---------- APPSHEET VIEW ---------- */
-        #appsheet-view { background: #0f172a; }
-        .appsheet-topbar {
-            background: linear-gradient(90deg, #1e293b, #1e3a8a 60%, #1e293b);
-            border-bottom: 1px solid rgba(255,255,255,.08);
-        }
-        .btn-kembali {
-            background: rgba(255,255,255,.08);
-            border: 1px solid rgba(255,255,255,.18);
-            color: #fff;
-            transition: all .2s ease;
-            backdrop-filter: blur(4px);
-        }
-        .btn-kembali:hover {
-            background: rgba(255,255,255,.18);
-            transform: translateX(-2px);
-        }
-        .btn-fullscreen {
-            background: rgba(255,255,255,.08);
-            border: 1px solid rgba(255,255,255,.18);
-            color: #fff;
-            transition: all .2s ease;
-        }
-        .btn-fullscreen:hover { background: rgba(255,255,255,.18); }
-        #appsheet-iframe-wrap { position: relative; flex: 1; min-height: 0; }
-        #appsheet-iframe { width: 100%; height: 100%; border: 0; display: block; background: #fff; }
-        #appsheet-loading {
-            position: absolute; inset: 0; z-index: 5;
-            background: #f1f5f9;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-        }
-
+        /* Login View Specifics */
+        #login-view { background: rgba(248, 250, 252, 0.4); backdrop-filter: blur(15px); }
+        
+        /* AppSheet View */
+        #appsheet-view { background: #f8fafc; }
+        .appsheet-topbar { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255,255,255,1); }
+        
         .hidden-view { display: none !important; }
     </style>
 </head>
-<body class="text-gray-800">
+<body>
 
+<!-- Liquid Blobs Background (Pastel) -->
+<div class="liquid-blob blob-1"></div>
+<div class="liquid-blob blob-2"></div>
+<div class="liquid-blob blob-3"></div>
+
+<!-- Layar Transisi -->
 <div id="transition-overlay">
-    <div class="logo-wrap">
-        <img src="MSB Logo.png" alt="MSB" class="w-full h-full object-contain" onerror="this.onerror=null;this.outerHTML='<div class=&quot;logo-fallback text-xl&quot;>MSB</div>';">
+    <div class="logo-wrap glass-panel">
+        <img src="MSB Logo.png" alt="MSB" class="w-full h-full object-contain" onerror="this.onerror=null;this.outerHTML='<div class=&quot;text-slate-800 font-extrabold text-xl tracking-widest&quot;>MSB</div>';">
     </div>
-    <p id="transition-text" class="transition-text">Memuat...</p>
+    <p id="transition-text" class="text-slate-700 font-bold tracking-wide text-base">Memuat Sistem...</p>
     <div class="transition-bar"><span></span></div>
 </div>
 
-<div id="dashboard-view" class="view-container flex h-screen overflow-hidden w-full">
+<div id="dashboard-view" class="flex h-screen w-full overflow-hidden">
 
-    <aside class="sidebar w-72 flex flex-col hidden md:flex z-20 shadow-xl">
-        <div class="py-6 flex flex-col items-start justify-center px-6 border-b-2 border-slate-200 bg-slate-50 gap-2">
-            <img src="MSB Logo.png" alt="Logo MSB" class="h-9 max-w-[160px] object-contain flex-shrink-0" onerror="this.onerror=null;this.outerHTML='<div class=&quot;logo-fallback w-11 h-11 rounded-xl fresh-gradient-bg text-sm flex-shrink-0&quot;>MSB</div>';">
-            <h1 class="text-xl font-extrabold tracking-tight text-slate-800 leading-none mt-1">
+    <!-- Sidebar Glass (Soft) -->
+    <aside class="glass-panel w-72 flex-col hidden md:flex z-20 m-4 rounded-3xl overflow-hidden shadow-sm">
+        <!-- Penyesuaian Proporsi Logo & Text Maintenance -->
+        <div class="py-6 flex flex-col items-center justify-center px-4 border-b border-white/60 bg-white/30">
+            <!-- Logo ukurannya disesuaikan (h-11) dan margin dirapikan -->
+            <img src="MSB Logo.png" alt="Logo MSB" class="h-11 max-w-[150px] object-contain flex-shrink-0 drop-shadow-sm mb-2" onerror="this.onerror=null;this.outerHTML='<div class=&quot;w-12 h-12 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-700 font-bold mb-2 shadow-sm&quot;>MSB</div>';">
+            <!-- Text diturunkan ukurannya jadi text-lg dan diberi tracking lebar (jarak antar huruf) agar proporsional sebagai sub-judul logo -->
+            <h1 class="text-lg font-bold tracking-[0.2em] text-slate-700 leading-none text-center uppercase">
                 Maintenance
             </h1>
         </div>
-        <div class="p-6 flex-1 overflow-y-auto bg-white">
-            <p class="text-[11px] text-slate-400 font-bold uppercase tracking-widest mb-4 ml-2">Navigasi Menu</p>
+        <div class="p-5 flex-1 overflow-y-auto">
+            <p class="text-[10px] text-slate-500 font-bold uppercase tracking-[0.15em] mb-4 ml-2 opacity-80">Navigasi Utama</p>
             <ul id="sheet-nav" class="space-y-2">
-                <li class="text-center text-sm py-4 text-gray-400">
-                    <i class="fas fa-spinner fa-spin mr-2"></i>Loading Menu...
+                <li class="text-center text-sm py-4 text-slate-500">
+                    <i class="fas fa-spinner fa-spin mr-2"></i>Mempersiapkan Menu...
                 </li>
             </ul>
         </div>
-        <div class="p-6 border-t-2 border-slate-200 text-xs text-center text-gray-400 bg-slate-50">
-            <p class="font-bold text-slate-600 mb-1">PT Murinda Sentra Baja</p>
-            <p class="text-[10px] text-slate-500">Developed by Aspuro Amarulloh Khoiri<br>Kalijati, Subang</p>
+        <div class="p-5 border-t border-white/60 text-xs text-center bg-white/20">
+            <p class="font-bold text-slate-700 mb-1 tracking-wide">PT Murinda Sentra Baja</p>
+            <p class="text-[10px] text-slate-500 font-medium">Developed by Aspuro Amarulloh Khoiri<br>Kalijati, Subang</p>
         </div>
     </aside>
 
     <div class="flex-1 flex flex-col h-screen overflow-hidden relative">
-        <header class="h-24 bg-white/90 backdrop-blur-md flex items-center justify-between px-10 z-10 sticky top-0 border-b-2 border-slate-200 shadow-sm">
+        <!-- Header Glass -->
+        <header class="h-20 glass-panel mx-4 mt-4 rounded-3xl flex items-center justify-between px-8 z-10 sticky top-0 shadow-sm">
             <div class="flex items-center">
-                <button id="mobile-menu-btn" class="md:hidden text-gray-500 hover:text-blue-500 transition mr-4">
-                    <i class="fas fa-bars text-2xl"></i>
+                <button id="mobile-menu-btn" class="md:hidden text-slate-600 hover:text-blue-600 transition mr-4 glass-interactive w-10 h-10 rounded-xl flex items-center justify-center">
+                    <i class="fas fa-bars text-lg"></i>
                 </button>
                 <div>
-                    <h2 id="current-sheet-title" class="text-2xl font-bold text-gray-800 tracking-tight">Loading Data...</h2>
+                    <h2 id="current-sheet-title" class="text-xl font-extrabold text-slate-800 tracking-tight">Memuat Data...</h2>
                     <div class="flex items-center mt-1">
-                        <span class="w-2 h-2 rounded-full bg-green-500 mr-2 animate-pulse"></span>
-                        <p class="text-xs text-slate-500 font-semibold uppercase">Terhubung MSB ERP System</p>
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 mr-2 shadow-[0_0_8px_#10b981] animate-pulse"></span>
+                        <p class="text-[11px] text-slate-500 font-bold uppercase tracking-wider">Terhubung MSB ERP System</p>
                     </div>
                 </div>
             </div>
             
             <div class="flex items-center space-x-3">
-                <button onclick="openLoginPage()" class="flex items-center px-5 py-2.5 bg-blue-600 text-white text-sm font-bold rounded-xl hover:bg-blue-700 hover:shadow-md hover:-translate-y-0.5 transition-all">
-                    <i class="fas fa-right-to-bracket mr-2"></i>Masuk Sistem
+                <button onclick="openLoginPage()" class="glass-interactive flex items-center px-4 py-2.5 text-blue-700 text-sm font-bold rounded-2xl group">
+                    <i class="fas fa-right-to-bracket mr-2 text-blue-500 group-hover:scale-110 transition-transform"></i>Masuk Sistem
                 </button>
-                <div class="w-px h-8 bg-slate-200"></div>
-                <button onclick="triggerExcel()" class="flex items-center px-4 py-2.5 bg-emerald-600 text-white text-sm font-bold rounded-xl hover:bg-emerald-700 hover:shadow-md transition-all">
-                    <i class="fas fa-file-excel mr-2"></i>Excel
+                <div class="w-px h-8 bg-slate-300/50 mx-1"></div>
+                <button onclick="triggerExcel()" class="glass-interactive flex items-center px-4 py-2.5 text-emerald-700 text-sm font-bold rounded-2xl group">
+                    <i class="fas fa-file-excel mr-2 text-emerald-500 group-hover:scale-110 transition-transform"></i>Excel
                 </button>
-                <button onclick="triggerPrint()" class="flex items-center px-4 py-2.5 bg-amber-600 text-white text-sm font-bold rounded-xl hover:bg-amber-700 hover:shadow-md transition-all">
-                    <i class="fas fa-print mr-2"></i>Print
+                <button onclick="triggerPrint()" class="glass-interactive flex items-center px-4 py-2.5 text-amber-700 text-sm font-bold rounded-2xl group">
+                    <i class="fas fa-print mr-2 text-amber-500 group-hover:scale-110 transition-transform"></i>Print
                 </button>
-                <button onclick="fetchData()" class="flex items-center px-4 py-2.5 bg-slate-100 border border-slate-300 text-slate-700 text-sm font-bold rounded-xl hover:bg-slate-200 transition-all">
-                    <i class="fas fa-sync-alt mr-2 text-blue-600"></i>Refresh
+                <button onclick="fetchData()" class="glass-interactive flex items-center px-4 py-2.5 text-slate-700 text-sm font-bold rounded-2xl group">
+                    <i class="fas fa-sync-alt mr-2 text-slate-400 group-hover:rotate-180 transition-transform duration-500"></i>Refresh
                 </button>
             </div>
         </header>
 
-        <div id="loading-overlay" class="absolute inset-0 bg-slate-900/20 backdrop-blur-sm z-30 flex flex-col items-center justify-center hidden">
-            <div class="bg-white p-8 rounded-2xl shadow-2xl flex flex-col items-center border border-slate-200">
-                <div class="loader ease-linear rounded-full border-4 h-14 w-14 mb-4"></div>
-                <h2 class="text-xl font-bold text-slate-800">Mengambil Data MSB ERP System...</h2>
-                <p class="text-sm text-gray-500 mt-1">Loading...</p>
+        <!-- Loading Overlay Dalam Dashboard -->
+        <div id="loading-overlay" class="absolute inset-0 z-30 flex flex-col items-center justify-center hidden bg-slate-100/50 backdrop-blur-md rounded-3xl m-4">
+            <div class="glass-panel p-8 rounded-3xl flex flex-col items-center text-center shadow-lg">
+                <div class="glass-loader mb-4"></div>
+                <h2 class="text-lg font-bold text-slate-800 tracking-wide">Mengambil Data Server...</h2>
+                <p class="text-xs text-slate-500 mt-1 font-medium">Mohon tunggu sebentar</p>
             </div>
         </div>
 
-        <main class="flex-1 overflow-y-auto p-8">
-            <div class="bg-white rounded-xl shadow-md border-2 border-slate-200 p-6">
-                <div class="overflow-x-auto w-full">
-                    <table id="data-table" class="display responsive nowrap cell-border w-full text-sm text-left">
+        <!-- Main Content area (Tabel) -->
+        <main class="flex-1 overflow-y-auto p-4 pt-4">
+            <div class="glass-panel rounded-3xl p-6 h-full flex flex-col shadow-sm">
+                <div class="overflow-x-auto w-full flex-1">
+                    <table id="data-table" class="display responsive nowrap w-full text-sm text-left">
                         <thead id="table-head"></thead>
                         <tbody id="table-body"></tbody>
                     </table>
@@ -341,450 +399,452 @@
         </main>
     </div>
 </div>
-<div id="login-view" class="hidden-view fixed inset-0 z-40 flex items-center justify-center p-4 overflow-hidden">
-    <div class="login-card">
-        <div class="text-center mb-7">
-            <img src="MSB Logo.png" alt="Logo MSB" class="h-14 max-w-[220px] mx-auto mb-4 object-contain" onerror="this.onerror=null;this.outerHTML='<div class=&quot;logo-fallback w-20 h-20 mx-auto mb-4 rounded-2xl fresh-gradient-bg text-2xl shadow-lg&quot;>MSB</div>';">
-            <h2 class="text-xl font-extrabold text-slate-800">Masuk ke Sistem</h2>
-            <p class="text-xs text-slate-500 font-semibold uppercase tracking-wide mt-1">PT Murinda Sentra Baja &middot; MSB ERP System</p>
+
+<!-- 3D Login Glass View (Light) -->
+<div id="login-view" class="hidden-view fixed inset-0 z-40 flex items-center justify-center p-4">
+    <div class="glass-panel w-full max-w-md rounded-[2rem] p-9 relative overflow-hidden shadow-2xl border-white border-2">
+        <!-- Highlight aksen warna -->
+        <div class="absolute -top-10 -left-10 w-32 h-32 bg-blue-200/50 blur-3xl rounded-full pointer-events-none"></div>
+        <div class="absolute -bottom-10 -right-10 w-32 h-32 bg-purple-200/50 blur-3xl rounded-full pointer-events-none"></div>
+
+        <div class="text-center mb-8 relative z-10">
+            <!-- Penyesuaian Proporsi Logo di Login -->
+            <div class="w-20 h-20 mx-auto mb-4 bg-white/60 border border-white rounded-2xl shadow-sm flex items-center justify-center p-3 backdrop-blur-xl">
+                <img src="MSB Logo.png" alt="Logo MSB" class="w-full h-full object-contain" onerror="this.onerror=null;this.outerHTML='<span class=&quot;text-slate-800 font-bold text-lg&quot;>MSB</span>';">
+            </div>
+            <h2 class="text-xl font-extrabold text-slate-800 tracking-tight">Otorisasi Sistem</h2>
+            <p class="text-[11px] text-slate-500 font-bold uppercase tracking-[0.1em] mt-1">MSB ERP System &middot; Secure Login</p>
         </div>
 
-        <form id="login-form" onsubmit="return handleLoginSubmit(event)" class="space-y-4">
-            <div class="relative">
-                <i class="fas fa-user login-field-icon z-10"></i>
-                <select id="login-username" required class="login-input bg-white cursor-pointer appearance-none">
-                    <option value="" disabled selected hidden>Memuat data user...</option>
+        <form id="login-form" onsubmit="return handleLoginSubmit(event)" class="space-y-4 relative z-10">
+            <div class="relative group">
+                <i class="fas fa-user absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 z-10 transition-colors group-focus-within:text-blue-500"></i>
+                <select id="login-username" required class="glass-input cursor-pointer appearance-none">
+                    <option value="" disabled selected hidden>Pilih Username...</option>
                 </select>
-                <div class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+                <div class="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
                     <i class="fas fa-chevron-down text-xs"></i>
                 </div>
             </div>
-            <div class="relative">
-                <i class="fas fa-lock login-field-icon"></i>
+            <div class="relative group">
+                <i class="fas fa-lock absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 transition-colors group-focus-within:text-blue-500"></i>
                 <input id="login-password" type="password" autocomplete="current-password" required
-                    class="login-input" placeholder="Password">
-                <button type="button" onclick="togglePasswordVisibility()" class="absolute right-1 top-1/2 -translate-y-1/2 w-9 h-9 flex items-center justify-center text-slate-400 hover:text-slate-600">
-                    <i id="password-toggle-icon" class="fas fa-eye"></i>
+                    class="glass-input" placeholder="Kata Sandi">
+                <button type="button" onclick="togglePasswordVisibility()" class="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center text-slate-400 hover:text-slate-700 transition-colors bg-white/50 rounded-lg">
+                    <i id="password-toggle-icon" class="fas fa-eye text-sm"></i>
                 </button>
             </div>
 
-            <div id="login-error" class="hidden bg-red-50 border border-red-200 text-red-600 text-xs font-semibold rounded-lg px-4 py-2.5 flex items-center">
-                <i class="fas fa-circle-exclamation mr-2"></i><span id="login-error-text">Username atau password salah.</span>
+            <div id="login-error" class="hidden bg-red-50/80 backdrop-blur-md border border-red-200 text-red-600 text-xs font-bold rounded-xl px-4 py-3 flex items-center">
+                <i class="fas fa-circle-exclamation mr-2 text-red-500 text-sm"></i><span id="login-error-text">Autentikasi gagal.</span>
             </div>
 
             <button type="submit" id="login-submit-btn"
-                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl hover:shadow-lg hover:-translate-y-0.5 transition-all flex items-center justify-center">
-                <span id="login-btn-text">Masuk</span>
-                <i id="login-btn-spinner" class="fas fa-circle-notch fa-spin ml-2 hidden"></i>
+                class="glass-interactive w-full bg-blue-50/50 text-blue-700 font-extrabold py-3.5 rounded-2xl mt-2 flex items-center justify-center text-base tracking-wide border border-blue-200 shadow-sm hover:bg-blue-600 hover:text-white transition-all">
+                <span id="login-btn-text">MASUK SISTEM</span>
+                <i id="login-btn-spinner" class="fas fa-circle-notch fa-spin ml-3 hidden"></i>
             </button>
         </form>
 
-        <button onclick="backToDashboard()" class="w-full mt-3 text-slate-500 hover:text-slate-700 text-sm font-semibold py-2 transition-colors">
-            <i class="fas fa-arrow-left mr-1.5"></i>Kembali ke Dashboard
+        <button onclick="backToDashboard()" class="w-full mt-5 text-slate-500 hover:text-slate-800 text-xs font-bold py-2 transition-colors relative z-10 flex items-center justify-center group uppercase tracking-wider">
+            <i class="fas fa-arrow-left mr-2 group-hover:-translate-x-1 transition-transform"></i>Kembali
         </button>
     </div>
 </div>
-<div id="appsheet-view" class="hidden-view view-container fixed inset-0 z-40 flex flex-col">
-    <div class="appsheet-topbar h-14 flex items-center justify-between px-4 flex-shrink-0">
-        <div class="flex items-center gap-2.5 min-w-0">
-            <img src="MSB Logo.png" alt="Logo MSB" class="h-7 max-w-[120px] object-contain flex-shrink-0" onerror="this.onerror=null;this.outerHTML='<div class=&quot;logo-fallback w-8 h-8 rounded-lg fresh-gradient-bg text-[10px] flex-shrink-0&quot;>MSB</div>';">
+
+<!-- AppSheet Integrasi View (Light) -->
+<div id="appsheet-view" class="hidden-view fixed inset-0 z-40 flex flex-col">
+    <div class="appsheet-topbar h-14 flex items-center justify-between px-5 flex-shrink-0 shadow-sm z-10">
+        <div class="flex items-center gap-3 min-w-0">
+            <!-- Penyesuaian Proporsi Logo Topbar -->
+            <div class="w-8 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center backdrop-blur-md shadow-sm">
+                <img src="MSB Logo.png" alt="Logo MSB" class="h-4 object-contain" onerror="this.onerror=null;this.outerHTML='<span class=&quot;text-[8px] font-bold text-slate-800&quot;>MSB</span>';">
+            </div>
             <div class="flex flex-col justify-center">
-                <span class="text-white font-bold text-sm leading-tight truncate">MSB ERP System <span class="text-slate-300 font-medium hidden sm:inline">&middot;Maintenance</span></span>
-                <span id="active-user-display" class="text-[11px] text-green-400 font-semibold tracking-wide mt-0.5">User: -</span>
+                <!-- Teks judul dibuat rapi -->
+                <span class="text-slate-800 font-bold text-sm leading-tight truncate tracking-wide">MSB ERP SYSTEM <span class="text-slate-400 font-medium hidden sm:inline">&middot; Maintenance</span></span>
+                <span id="active-user-display" class="text-[10px] text-emerald-600 font-bold tracking-widest mt-0.5 uppercase">User: -</span>
             </div>
         </div>
         <div class="flex items-center gap-2 flex-shrink-0">
-            <button onclick="toggleAppSheetFullscreen()" class="btn-fullscreen w-9 h-9 rounded-lg flex items-center justify-center" title="Layar Penuh">
-                <i id="fullscreen-icon" class="fas fa-expand text-sm"></i>
+            <button onclick="toggleAppSheetFullscreen()" class="glass-interactive w-9 h-9 rounded-xl flex items-center justify-center bg-white" title="Layar Penuh">
+                <i id="fullscreen-icon" class="fas fa-expand text-slate-600 text-sm"></i>
             </button>
-            <button onclick="backToDashboard()" class="btn-kembali flex items-center px-3.5 py-2 rounded-lg text-sm font-bold">
-                <i class="fas fa-arrow-left mr-2"></i><span class="hidden sm:inline">Kembali ke</span>&nbsp;Dashboard
+            <button onclick="backToDashboard()" class="glass-interactive flex items-center px-3 py-2 rounded-xl text-xs font-bold bg-white text-slate-700 hover:text-red-600 transition-colors">
+                <i class="fas fa-power-off mr-1.5"></i><span class="hidden sm:inline">Tutup</span>
             </button>
         </div>
     </div>
-    <div id="appsheet-iframe-wrap">
-        <div id="appsheet-loading">
-            <div class="loader ease-linear rounded-full border-4 h-14 w-14 mb-4"></div>
-            <h2 class="text-lg font-bold text-slate-800">Memuat MSB ERP System...</h2>
-            <p class="text-sm text-gray-500 mt-1">Mohon tunggu sebentar</p>
+    <div id="appsheet-iframe-wrap" class="relative flex-1 min-h-0 bg-slate-50">
+        <div id="appsheet-loading" class="absolute inset-0 z-10 bg-white/80 backdrop-blur-xl flex flex-col items-center justify-center">
+            <div class="glass-loader mb-5"></div>
+            <h2 class="text-lg font-bold text-slate-800 tracking-wide">Memuat Modul AppSheet...</h2>
+            <p class="text-slate-500 text-sm mt-1 font-medium">Mohon tunggu</p>
         </div>
-        <iframe id="appsheet-iframe" title="MSB AppSheet" allow="camera; geolocation; microphone"></iframe>
+        <iframe id="appsheet-iframe" title="MSB AppSheet" allow="camera; geolocation; microphone" style="width:100%; height:100%; border:0; display:block;"></iframe>
     </div>
 </div>
+
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
 
-    <script>
-        // Masukkan URL Web App utama Anda yang mengambil seluruh data spreadsheet di sini
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbztgKKAxMy0bLM0NYZTzlUgiQwtwz_XPKjLd28Bidr4QFLaKLfrnQa-5kgFBLMc--XN/exec'; 
+<script>
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbztgKKAxMy0bLM0NYZTzlUgiQwtwz_XPKjLd28Bidr4QFLaKLfrnQa-5kgFBLMc--XN/exec'; 
 
-        let spreadsheetData = {};
-        let currentActiveSheet = "";
-        let dataTableInstance = null;
-        let currentHeaders = [];
+    let spreadsheetData = {};
+    let currentActiveSheet = "";
+    let dataTableInstance = null;
+    let currentHeaders = [];
 
-        function fetchData() {
-            $('#loading-overlay').removeClass('hidden');
-            
-            if (SCRIPT_URL === 'MASUKKAN_URL_WEB_APP_DISINI') {
-                console.warn('URL Web App belum diatur. Menampilkan data simulasi.');
-                setTimeout(() => {
-                    onDataSuccess({
-                        "Master Aset": [["Area", "Kategori", "Jenis"], ["Area 1", "Mesin", "PC130"]],
-                        "Preventive": [["Process Name", "PIC"], ["Material Check", "QC"]],
-                        "Login": [["Username", "Password"], ["Admin", "123"], ["Maintenance", "456"], ["Supervisor", "789"]]
-                    });
-                }, 1000);
-                return;
-            }
+    function fetchData() {
+        $('#loading-overlay').removeClass('hidden');
+        
+        fetch(SCRIPT_URL)
+            .then(response => {
+                if (!response.ok) throw new Error('Jaringan bermasalah');
+                return response.json();
+            })
+            .then(data => {
+                onDataSuccess(data);
+            })
+            .catch(error => {
+                console.error('Terjadi kesalahan:', error);
+                onDataFailure(error);
+            });
+    }
 
-            fetch(SCRIPT_URL)
-                .then(response => {
-                    if (!response.ok) throw new Error('Jaringan bermasalah');
-                    return response.json();
-                })
-                .then(data => {
-                    onDataSuccess(data);
-                })
-                .catch(error => {
-                    console.error('Terjadi kesalahan:', error);
-                    onDataFailure(error);
-                });
+    function onDataSuccess(data) {
+        spreadsheetData = data;
+        $('#loading-overlay').addClass('hidden');
+        
+        populateUsernameDropdown(data);
+        renderNavigation();
+        
+        const sheetNames = Object.keys(data);
+        if (sheetNames.length > 0) {
+            const firstSheet = currentActiveSheet || $('#sheet-nav button').first().attr('data-sheet');
+            if(firstSheet) renderSheetData(firstSheet);
+        } else {
+            $('#current-sheet-title').text('Data Kosong');
         }
+    }
 
-        function onDataSuccess(data) {
-            spreadsheetData = data;
-            $('#loading-overlay').addClass('hidden');
+    function populateUsernameDropdown(data) {
+        const dropdown = $('#login-username');
+        dropdown.html('<option value="" disabled selected hidden>Pilih Username...</option>');
+        
+        const loginKey = Object.keys(data).find(k => k.toLowerCase() === 'login');
+        
+        if (loginKey && data[loginKey] && data[loginKey].length > 1) {
+            const rows = data[loginKey];
+            const cleanUsernames = [];
             
-            // Otomatisasi Dropdown Mengikuti isi Sheet "Login"
-            populateUsernameDropdown(data);
-            
-            renderNavigation();
-            
-            const sheetNames = Object.keys(data);
-            if (sheetNames.length > 0) {
-                const firstSheet = currentActiveSheet || $('#sheet-nav button').first().attr('data-sheet');
-                if(firstSheet) renderSheetData(firstSheet);
-            } else {
-                $('#current-sheet-title').text('Tidak ada data tersedia.');
-            }
-        }
-
-        // Fungsi mengekstrak Username dari sheet Login secara dinamis
-        function populateUsernameDropdown(data) {
-            const dropdown = $('#login-username');
-            dropdown.html('<option value="" disabled selected hidden>Pilih Username</option>');
-            
-            // Mencari sheet yang bernama "Login" (Case Insensitive)
-            const loginKey = Object.keys(data).find(k => k.toLowerCase() === 'login');
-            
-            if (loginKey && data[loginKey] && data[loginKey].length > 1) {
-                const rows = data[loginKey];
-                const cleanUsernames = [];
-                
-                // Dimulai dari baris indeks ke-1 (melewati header baris ke-0)
-                for (let i = 1; i < rows.length; i++) {
-                    const uname = rows[i][0] ? String(rows[i][0]).trim() : '';
-                    if (uname && !cleanUsernames.includes(uname)) {
-                        cleanUsernames.push(uname);
-                        dropdown.append(`<option value="${uname}">${uname}</option>`);
-                    }
+            for (let i = 1; i < rows.length; i++) {
+                const uname = rows[i][0] ? String(rows[i][0]).trim() : '';
+                if (uname && !cleanUsernames.includes(uname)) {
+                    cleanUsernames.push(uname);
+                    dropdown.append(`<option value="${uname}">${uname}</option>`);
                 }
-            } else {
-                // Opsi Cadangan Standar jika sheet Login gagal termuat
-                const fallbacks = ["Admin", "Maintenance", "Supervisor", "PIC Area"];
-                fallbacks.forEach(u => dropdown.append(`<option value="${u}">${u}</option>`));
             }
+        } else {
+            const fallbacks = ["Admin", "Maintenance", "Supervisor", "PIC Area"];
+            fallbacks.forEach(u => dropdown.append(`<option value="${u}">${u}</option>`));
         }
+    }
 
-        function onDataFailure(error) {
-            $('#loading-overlay').addClass('hidden');
-            alert('Gagal mengambil data dari server. Detail: ' + error.message);
-        }
+    function onDataFailure(error) {
+        $('#loading-overlay').addClass('hidden');
+        alert('Gagal mengambil koneksi database. Detail: ' + error.message);
+    }
 
-        function getMenuConfig(sheetName) {
-            const configs = {
-                "Master Aset": { icon: "fa-server", color: "text-blue-600", bg: "bg-blue-50" },
-                "Preventive": { icon: "fa-shield-halved", color: "text-green-600", bg: "bg-green-50" },
-                "Kalibrasi": { icon: "fa-gauge-high", color: "text-orange-600", bg: "bg-orange-50" },
-                "Permintaan": { icon: "fa-file-invoice", color: "text-indigo-600", bg: "bg-indigo-50" },
-                "Work Order": { icon: "fa-clipboard-check", color: "text-teal-600", bg: "bg-teal-50" },
-                "Sparepart": { icon: "fa-boxes-stacked", color: "text-purple-600", bg: "bg-purple-50" },
-                "Master Sparepart": { icon: "fa-toolbox", color: "text-rose-600", bg: "bg-rose-50" }
-            };
-            return configs[sheetName] || { icon: "fa-table", color: "text-slate-600", bg: "bg-slate-100" };
-        }
+    // Penyesuaian warna menu untuk tema terang/kalem
+    function getMenuConfig(sheetName) {
+        const configs = {
+            "Master Aset": { icon: "fa-server", color: "text-blue-600", bg: "bg-blue-50 border-blue-200" },
+            "Preventive": { icon: "fa-shield-halved", color: "text-emerald-600", bg: "bg-emerald-50 border-emerald-200" },
+            "Kalibrasi": { icon: "fa-gauge-high", color: "text-amber-600", bg: "bg-amber-50 border-amber-200" },
+            "Permintaan": { icon: "fa-file-invoice", color: "text-indigo-600", bg: "bg-indigo-50 border-indigo-200" },
+            "Work Order": { icon: "fa-clipboard-check", color: "text-teal-600", bg: "bg-teal-50 border-teal-200" },
+            "Sparepart": { icon: "fa-boxes-stacked", color: "text-purple-600", bg: "bg-purple-50 border-purple-200" },
+            "Master Sparepart": { icon: "fa-toolbox", color: "text-rose-600", bg: "bg-rose-50 border-rose-200" }
+        };
+        return configs[sheetName] || { icon: "fa-table", color: "text-slate-600", bg: "bg-slate-100 border-slate-200" };
+    }
 
-        function renderNavigation() {
-            const navContainer = $('#sheet-nav');
-            navContainer.empty();
-            
-            // Menempatkan "Permintaan" tepat di atas "Work Order"
-            const order = ["Master Aset", "Preventive", "Kalibrasi", "Permintaan", "Work Order", "Sparepart", "Master Sparepart"];
-            const allSheets = Object.keys(spreadsheetData);
-            const sortedSheets = [...order].filter(name => allSheets.includes(name));
-            
-            allSheets.forEach(name => {
-                const lowerName = name.toLowerCase();
-                // Menyembunyikan data sheet login atau user agar tidak tampil di menu utama
-                if (!order.includes(name) && name !== "Database" && !lowerName.includes("login") && !lowerName.includes("user")) {
-                    sortedSheets.push(name);
-                }
-            });
-
-            sortedSheets.forEach((sheetName) => {
-                const config = getMenuConfig(sheetName);
-                const baseClass = "w-full flex items-center px-4 py-3 text-sm font-semibold rounded-xl transition-all duration-300 group sheet-link border border-slate-200 mb-1.5 bg-slate-50 hover:bg-gradient-to-r hover:from-blue-50 hover:via-indigo-50 hover:to-purple-50 hover:border-indigo-300 hover:shadow-md hover:-translate-y-0.5";
-                
-                const html = `
-                    <li>
-                        <button onclick="renderSheetData('${sheetName}')" class="${baseClass}" data-sheet="${sheetName}">
-                            <div class="w-8 h-8 rounded-lg ${config.bg} flex items-center justify-center mr-3 border border-white shadow-sm group-hover:scale-110 transition-transform">
-                                <i class="fas ${config.icon} ${config.color}"></i>
-                            </div>
-                            <span class="text-slate-600 group-hover:text-slate-900">${sheetName}</span>
-                        </button>
-                    </li>
-                `;
-                navContainer.append(html);
-            });
-        }
-
-        function renderSheetData(sheetName) {
-            currentActiveSheet = sheetName;
-            
-            $('.sheet-link')
-                .removeClass('bg-gradient-to-r from-blue-100 via-indigo-100 to-purple-100 border-indigo-400 shadow-md ring-2 ring-blue-100 border-blue-500 bg-white')
-                .addClass('bg-slate-50 border-slate-200');
-                
-            $(`.sheet-link[data-sheet="${sheetName}"]`)
-                .addClass('bg-gradient-to-r from-blue-100 via-indigo-100 to-purple-100 border-indigo-400 shadow-md')
-                .removeClass('bg-slate-50 border-slate-200 hover:-translate-y-0.5');
-            
-            $('#current-sheet-title').text(sheetName);
-            const rawData = spreadsheetData[sheetName];
-            
-            if (dataTableInstance !== null) {
-                dataTableInstance.destroy();
-                $('#data-table').empty();
+    function renderNavigation() {
+        const navContainer = $('#sheet-nav');
+        navContainer.empty();
+        
+        const order = ["Master Aset", "Preventive", "Kalibrasi", "Permintaan", "Work Order", "Sparepart", "Master Sparepart"];
+        const allSheets = Object.keys(spreadsheetData);
+        const sortedSheets = [...order].filter(name => allSheets.includes(name));
+        
+        allSheets.forEach(name => {
+            const lowerName = name.toLowerCase();
+            if (!order.includes(name) && name !== "Database" && !lowerName.includes("login") && !lowerName.includes("user")) {
+                sortedSheets.push(name);
             }
+        });
 
-            if (!rawData || rawData.length === 0) {
-                $('#data-table').html('<tr><td class="p-8 text-center text-gray-500 font-medium">Sheet kosong.</td></tr>');
-                return;
-            }
-
-            let maxCols = 0;
-            rawData.forEach(row => { if(row.length > maxCols) maxCols = row.length; });
-
-            currentHeaders = rawData[0];
-            let theadHtml = '<tr>';
-            for(let i = 0; i < maxCols; i++) {
-                let cellValue = currentHeaders[i] || `Kolom ${i+1}`;
-                theadHtml += `<th>${cellValue}</th>`;
-            }
-            theadHtml += '</tr>';
+        sortedSheets.forEach((sheetName) => {
+            const config = getMenuConfig(sheetName);
+            const baseClass = "glass-interactive w-full flex items-center px-4 py-2.5 text-sm font-bold rounded-2xl mb-2 sheet-link cursor-pointer";
             
-            let tbodyHtml = '';
-            for(let i = 1; i < rawData.length; i++) {
-                const row = rawData[i];
-                if(row.every(cell => !cell || String(cell).trim() === '')) continue; 
+            const html = `
+                <li>
+                    <button onclick="renderSheetData('${sheetName}')" class="${baseClass}" data-sheet="${sheetName}">
+                        <div class="w-8 h-8 rounded-xl ${config.bg} border flex items-center justify-center mr-3 group-hover:scale-110 transition-transform bg-white/80">
+                            <i class="fas ${config.icon} ${config.color} text-sm"></i>
+                        </div>
+                        <span class="text-slate-600 group-hover:text-slate-900 tracking-wide">${sheetName}</span>
+                    </button>
+                </li>
+            `;
+            navContainer.append(html);
+        });
+    }
 
-                tbodyHtml += '<tr>';
-                for(let j = 0; j < maxCols; j++) {
-                    let cellValue = row[j] !== undefined && row[j] !== null ? row[j] : '-';
-                    cellValue = String(cellValue).split('\n').join('<br>');
-                    tbodyHtml += `<td>${cellValue}</td>`;
-                }
-                tbodyHtml += '</tr>';
-            }
-
-            $('#data-table').html(`<thead>${theadHtml}</thead><tbody>${tbodyHtml}</tbody>`);
-
-            dataTableInstance = $('#data-table').DataTable({
-                responsive: true,
-                pageLength: 15,
-                dom: 'Bfrtip',
-                buttons: [
-                    { extend: 'excel', title: 'Report_' + sheetName },
-                    { extend: 'print', title: 'Report_' + sheetName }
-                ],
-                language: {
-                    search: "",
-                    searchPlaceholder: "🔍 Cari data...",
-                    lengthMenu: "Tampilkan _MENU_ baris",
-                    info: "Menampilkan _START_ - _END_ dari _TOTAL_ data",
-                    zeroRecords: "Data tidak ditemukan",
-                    paginate: { next: "›", previous: "‹" }
-                }
-            });
+    function renderSheetData(sheetName) {
+        currentActiveSheet = sheetName;
+        
+        // Reset state tombol navigasi glass
+        $('.sheet-link')
+            .removeClass('bg-white/80 border-blue-300 shadow-[0_4px_15px_rgba(37,99,235,0.1)]')
+            .addClass('bg-transparent border-white/60');
             
-            $('.dataTables_filter input').addClass('border border-slate-300 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white shadow-inner w-64');
+        // Aktifkan state tombol yang dipilih
+        $(`.sheet-link[data-sheet="${sheetName}"]`)
+            .addClass('bg-white/80 border-blue-300 shadow-[0_4px_15px_rgba(37,99,235,0.1)]')
+            .removeClass('bg-transparent border-white/60');
+        
+        $('#current-sheet-title').text(sheetName);
+        const rawData = spreadsheetData[sheetName];
+        
+        if (dataTableInstance !== null) {
+            dataTableInstance.destroy();
+            $('#data-table').empty();
         }
 
-        function triggerExcel() { if(dataTableInstance) dataTableInstance.button('.buttons-excel').trigger(); }
-        function triggerPrint() { if(dataTableInstance) dataTableInstance.button('.buttons-print').trigger(); }
-
-        // =================================================================
-        // SISTEM LOGIN & INTEGRASI UTAMA APPSHEET
-        // =================================================================
-
-        // Masukkan URL Web App Login Khusus Anda di sini
-        const LOGIN_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyRHztTVkAuLV-toHChFJhf7PHLV-z5MVKQbk4nwTVag3jNEsWIy8X-K-2eEfakdMxy/exec';
-        const APPSHEET_URL = 'https://www.appsheet.com/start/e64f69ea-9ae9-4443-b17d-b56775247bd2';
-        const SESSION_KEY = 'msb_erp_logged_in';
-        let appsheetLoaded = false;
-
-        function showView(viewId) {
-            ['dashboard-view', 'login-view', 'appsheet-view'].forEach(id => {
-                document.getElementById(id).classList.toggle('hidden-view', id !== viewId);
-            });
+        if (!rawData || rawData.length === 0) {
+            $('#data-table').html('<tr><td class="p-8 text-center text-slate-500 font-bold tracking-widest uppercase">Data Kosong.</td></tr>');
+            return;
         }
 
-        // Efek transisi overlay lingkaran neon yang menyala 
-        function runTransition(message, callback, minDuration = 650) {
-            const overlay = document.getElementById('transition-overlay');
-            document.getElementById('transition-text').textContent = message;
-            overlay.classList.add('active');
-            const start = Date.now();
-            setTimeout(() => {
-                callback();
-                const elapsed = Date.now() - start;
-                const remaining = Math.max(0, minDuration - elapsed);
-                setTimeout(() => overlay.classList.remove('active'), remaining);
-            }, 400);
-        }
+        let maxCols = 0;
+        rawData.forEach(row => { if(row.length > maxCols) maxCols = row.length; });
 
-        function openLoginPage() {
-            if (sessionStorage.getItem(SESSION_KEY) === '1') {
-                goToAppSheet();
-                return;
+        currentHeaders = rawData[0];
+        let theadHtml = '<tr>';
+        for(let i = 0; i < maxCols; i++) {
+            let cellValue = currentHeaders[i] || `Kolom ${i+1}`;
+            theadHtml += `<th>${cellValue}</th>`;
+        }
+        theadHtml += '</tr>';
+        
+        let tbodyHtml = '';
+        for(let i = 1; i < rawData.length; i++) {
+            const row = rawData[i];
+            if(row.every(cell => !cell || String(cell).trim() === '')) continue; 
+
+            tbodyHtml += '<tr>';
+            for(let j = 0; j < maxCols; j++) {
+                let cellValue = row[j] !== undefined && row[j] !== null ? row[j] : '-';
+                cellValue = String(cellValue).split('\n').join('<br>');
+                tbodyHtml += `<td>${cellValue}</td>`;
             }
-            runTransition('Membuka Akses Masuk Sistem...', () => {
-                showView('login-view');
-                document.getElementById('login-error').classList.add('hidden');
-                document.getElementById('login-form').reset();
-            });
+            tbodyHtml += '</tr>';
         }
 
-        function backToDashboard() {
-            runTransition('Kembali ke Dashboard Utama...', () => {
-                showView('dashboard-view');
-            });
-        }
+        $('#data-table').html(`<thead>${theadHtml}</thead><tbody>${tbodyHtml}</tbody>`);
 
-        function togglePasswordVisibility() {
-            const input = document.getElementById('login-password');
-            const icon = document.getElementById('password-toggle-icon');
-            const isHidden = input.type === 'password';
-            input.type = isHidden ? 'text' : 'password';
-            icon.classList.toggle('fa-eye', !isHidden);
-            icon.classList.toggle('fa-eye-slash', isHidden);
-        }
+        dataTableInstance = $('#data-table').DataTable({
+            responsive: true,
+            pageLength: 15,
+            dom: 'Bfrtip',
+            buttons: [
+                { extend: 'excel', title: 'Report_' + sheetName },
+                { extend: 'print', title: 'Report_' + sheetName }
+            ],
+            language: {
+                search: "",
+                searchPlaceholder: "🔍  Cari Data...",
+                lengthMenu: "Tampilkan _MENU_ baris",
+                info: "Menampilkan _START_ - _END_ dari _TOTAL_ data",
+                zeroRecords: "Data tidak ditemukan",
+                paginate: { next: "›", previous: "‹" }
+            }
+        });
+        
+        // Styling Search Input untuk tema Glass Terang
+        $('.dataTables_filter input')
+            .addClass('glass-input px-4 py-2 text-sm w-64')
+            .css({'padding-left': '1.2rem', 'border-radius': '0.75rem'});
+    }
 
-        function showLoginError(message) {
-            const card = document.querySelector('#login-view .login-card');
-            const errorBox = document.getElementById('login-error');
-            document.getElementById('login-error-text').textContent = message;
-            errorBox.classList.remove('hidden');
-            card.classList.remove('shake');
-            void card.offsetWidth; 
-            card.classList.add('shake');
-        }
+    function triggerExcel() { if(dataTableInstance) dataTableInstance.button('.buttons-excel').trigger(); }
+    function triggerPrint() { if(dataTableInstance) dataTableInstance.button('.buttons-print').trigger(); }
 
-        function setLoginLoading(isLoading) {
-            document.getElementById('login-submit-btn').disabled = isLoading;
-            document.getElementById('login-btn-text').textContent = isLoading ? 'Otentikasi...' : 'Masuk';
-            document.getElementById('login-btn-spinner').classList.toggle('hidden', !isLoading);
-        }
+    const LOGIN_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyRHztTVkAuLV-toHChFJhf7PHLV-z5MVKQbk4nwTVag3jNEsWIy8X-K-2eEfakdMxy/exec';
+    const APPSHEET_URL = 'https://www.appsheet.com/start/e64f69ea-9ae9-4443-b17d-b56775247bd2';
+    const SESSION_KEY = 'msb_erp_logged_in';
+    let appsheetLoaded = false;
 
-        function handleLoginSubmit(event) {
-            event.preventDefault();
-            const username = document.getElementById('login-username').value;
-            const password = document.getElementById('login-password').value.trim();
-            document.getElementById('login-error').classList.add('hidden');
+    function showView(viewId) {
+        ['dashboard-view', 'login-view', 'appsheet-view'].forEach(id => {
+            document.getElementById(id).classList.toggle('hidden-view', id !== viewId);
+        });
+    }
 
-            if (!username || !password) return false;
-            setLoginLoading(true);
+    function runTransition(message, callback, minDuration = 600) {
+        const overlay = document.getElementById('transition-overlay');
+        document.getElementById('transition-text').textContent = message;
+        overlay.classList.add('active');
+        const start = Date.now();
+        setTimeout(() => {
+            callback();
+            const elapsed = Date.now() - start;
+            const remaining = Math.max(0, minDuration - elapsed);
+            setTimeout(() => overlay.classList.remove('active'), remaining);
+        }, 400);
+    }
 
-            const url = LOGIN_SCRIPT_URL
-                + '?action=login'
-                + '&username=' + encodeURIComponent(username)
-                + '&password=' + encodeURIComponent(password);
-
-            fetch(url)
-                .then(response => {
-                    if (!response.ok) throw new Error('Koneksi server terputus');
-                    return response.json();
-                })
-                .then(result => {
-                    setLoginLoading(false);
-                    if (result.success) {
-                        onLoginSuccess(result.nama || username);
-                    } else {
-                        showLoginError(result.message || 'Username atau password salah.');
-                    }
-                })
-                .catch(error => {
-                    setLoginLoading(false);
-                    console.error('Terjadi kesalahan login:', error);
-                    showLoginError('Gagal terhubung ke database. Silakan coba kembali.');
-                });
-
-            return false;
-        }
-
-        function onLoginSuccess(nama) {
-            sessionStorage.setItem(SESSION_KEY, '1');
-            sessionStorage.setItem('active_username', nama);
+    function openLoginPage() {
+        if (sessionStorage.getItem(SESSION_KEY) === '1') {
             goToAppSheet();
+            return;
         }
+        runTransition('Menyiapkan Halaman Login...', () => {
+            showView('login-view');
+            document.getElementById('login-error').classList.add('hidden');
+            document.getElementById('login-form').reset();
+        });
+    }
 
-        function goToAppSheet() {
-            runTransition('Menghubungkan ke MSB ERP System...', () => {
-                showView('appsheet-view');
-                
-                const activeUser = sessionStorage.getItem('active_username') || 'User';
-                document.getElementById('active-user-display').textContent = 'User: ' + activeUser;
+    function backToDashboard() {
+        runTransition('Kembali ke Dashboard Utama...', () => {
+            showView('dashboard-view');
+        });
+    }
 
-                const iframe = document.getElementById('appsheet-iframe');
-                const loadingEl = document.getElementById('appsheet-loading');
-                if (!appsheetLoaded) {
-                    loadingEl.style.display = 'flex';
-                    iframe.onload = () => { loadingEl.style.display = 'none'; };
-                    iframe.src = APPSHEET_URL;
-                    appsheetLoaded = true;
+    function togglePasswordVisibility() {
+        const input = document.getElementById('login-password');
+        const icon = document.getElementById('password-toggle-icon');
+        const isHidden = input.type === 'password';
+        input.type = isHidden ? 'text' : 'password';
+        icon.classList.toggle('fa-eye', !isHidden);
+        icon.classList.toggle('fa-eye-slash', isHidden);
+    }
+
+    function showLoginError(message) {
+        const card = document.querySelector('#login-view .glass-panel');
+        const errorBox = document.getElementById('login-error');
+        document.getElementById('login-error-text').textContent = message;
+        errorBox.classList.remove('hidden');
+        
+        // Efek getar halus
+        card.animate([
+            { transform: 'translateX(0)' },
+            { transform: 'translateX(-6px)' },
+            { transform: 'translateX(6px)' },
+            { transform: 'translateX(-6px)' },
+            { transform: 'translateX(6px)' },
+            { transform: 'translateX(0)' }
+        ], { duration: 350, easing: 'ease-in-out' });
+    }
+
+    function setLoginLoading(isLoading) {
+        document.getElementById('login-submit-btn').disabled = isLoading;
+        document.getElementById('login-btn-text').textContent = isLoading ? 'MEMPROSES...' : 'MASUK SISTEM';
+        document.getElementById('login-btn-spinner').classList.toggle('hidden', !isLoading);
+    }
+
+    function handleLoginSubmit(event) {
+        event.preventDefault();
+        const username = document.getElementById('login-username').value;
+        const password = document.getElementById('login-password').value.trim();
+        document.getElementById('login-error').classList.add('hidden');
+
+        if (!username || !password) return false;
+        setLoginLoading(true);
+
+        const url = LOGIN_SCRIPT_URL
+            + '?action=login'
+            + '&username=' + encodeURIComponent(username)
+            + '&password=' + encodeURIComponent(password);
+
+        fetch(url)
+            .then(response => {
+                if (!response.ok) throw new Error('Koneksi server terputus');
+                return response.json();
+            })
+            .then(result => {
+                setLoginLoading(false);
+                if (result.success) {
+                    onLoginSuccess(result.nama || username);
                 } else {
-                    loadingEl.style.display = 'none';
+                    showLoginError(result.message || 'Username atau sandi salah.');
                 }
-            }, 800);
-        }
+            })
+            .catch(error => {
+                setLoginLoading(false);
+                console.error('Terjadi kesalahan login:', error);
+                showLoginError('Gagal terhubung. Silakan coba lagi.');
+            });
 
-        function toggleAppSheetFullscreen() {
-            const el = document.getElementById('appsheet-view');
-            const icon = document.getElementById('fullscreen-icon');
-            if (!document.fullscreenElement) {
-                el.requestFullscreen().catch(() => {});
-                icon.classList.replace('fa-expand', 'fa-compress');
+        return false;
+    }
+
+    function onLoginSuccess(nama) {
+        sessionStorage.setItem(SESSION_KEY, '1');
+        sessionStorage.setItem('active_username', nama);
+        goToAppSheet();
+    }
+
+    function goToAppSheet() {
+        runTransition('Menghubungkan ke MSB ERP...', () => {
+            showView('appsheet-view');
+            
+            const activeUser = sessionStorage.getItem('active_username') || 'USER';
+            document.getElementById('active-user-display').textContent = 'USER: ' + activeUser;
+
+            const iframe = document.getElementById('appsheet-iframe');
+            const loadingEl = document.getElementById('appsheet-loading');
+            if (!appsheetLoaded) {
+                loadingEl.style.display = 'flex';
+                iframe.onload = () => { loadingEl.style.display = 'none'; };
+                iframe.src = APPSHEET_URL;
+                appsheetLoaded = true;
             } else {
-                document.exitFullscreen();
-                icon.classList.replace('fa-compress', 'fa-expand');
+                loadingEl.style.display = 'none';
             }
+        }, 800);
+    }
+
+    function toggleAppSheetFullscreen() {
+        const el = document.getElementById('appsheet-view');
+        const icon = document.getElementById('fullscreen-icon');
+        if (!document.fullscreenElement) {
+            el.requestFullscreen().catch(() => {});
+            icon.classList.replace('fa-expand', 'fa-compress');
+        } else {
+            document.exitFullscreen();
+            icon.classList.replace('fa-compress', 'fa-expand');
         }
+    }
 
-        document.addEventListener('fullscreenchange', () => {
-            const icon = document.getElementById('fullscreen-icon');
-            if (!document.fullscreenElement) icon.classList.replace('fa-compress', 'fa-expand');
-        });
+    document.addEventListener('fullscreenchange', () => {
+        const icon = document.getElementById('fullscreen-icon');
+        if (!document.fullscreenElement) icon.classList.replace('fa-compress', 'fa-expand');
+    });
 
-        $(document).ready(function() {
-            fetchData();
-        });
-    </script>
+    $(document).ready(function() {
+        fetchData();
+    });
+</script>
 </body>
 </html>
