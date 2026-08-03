@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Dashboard Report - PT Murinda Sentra Baja (Soft Liquid Glass)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -299,6 +299,19 @@
         .appsheet-topbar { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255,255,255,1); }
         
         .hidden-view { display: none !important; }
+
+        /* MOBILE RESPONSIVE ADJUSTMENTS */
+        @media (max-width: 768px) {
+            table.dataTable tbody td { padding: 10px 12px !important; font-size: 0.8rem; }
+            table.dataTable thead th { padding: 10px 12px !important; font-size: 0.75rem; }
+            .dataTables_wrapper .dataTables_paginate .paginate_button { padding: 0.2rem 0.5rem !important; margin: 0 1px; font-size: 0.8rem; }
+            .glass-input { padding: 0.75rem 1rem 0.75rem 2.5rem; font-size: 0.85rem; }
+            .dataTables_filter input { width: 100% !important; margin-top: 0.5rem; }
+            .dataTables_filter label { width: 100%; text-align: left; display: block; }
+        }
+        
+        /* Fix action button wrappings on very small screens */
+        .header-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; }
     </style>
 </head>
 <body>
@@ -317,10 +330,13 @@
     <div class="transition-bar"><span></span></div>
 </div>
 
-<div id="dashboard-view" class="flex h-screen w-full overflow-hidden">
+<div id="dashboard-view" class="flex h-screen w-full overflow-hidden relative">
+
+    <!-- Overlay Sidebar Mobile -->
+    <div id="sidebar-overlay" class="fixed inset-0 bg-slate-900/40 z-40 hidden backdrop-blur-sm transition-opacity opacity-0"></div>
 
     <!-- Sidebar Glass (Soft) -->
-    <aside class="glass-panel w-72 flex-col hidden md:flex z-20 m-4 rounded-3xl overflow-hidden shadow-sm">
+    <aside id="sidebar" class="glass-panel w-72 flex-col flex z-50 my-4 ml-4 rounded-3xl overflow-hidden shadow-sm fixed inset-y-0 left-0 transform -translate-x-[120%] md:relative md:translate-x-0 transition-transform duration-300">
         <!-- Penyesuaian Proporsi Logo & Text Maintenance -->
         <div class="py-6 flex flex-col items-center justify-center px-4 border-b border-white/60 bg-white/30">
             <!-- Logo ukurannya disesuaikan (h-11) dan margin dirapikan -->
@@ -346,33 +362,35 @@
 
     <div class="flex-1 flex flex-col h-screen overflow-hidden relative">
         <!-- Header Glass -->
-        <header class="h-20 glass-panel mx-4 mt-4 rounded-3xl flex items-center justify-between px-8 z-10 sticky top-0 shadow-sm">
-            <div class="flex items-center">
-                <button id="mobile-menu-btn" class="md:hidden text-slate-600 hover:text-blue-600 transition mr-4 glass-interactive w-10 h-10 rounded-xl flex items-center justify-center">
-                    <i class="fas fa-bars text-lg"></i>
-                </button>
-                <div>
-                    <h2 id="current-sheet-title" class="text-xl font-extrabold text-slate-800 tracking-tight">Memuat Data...</h2>
-                    <div class="flex items-center mt-1">
-                        <span class="w-2 h-2 rounded-full bg-emerald-500 mr-2 shadow-[0_0_8px_#10b981] animate-pulse"></span>
-                        <p class="text-[11px] text-slate-500 font-bold uppercase tracking-wider">Terhubung MSB ERP System</p>
+        <header class="min-h-[5rem] py-3 md:py-0 glass-panel mx-3 md:mx-4 mt-3 md:mt-4 rounded-3xl flex items-center justify-between px-4 md:px-8 z-10 sticky top-0 shadow-sm flex-wrap gap-2 md:gap-0">
+            <div class="flex items-center w-full md:w-auto justify-between md:justify-start">
+                <div class="flex items-center">
+                    <button id="mobile-menu-btn" class="md:hidden text-slate-600 hover:text-blue-600 transition mr-3 glass-interactive w-10 h-10 rounded-xl flex items-center justify-center">
+                        <i class="fas fa-bars text-lg"></i>
+                    </button>
+                    <div>
+                        <h2 id="current-sheet-title" class="text-lg md:text-xl font-extrabold text-slate-800 tracking-tight">Memuat Data...</h2>
+                        <div class="flex items-center mt-0.5 md:mt-1">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500 mr-2 shadow-[0_0_8px_#10b981] animate-pulse"></span>
+                            <p class="text-[9px] md:text-[11px] text-slate-500 font-bold uppercase tracking-wider">Terhubung MSB ERP System</p>
+                        </div>
                     </div>
                 </div>
             </div>
             
-            <div class="flex items-center space-x-3">
-                <button onclick="openLoginPage()" class="glass-interactive flex items-center px-4 py-2.5 text-blue-700 text-sm font-bold rounded-2xl group">
-                    <i class="fas fa-right-to-bracket mr-2 text-blue-500 group-hover:scale-110 transition-transform"></i>Masuk Sistem
+            <div class="flex items-center justify-start w-full md:w-auto header-actions mt-1 md:mt-0">
+                <button onclick="openLoginPage()" class="glass-interactive flex items-center px-3 py-2 text-blue-700 text-xs md:text-sm font-bold rounded-xl group flex-1 md:flex-none justify-center">
+                    <i class="fas fa-right-to-bracket md:mr-2 text-blue-500 group-hover:scale-110 transition-transform"></i><span class="hidden md:inline">Masuk</span>
                 </button>
-                <div class="w-px h-8 bg-slate-300/50 mx-1"></div>
-                <button onclick="triggerExcel()" class="glass-interactive flex items-center px-4 py-2.5 text-emerald-700 text-sm font-bold rounded-2xl group">
-                    <i class="fas fa-file-excel mr-2 text-emerald-500 group-hover:scale-110 transition-transform"></i>Excel
+                <div class="w-px h-6 bg-slate-300/50 mx-1 hidden md:block"></div>
+                <button onclick="triggerExcel()" class="glass-interactive flex items-center px-3 py-2 text-emerald-700 text-xs md:text-sm font-bold rounded-xl group flex-1 md:flex-none justify-center">
+                    <i class="fas fa-file-excel md:mr-2 text-emerald-500 group-hover:scale-110 transition-transform"></i><span class="hidden md:inline">Excel</span>
                 </button>
-                <button onclick="triggerPrint()" class="glass-interactive flex items-center px-4 py-2.5 text-amber-700 text-sm font-bold rounded-2xl group">
-                    <i class="fas fa-print mr-2 text-amber-500 group-hover:scale-110 transition-transform"></i>Print
+                <button onclick="triggerPrint()" class="glass-interactive flex items-center px-3 py-2 text-amber-700 text-xs md:text-sm font-bold rounded-xl group flex-1 md:flex-none justify-center">
+                    <i class="fas fa-print md:mr-2 text-amber-500 group-hover:scale-110 transition-transform"></i><span class="hidden md:inline">Print</span>
                 </button>
-                <button onclick="fetchData()" class="glass-interactive flex items-center px-4 py-2.5 text-slate-700 text-sm font-bold rounded-2xl group">
-                    <i class="fas fa-sync-alt mr-2 text-slate-400 group-hover:rotate-180 transition-transform duration-500"></i>Refresh
+                <button onclick="fetchData()" class="glass-interactive flex items-center px-3 py-2 text-slate-700 text-xs md:text-sm font-bold rounded-xl group flex-1 md:flex-none justify-center">
+                    <i class="fas fa-sync-alt md:mr-2 text-slate-400 group-hover:rotate-180 transition-transform duration-500"></i><span class="hidden md:inline">Refresh</span>
                 </button>
             </div>
         </header>
@@ -387,10 +405,10 @@
         </div>
 
         <!-- Main Content area (Tabel) -->
-        <main class="flex-1 overflow-y-auto p-4 pt-4">
-            <div class="glass-panel rounded-3xl p-6 h-full flex flex-col shadow-sm">
-                <div class="overflow-x-auto w-full flex-1">
-                    <table id="data-table" class="display responsive nowrap w-full text-sm text-left">
+        <main class="flex-1 overflow-y-auto p-3 md:p-4 pt-3 md:pt-4">
+            <div class="glass-panel rounded-2xl md:rounded-3xl p-4 md:p-6 h-full flex flex-col shadow-sm">
+                <div class="overflow-x-auto w-full flex-1 rounded-xl">
+                    <table id="data-table" class="display responsive nowrap w-full text-xs md:text-sm text-left">
                         <thead id="table-head"></thead>
                         <tbody id="table-body"></tbody>
                     </table>
@@ -402,7 +420,7 @@
 
 <!-- 3D Login Glass View (Light) -->
 <div id="login-view" class="hidden-view fixed inset-0 z-40 flex items-center justify-center p-4">
-    <div class="glass-panel w-full max-w-md rounded-[2rem] p-9 relative overflow-hidden shadow-2xl border-white border-2">
+    <div class="glass-panel w-full max-w-md rounded-[2rem] p-6 md:p-9 relative overflow-hidden shadow-2xl border-white border-2">
         <!-- Highlight aksen warna -->
         <div class="absolute -top-10 -left-10 w-32 h-32 bg-blue-200/50 blur-3xl rounded-full pointer-events-none"></div>
         <div class="absolute -bottom-10 -right-10 w-32 h-32 bg-purple-200/50 blur-3xl rounded-full pointer-events-none"></div>
@@ -597,7 +615,7 @@
             
             const html = `
                 <li>
-                    <button onclick="renderSheetData('${sheetName}')" class="${baseClass}" data-sheet="${sheetName}">
+                    <button onclick="renderSheetData('${sheetName}'); if(window.innerWidth < 768 && window.toggleSidebar) toggleSidebar();" class="${baseClass}" data-sheet="${sheetName}">
                         <div class="w-8 h-8 rounded-xl ${config.bg} border flex items-center justify-center mr-3 group-hover:scale-110 transition-transform bg-white/80">
                             <i class="fas ${config.icon} ${config.color} text-sm"></i>
                         </div>
@@ -682,7 +700,7 @@
         
         // Styling Search Input untuk tema Glass Terang
         $('.dataTables_filter input')
-            .addClass('glass-input px-4 py-2 text-sm w-64')
+            .addClass('glass-input px-4 py-2 text-sm w-full md:w-64')
             .css({'padding-left': '1.2rem', 'border-radius': '0.75rem'});
     }
 
@@ -844,6 +862,33 @@
 
     $(document).ready(function() {
         fetchData();
+
+        // LOGIKA MOBILE SIDEBAR
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebar-overlay');
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+
+        window.toggleSidebar = function() {
+            if (!sidebar || !overlay) return;
+            const isClosed = sidebar.classList.contains('-translate-x-[120%]');
+            
+            if (isClosed) {
+                sidebar.classList.remove('-translate-x-[120%]');
+                overlay.classList.remove('hidden');
+                setTimeout(() => overlay.classList.remove('opacity-0'), 10);
+            } else {
+                sidebar.classList.add('-translate-x-[120%]');
+                overlay.classList.add('opacity-0');
+                setTimeout(() => overlay.classList.add('hidden'), 300);
+            }
+        };
+
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', toggleSidebar);
+        }
+        if (overlay) {
+            overlay.addEventListener('click', toggleSidebar);
+        }
     });
 </script>
 </body>
