@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
+    <!-- Tambahan Library QR Code -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
@@ -580,10 +582,11 @@
         alert('Gagal mengambil koneksi database. Detail: ' + error.message);
     }
 
-    // Penyesuaian warna menu untuk tema terang/kalem
+    // Penyesuaian warna menu untuk tema terang/kalem + Ikon Alat dan Mesin yg menyala
     function getMenuConfig(sheetName) {
         const configs = {
             "Master Aset": { icon: "fa-server", color: "text-blue-600", bg: "bg-blue-50 border-blue-200" },
+            "Alat dan Mesin": { icon: "fa-cogs", color: "text-rose-600", bg: "bg-gradient-to-br from-rose-100 to-fuchsia-100 border-rose-300 shadow-sm" },
             "Preventive": { icon: "fa-shield-halved", color: "text-emerald-600", bg: "bg-emerald-50 border-emerald-200" },
             "Kalibrasi": { icon: "fa-gauge-high", color: "text-amber-600", bg: "bg-amber-50 border-amber-200" },
             "Permintaan": { icon: "fa-file-invoice", color: "text-indigo-600", bg: "bg-indigo-50 border-indigo-200" },
@@ -598,7 +601,7 @@
         const navContainer = $('#sheet-nav');
         navContainer.empty();
         
-        const order = ["Master Aset", "Preventive", "Kalibrasi", "Permintaan", "Work Order", "Sparepart", "Master Sparepart"];
+        const order = ["Master Aset", "Alat dan Mesin", "Preventive", "Kalibrasi", "Permintaan", "Work Order", "Sparepart", "Master Sparepart"];
         const allSheets = Object.keys(spreadsheetData);
         const sortedSheets = [...order].filter(name => allSheets.includes(name));
         
@@ -655,12 +658,29 @@
 
         let maxCols = 0;
         rawData.forEach(row => { if(row.length > maxCols) maxCols = row.length; });
-
         currentHeaders = rawData[0];
+
+        // Identifikasi kolom mana yang butuh QR
+        let qrColIndex = -1;
+        let judulAksiQR = "";
+
+        if (sheetName.toLowerCase() === "master aset") {
+            qrColIndex = currentHeaders.findIndex(h => h.toString().toLowerCase().includes("id aset"));
+            judulAksiQR = "ID Aset";
+        } else if (sheetName.toLowerCase() === "alat dan mesin") {
+            qrColIndex = currentHeaders.findIndex(h => h.toString().toLowerCase().includes("kode alat"));
+            judulAksiQR = "Kode Alat";
+        }
+
         let theadHtml = '<tr>';
         for(let i = 0; i < maxCols; i++) {
             let cellValue = currentHeaders[i] || `Kolom ${i+1}`;
             theadHtml += `<th>${cellValue}</th>`;
+        }
+        
+        // Tambahkan Header Tabel untuk Aksi QR
+        if (qrColIndex !== -1) {
+            theadHtml += `<th class="text-center">Aksi QR Code</th>`;
         }
         theadHtml += '</tr>';
         
@@ -674,6 +694,26 @@
                 let cellValue = row[j] !== undefined && row[j] !== null ? row[j] : '-';
                 cellValue = String(cellValue).split('\n').join('<br>');
                 tbodyHtml += `<td>${cellValue}</td>`;
+            }
+
+            // Tambahkan baris tombol Aksi QR yang sangat terlihat
+            if (qrColIndex !== -1) {
+                const qrVal = row[qrColIndex] ? String(row[qrColIndex]).trim() : '';
+                if (qrVal && qrVal !== '-' && qrVal !== '') {
+                    tbodyHtml += `
+                    <td class="text-center">
+                        <div class="flex items-center justify-center space-x-2 whitespace-nowrap">
+                            <button onclick="generateAndProcessQR('${qrVal}', 'download')" class="glass-interactive flex items-center justify-center px-3 py-1.5 rounded-xl bg-blue-50 text-blue-700 hover:bg-blue-600 hover:text-white border border-blue-200 transition-all font-bold text-xs shadow-sm" title="Unduh QR Code">
+                                <i class="fas fa-download mr-1.5"></i> Unduh
+                            </button>
+                            <button onclick="generateAndProcessQR('${qrVal}', 'print')" class="glass-interactive flex items-center justify-center px-3 py-1.5 rounded-xl bg-amber-50 text-amber-700 hover:bg-amber-500 hover:text-white border border-amber-200 transition-all font-bold text-xs shadow-sm" title="Print QR Code">
+                                <i class="fas fa-print mr-1.5"></i> Print
+                            </button>
+                        </div>
+                    </td>`;
+                } else {
+                    tbodyHtml += `<td class="text-center text-slate-400 font-bold text-xs">- Kosong -</td>`;
+                }
             }
             tbodyHtml += '</tr>';
         }
@@ -702,6 +742,109 @@
         $('.dataTables_filter input')
             .addClass('glass-input px-4 py-2 text-sm w-full md:w-64')
             .css({'padding-left': '1.2rem', 'border-radius': '0.75rem'});
+    }
+
+    // Fungsi Render QR Modern via Canvas
+    function generateAndProcessQR(idValue, actionType) {
+        // Buat elemen penampung sementara (tersembunyi)
+        const tempContainer = document.createElement('div');
+        tempContainer.style.display = 'none';
+        document.body.appendChild(tempContainer);
+
+        // Render QR dengan qrcode.js
+        new QRCode(tempContainer, {
+            text: idValue,
+            width: 600,
+            height: 600,
+            colorDark: "#0f172a", // Slate 900
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H
+        });
+
+        // Tunggu library merender canvas, lalu modifikasi jadi desain "Modern Card"
+        setTimeout(() => {
+            const rawQrCanvas = tempContainer.querySelector('canvas');
+            if (!rawQrCanvas) {
+                alert('Sistem gagal merender QR Code. Silakan coba lagi.');
+                document.body.removeChild(tempContainer);
+                return;
+            }
+
+            // Buat Canvas baru untuk Styling Card Modern
+            const designCanvas = document.createElement('canvas');
+            designCanvas.width = 800; 
+            designCanvas.height = 1050;
+            const ctx = designCanvas.getContext('2d');
+
+            // 1. Background Kartu
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, designCanvas.width, designCanvas.height);
+
+            // 2. Border Keren (Biru Korporat)
+            ctx.strokeStyle = '#1e293b'; // Slate 800
+            ctx.lineWidth = 14;
+            ctx.strokeRect(30, 30, designCanvas.width - 60, designCanvas.height - 60);
+
+            // 3. Header Text - MSB ASSET TRACKING
+            ctx.fillStyle = '#0f172a';
+            ctx.font = 'bold 52px "Plus Jakarta Sans", sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('MSB ASSET TRACKING', designCanvas.width / 2, 130);
+
+            // 4. Garis Pemisah (Separator)
+            ctx.beginPath();
+            ctx.moveTo(100, 170);
+            ctx.lineTo(700, 170);
+            ctx.strokeStyle = '#cbd5e1'; // Slate 300
+            ctx.lineWidth = 4;
+            ctx.stroke();
+
+            // 5. Draw QR Code di tengah (Membesarkan QR Raw)
+            ctx.drawImage(rawQrCanvas, 100, 210, 600, 600);
+
+            // 6. Teks ID Aset / Kode Alat
+            ctx.fillStyle = '#2563eb'; // Blue 600
+            ctx.font = 'bold 70px monospace';
+            ctx.fillText(idValue, designCanvas.width / 2, 910);
+
+            // 7. Sub-teks (Instruksi)
+            ctx.fillStyle = '#64748b'; // Slate 500
+            ctx.font = 'bold 26px sans-serif';
+            ctx.fillText('SCAN UNTUK DETAIL ASET', designCanvas.width / 2, 970);
+
+            // Ekstrak menjadi gambar Data URL
+            const finalImageBase64 = designCanvas.toDataURL("image/png");
+
+            // Eksekusi Download / Print
+            if (actionType === 'download') {
+                const link = document.createElement('a');
+                link.download = `QR_MSB_${idValue}.png`;
+                link.href = finalImageBase64;
+                link.click();
+            } else if (actionType === 'print') {
+                const printWindow = window.open('', '_blank');
+                printWindow.document.write(`
+                    <html>
+                    <head><title>Print QR - ${idValue}</title></head>
+                    <body style="margin:0; display:flex; justify-content:center; align-items:center; height:100vh; background-color:#fff;">
+                        <img src="${finalImageBase64}" style="max-width:100%; max-height:100vh; box-shadow: 0 4px 20px rgba(0,0,0,0.1);" />
+                        <script>
+                            window.onload = function() {
+                                setTimeout(function() {
+                                    window.print();
+                                    window.close();
+                                }, 300);
+                            }
+                        <\/script>
+                    </body>
+                    </html>
+                `);
+                printWindow.document.close();
+            }
+
+            // Bersihkan elemen tersembunyi
+            document.body.removeChild(tempContainer);
+        }, 150); // Delay 150ms untuk memastikan QrCode.js merender dengan sempurna
     }
 
     function triggerExcel() { if(dataTableInstance) dataTableInstance.button('.buttons-excel').trigger(); }
