@@ -9,13 +9,11 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
-    <!-- Tambahan Library QR Code -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
         
-        /* Background Liquid Dinamis - Soft & Calm */
         body { 
             font-family: 'Plus Jakarta Sans', sans-serif; 
             background: linear-gradient(45deg, #f8fafc, #e0f2fe, #f3e8ff, #ecfdf5);
@@ -33,7 +31,6 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* Blobs Cair di Background - Warna Pastel Soft */
         .liquid-blob {
             position: fixed;
             border-radius: 50%;
@@ -42,16 +39,15 @@
             animation: float 20s infinite alternate;
             opacity: 0.6;
         }
-        .blob-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background: #bae6fd; } /* Soft Blue */
-        .blob-2 { bottom: -20%; right: -10%; width: 60vw; height: 60vw; background: #e9d5ff; animation-delay: -5s; } /* Soft Purple */
-        .blob-3 { top: 40%; left: 40%; width: 40vw; height: 40vw; background: #a7f3d0; animation-delay: -10s; } /* Soft Mint */
+        .blob-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background: #bae6fd; }
+        .blob-2 { bottom: -20%; right: -10%; width: 60vw; height: 60vw; background: #e9d5ff; animation-delay: -5s; }
+        .blob-3 { top: 40%; left: 40%; width: 40vw; height: 40vw; background: #a7f3d0; animation-delay: -10s; }
 
         @keyframes float {
             0% { transform: translate(0, 0) scale(1); }
             100% { transform: translate(5%, 5%) scale(1.05); }
         }
 
-        /* 3D Liquid Glass Panel Base - Terang (Light Glass) */
         .glass-panel {
             background: rgba(255, 255, 255, 0.55);
             backdrop-filter: blur(20px) saturate(120%);
@@ -64,7 +60,6 @@
                 inset 0 0 0 1px rgba(255, 255, 255, 0.4);
         }
 
-        /* Interactive Glass Button with 3D Reflection Effect */
         .glass-interactive {
             position: relative;
             overflow: hidden;
@@ -79,7 +74,6 @@
             color: #475569;
         }
 
-        /* Efek Light Sweep (Pantulan Cahaya) */
         .glass-interactive::before {
             content: '';
             position: absolute;
@@ -97,16 +91,10 @@
             pointer-events: none;
         }
 
-        /* Hover State */
         .glass-interactive:hover {
-            transform: translateY(-3px);
+            transform: translateY(-2px);
             background: rgba(255, 255, 255, 0.7);
-            box-shadow: 
-                0 12px 25px rgba(0, 0, 0, 0.06),
-                0 0 15px rgba(255, 255, 255, 0.5),
-                inset 0 0 0 1px rgba(255, 255, 255, 0.8);
-            border-top: 1px solid rgba(255, 255, 255, 1);
-            border-left: 1px solid rgba(255, 255, 255, 1);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.06);
             color: #1e293b;
         }
 
@@ -115,19 +103,6 @@
             transition: all 0.6s ease;
         }
 
-        /* Click / Active State (3D Press) */
-        .glass-interactive:active {
-            transform: translateY(2px) scale(0.98);
-            background: rgba(255, 255, 255, 0.3);
-            box-shadow: 
-                0 2px 10px rgba(0, 0, 0, 0.02),
-                inset 0 4px 15px rgba(0, 0, 0, 0.06),
-                inset 0 0 0 1px rgba(255, 255, 255, 0.2);
-            border-top: 1px solid rgba(255, 255, 255, 0.4);
-            border-left: 1px solid rgba(255, 255, 255, 0.4);
-        }
-
-        /* Input 3D Glass (Untuk form Login/Search) */
         .glass-input {
             width: 100%;
             background: rgba(255, 255, 255, 0.6);
@@ -136,111 +111,66 @@
             border-bottom: 2px solid rgba(148, 163, 184, 0.3);
             color: #334155;
             border-radius: 1rem;
-            padding: 1rem 1.5rem 1rem 3.2rem;
-            font-size: 0.95rem; font-weight: 600;
+            padding: 0.75rem 1.25rem;
+            font-size: 0.9rem; font-weight: 600;
             transition: all 0.3s ease;
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.02);
         }
         
         .glass-input:focus {
             outline: none;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             border-color: rgba(59, 130, 246, 0.5);
             border-bottom: 2px solid #3b82f6;
-            box-shadow: 
-                inset 0 2px 5px rgba(0,0,0,0.02),
-                0 0 15px rgba(59, 130, 246, 0.15);
         }
-        
-        .glass-input::placeholder { color: #94a3b8; font-weight: 500; }
-        .glass-input option { background: #ffffff; color: #334155; }
 
-        /* DataTables Glass Customization - Mode Terang */
+        /* DataTables Custom Styles */
         .dataTables_wrapper { padding: 0.5rem 0; color: #475569; }
         
         table.dataTable {
             border-collapse: separate !important;
-            border-spacing: 0 4px; /* Memberi jarak antar baris */
+            border-spacing: 0 6px;
             width: 100% !important;
             border: none !important;
             background: transparent !important;
         }
         
-        table.dataTable thead { background: transparent; }
-        
         table.dataTable thead th {
             border: none !important;
             border-bottom: 2px solid rgba(148, 163, 184, 0.2) !important;
-            color: #475569;
+            color: #334155;
             font-weight: 800;
             text-transform: uppercase;
             font-size: 0.75rem;
-            letter-spacing: 0.08em;
-            padding: 12px 16px !important;
+            letter-spacing: 0.05em;
+            padding: 12px 14px !important;
         }
         
-        /* Baris Tabel Efek Kaca */
         table.dataTable tbody tr { 
-            background-color: rgba(255, 255, 255, 0.4) !important; 
+            background-color: rgba(255, 255, 255, 0.5) !important; 
             transition: all 0.2s;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.01);
         }
         
         table.dataTable tbody td {
             border: none !important;
             border-top: 1px solid rgba(255, 255, 255, 0.8) !important;
             border-bottom: 1px solid rgba(226, 232, 240, 0.5) !important;
-            padding: 14px 16px !important;
+            padding: 12px 14px !important;
             color: #334155;
             font-weight: 500;
+            vertical-align: middle;
         }
 
-        table.dataTable tbody td:first-child { border-top-left-radius: 12px; border-bottom-left-radius: 12px; border-left: 1px solid rgba(255,255,255,0.8) !important; }
-        table.dataTable tbody td:last-child { border-top-right-radius: 12px; border-bottom-right-radius: 12px; border-right: 1px solid rgba(255,255,255,0.8) !important; }
+        table.dataTable tbody td:first-child { border-top-left-radius: 12px; border-bottom-left-radius: 12px; }
+        table.dataTable tbody td:last-child { border-top-right-radius: 12px; border-bottom-right-radius: 12px; }
         
         table.dataTable tbody tr:hover { 
-            background-color: rgba(255, 255, 255, 0.8) !important;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.04);
-            transform: scale(1.002);
-            z-index: 10;
-            position: relative;
+            background-color: rgba(255, 255, 255, 0.85) !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
         }
 
         .dataTables_info, .dataTables_length, .dataTables_filter { color: #64748b !important; font-weight: 500; }
         .dt-buttons { display: none !important; }
 
-        /* Custom Pagination Glass */
-        .dataTables_wrapper .dataTables_paginate .paginate_button {
-            border-radius: 10px !important;
-            border: 1px solid rgba(255, 255, 255, 0.6) !important;
-            background: rgba(255, 255, 255, 0.4) !important;
-            color: #475569 !important;
-            backdrop-filter: blur(5px);
-            margin: 0 3px;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-        .dataTables_wrapper .dataTables_paginate .paginate_button:hover:not(.current):not(.disabled) {
-            background: rgba(255, 255, 255, 0.9) !important;
-            border-color: rgba(255, 255, 255, 1) !important;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            color: #2563eb !important;
-            transform: translateY(-2px);
-        }
-        .dataTables_wrapper .dataTables_paginate .paginate_button.current {
-            background: linear-gradient(135deg, #3b82f6, #2563eb) !important; 
-            color: white !important; 
-            border: 1px solid #60a5fa !important;
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
-        }
-        
-        /* Custom Scrollbar - Soft */
-        ::-webkit-scrollbar { width: 8px; height: 8px; }
-        ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.03); border-radius: 10px; }
-        ::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.3); border-radius: 10px; backdrop-filter: blur(5px); }
-        ::-webkit-scrollbar-thumb:hover { background: rgba(148, 163, 184, 0.6); }
-
-        /* Loader Glass Soft */
         .glass-loader {
             width: 50px; height: 50px;
             border-radius: 50%;
@@ -248,11 +178,9 @@
             border-top-color: #3b82f6;
             border-right-color: #10b981;
             animation: spinGlass 1s linear infinite;
-            box-shadow: 0 0 20px rgba(255,255,255,0.5);
         }
         @keyframes spinGlass { to { transform: rotate(360deg); } }
 
-        /* Transition Overlay Glass Soft */
         #transition-overlay {
             position: fixed; inset: 0; z-index: 200;
             background: rgba(248, 250, 252, 0.7);
@@ -262,109 +190,75 @@
             transition: opacity 0.4s ease;
         }
         #transition-overlay.active { opacity: 1; pointer-events: all; }
-        
-        #transition-overlay .logo-wrap {
-            border-radius: 50%; width: 120px; height: 120px;
-            background: rgba(255,255,255,0.6);
-            display: flex; align-items: center; justify-content: center;
-            border: 1px solid rgba(255,255,255,1);
-            box-shadow: 
-                0 15px 35px rgba(0,0,0,0.05), 
-                inset 0 0 15px rgba(255,255,255,0.8);
-            animation: floatLogo 3s ease-in-out infinite alternate;
-            padding: 15px; margin-bottom: 1.5rem;
-        }
-        
-        @keyframes floatLogo {
-            0% { transform: translateY(0); box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
-            100% { transform: translateY(-10px); box-shadow: 0 20px 35px rgba(0,0,0,0.08); }
-        }
 
-        .transition-bar {
-            width: 200px; height: 6px; border-radius: 999px; margin-top: 1rem;
-            background: rgba(0,0,0,0.05); overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.8);
-            box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+        /* Status Glass Badges */
+        .badge-status {
+            padding: 0.3rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.725rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
         }
-        .transition-bar span {
-            display: block; height: 100%; width: 40%; border-radius: 999px;
-            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
-            animation: barSlide 1.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-        }
-        @keyframes barSlide { 0% { transform: translateX(-100%); } 100% { transform: translateX(300%); } }
+        .badge-danger { background: #ffe4e6; color: #e11d48; border: 1px solid #fecdd3; }
+        .badge-warning { background: #fef3c7; color: #d97706; border: 1px solid #fde68a; }
+        .badge-success { background: #dcfce7; color: #16a34a; border: 1px solid #bbf7d0; }
+        .badge-info { background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; }
 
-        /* Login View Specifics */
         #login-view { background: rgba(248, 250, 252, 0.4); backdrop-filter: blur(15px); }
-        
-        /* AppSheet View */
         #appsheet-view { background: #f8fafc; }
         .appsheet-topbar { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255,255,255,1); }
-        
         .hidden-view { display: none !important; }
-
-        /* MOBILE RESPONSIVE ADJUSTMENTS */
-        @media (max-width: 768px) {
-            table.dataTable tbody td { padding: 10px 12px !important; font-size: 0.8rem; }
-            table.dataTable thead th { padding: 10px 12px !important; font-size: 0.75rem; }
-            .dataTables_wrapper .dataTables_paginate .paginate_button { padding: 0.2rem 0.5rem !important; margin: 0 1px; font-size: 0.8rem; }
-            .glass-input { padding: 0.75rem 1rem 0.75rem 2.5rem; font-size: 0.85rem; }
-            .dataTables_filter input { width: 100% !important; margin-top: 0.5rem; }
-            .dataTables_filter label { width: 100%; text-align: left; display: block; }
-        }
-        
-        /* Fix action button wrappings on very small screens */
-        .header-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; }
     </style>
 </head>
 <body>
 
-<!-- Liquid Blobs Background (Pastel) -->
 <div class="liquid-blob blob-1"></div>
 <div class="liquid-blob blob-2"></div>
 <div class="liquid-blob blob-3"></div>
 
-<!-- Layar Transisi -->
 <div id="transition-overlay">
-    <div class="logo-wrap glass-panel">
-        <img src="MSB Logo.png" alt="MSB" class="w-full h-full object-contain" onerror="this.onerror=null;this.outerHTML='<div class=&quot;text-slate-800 font-extrabold text-xl tracking-widest&quot;>MSB</div>';">
+    <div class="logo-wrap glass-panel p-4 rounded-full mb-4">
+        <img src="MSB Logo.png" alt="MSB" class="w-16 h-16 object-contain" onerror="this.onerror=null;this.outerHTML='<div class=&quot;text-slate-800 font-extrabold text-xl&quot;>MSB</div>';">
     </div>
-    <p id="transition-text" class="text-slate-700 font-bold tracking-wide text-base">Memuat Sistem...</p>
-    <div class="transition-bar"><span></span></div>
+    <p id="transition-text" class="text-slate-700 font-bold text-base">Memuat Sistem Maintenance...</p>
+    <div class="w-48 h-1.5 bg-slate-200 rounded-full mt-3 overflow-hidden">
+        <div class="h-full bg-blue-500 rounded-full animate-pulse"></div>
+    </div>
 </div>
 
 <div id="dashboard-view" class="flex h-screen w-full overflow-hidden relative">
 
-    <!-- Overlay Sidebar Mobile -->
     <div id="sidebar-overlay" class="fixed inset-0 bg-slate-900/40 z-40 hidden backdrop-blur-sm transition-opacity opacity-0"></div>
 
-    <!-- Sidebar Glass (Soft) -->
     <aside id="sidebar" class="glass-panel w-72 flex-col flex z-50 my-4 ml-4 rounded-3xl overflow-hidden shadow-sm fixed inset-y-0 left-0 transform -translate-x-[120%] md:relative md:translate-x-0 transition-transform duration-300">
-        <!-- Penyesuaian Proporsi Logo & Text Maintenance -->
         <div class="py-6 flex flex-col items-center justify-center px-4 border-b border-white/60 bg-white/30">
-            <!-- Logo ukurannya disesuaikan (h-11) dan margin dirapikan -->
-            <img src="MSB Logo.png" alt="Logo MSB" class="h-11 max-w-[150px] object-contain flex-shrink-0 drop-shadow-sm mb-2" onerror="this.onerror=null;this.outerHTML='<div class=&quot;w-12 h-12 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-700 font-bold mb-2 shadow-sm&quot;>MSB</div>';">
-            <!-- Text diturunkan ukurannya jadi text-lg dan diberi tracking lebar (jarak antar huruf) agar proporsional sebagai sub-judul logo -->
+            <img src="MSB Logo.png" alt="Logo MSB" class="h-11 max-w-[150px] object-contain flex-shrink-0 mb-2" onerror="this.onerror=null;this.outerHTML='<div class=&quot;w-10 h-10 rounded-xl bg-white flex items-center justify-center font-bold text-slate-800 mb-2 shadow-sm&quot;>MSB</div>';">
             <h1 class="text-lg font-bold tracking-[0.2em] text-slate-700 leading-none text-center uppercase">
                 Maintenance
             </h1>
         </div>
-        <div class="p-5 flex-1 overflow-y-auto">
-            <p class="text-[10px] text-slate-500 font-bold uppercase tracking-[0.15em] mb-4 ml-2 opacity-80">Navigasi Utama</p>
-            <ul id="sheet-nav" class="space-y-2">
+        
+        <div class="p-4 flex-1 overflow-y-auto">
+            <p class="text-[10px] text-slate-500 font-bold uppercase tracking-[0.15em] mb-3 ml-2">Modul Data & Maintenance</p>
+            <ul id="sheet-nav" class="space-y-1.5">
                 <li class="text-center text-sm py-4 text-slate-500">
                     <i class="fas fa-spinner fa-spin mr-2"></i>Mempersiapkan Menu...
                 </li>
             </ul>
         </div>
-        <div class="p-5 border-t border-white/60 text-xs text-center bg-white/20">
-            <p class="font-bold text-slate-700 mb-1 tracking-wide">PT Murinda Sentra Baja</p>
-            <p class="text-[10px] text-slate-500 font-medium">Developed by Aspuro Amarulloh Khoiri<br>Kalijati, Subang</p>
+        
+        <div class="p-4 border-t border-white/60 text-xs text-center bg-white/20">
+            <p class="font-bold text-slate-700 mb-0.5">PT Murinda Sentra Baja</p>
+            <p class="text-[10px] text-slate-500 font-medium">Developed By Aspuro Amarulloh Khoiri</p>
         </div>
     </aside>
 
     <div class="flex-1 flex flex-col h-screen overflow-hidden relative">
-        <!-- Header Glass -->
-        <header class="min-h-[5rem] py-3 md:py-0 glass-panel mx-3 md:mx-4 mt-3 md:mt-4 rounded-3xl flex items-center justify-between px-4 md:px-8 z-10 sticky top-0 shadow-sm flex-wrap gap-2 md:gap-0">
+        <header class="min-h-[5rem] py-3 glass-panel mx-3 md:mx-4 mt-3 md:mt-4 rounded-3xl flex items-center justify-between px-4 md:px-8 z-10 sticky top-0 shadow-sm flex-wrap gap-2">
             <div class="flex items-center w-full md:w-auto justify-between md:justify-start">
                 <div class="flex items-center">
                     <button id="mobile-menu-btn" class="md:hidden text-slate-600 hover:text-blue-600 transition mr-3 glass-interactive w-10 h-10 rounded-xl flex items-center justify-center">
@@ -372,43 +266,48 @@
                     </button>
                     <div>
                         <h2 id="current-sheet-title" class="text-lg md:text-xl font-extrabold text-slate-800 tracking-tight">Memuat Data...</h2>
-                        <div class="flex items-center mt-0.5 md:mt-1">
+                        <div class="flex items-center mt-0.5">
                             <span class="w-2 h-2 rounded-full bg-emerald-500 mr-2 shadow-[0_0_8px_#10b981] animate-pulse"></span>
-                            <p class="text-[9px] md:text-[11px] text-slate-500 font-bold uppercase tracking-wider">Terhubung MSB ERP System</p>
+                            <p class="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Terhubung Spreadsheet Realtime</p>
                         </div>
                     </div>
                 </div>
             </div>
             
-            <div class="flex items-center justify-start w-full md:w-auto header-actions mt-1 md:mt-0">
-                <button onclick="openLoginPage()" class="glass-interactive flex items-center px-3 py-2 text-blue-700 text-xs md:text-sm font-bold rounded-xl group flex-1 md:flex-none justify-center">
-                    <i class="fas fa-right-to-bracket md:mr-2 text-blue-500 group-hover:scale-110 transition-transform"></i><span class="hidden md:inline">Masuk</span>
+            <div class="flex items-center justify-start w-full md:w-auto gap-2 flex-wrap">
+                <button onclick="openLoginPage()" class="glass-interactive flex items-center px-3.5 py-2 text-blue-700 text-xs font-bold rounded-xl group">
+                    <i class="fas fa-right-to-bracket mr-2 text-blue-500 group-hover:scale-110 transition-transform"></i>Masuk ERP
                 </button>
                 <div class="w-px h-6 bg-slate-300/50 mx-1 hidden md:block"></div>
-                <button onclick="triggerExcel()" class="glass-interactive flex items-center px-3 py-2 text-emerald-700 text-xs md:text-sm font-bold rounded-xl group flex-1 md:flex-none justify-center">
-                    <i class="fas fa-file-excel md:mr-2 text-emerald-500 group-hover:scale-110 transition-transform"></i><span class="hidden md:inline">Excel</span>
+                <button onclick="triggerExcel()" class="glass-interactive flex items-center px-3 py-2 text-emerald-700 text-xs font-bold rounded-xl group">
+                    <i class="fas fa-file-excel mr-1.5 text-emerald-500"></i>Excel
                 </button>
-                <button onclick="triggerPrint()" class="glass-interactive flex items-center px-3 py-2 text-amber-700 text-xs md:text-sm font-bold rounded-xl group flex-1 md:flex-none justify-center">
-                    <i class="fas fa-print md:mr-2 text-amber-500 group-hover:scale-110 transition-transform"></i><span class="hidden md:inline">Print</span>
+                <button onclick="triggerPrint()" class="glass-interactive flex items-center px-3 py-2 text-amber-700 text-xs font-bold rounded-xl group">
+                    <i class="fas fa-print mr-1.5 text-amber-500"></i>Print
                 </button>
-                <button onclick="fetchData()" class="glass-interactive flex items-center px-3 py-2 text-slate-700 text-xs md:text-sm font-bold rounded-xl group flex-1 md:flex-none justify-center">
-                    <i class="fas fa-sync-alt md:mr-2 text-slate-400 group-hover:rotate-180 transition-transform duration-500"></i><span class="hidden md:inline">Refresh</span>
+                <button onclick="fetchData()" class="glass-interactive flex items-center px-3 py-2 text-slate-700 text-xs font-bold rounded-xl group">
+                    <i class="fas fa-sync-alt mr-1.5 text-slate-400 group-hover:rotate-180 transition-transform duration-500"></i>Refresh
                 </button>
             </div>
         </header>
 
-        <!-- Loading Overlay Dalam Dashboard -->
         <div id="loading-overlay" class="absolute inset-0 z-30 flex flex-col items-center justify-center hidden bg-slate-100/50 backdrop-blur-md rounded-3xl m-4">
             <div class="glass-panel p-8 rounded-3xl flex flex-col items-center text-center shadow-lg">
                 <div class="glass-loader mb-4"></div>
-                <h2 class="text-lg font-bold text-slate-800 tracking-wide">Mengambil Data Server...</h2>
-                <p class="text-xs text-slate-500 mt-1 font-medium">Mohon tunggu sebentar</p>
+                <h2 class="text-lg font-bold text-slate-800">Mengambil Data Server...</h2>
+                <p class="text-xs text-slate-500 mt-1 font-medium">Memproses kalkulasi dan notifikasi</p>
             </div>
         </div>
 
-        <!-- Main Content area (Tabel) -->
-        <main class="flex-1 overflow-y-auto p-3 md:p-4 pt-3 md:pt-4">
-            <div class="glass-panel rounded-2xl md:rounded-3xl p-4 md:p-6 h-full flex flex-col shadow-sm">
+        <main class="flex-1 overflow-y-auto p-3 md:p-4 pt-3 flex flex-col">
+            <div id="notification-banner" class="hidden mb-3 p-3.5 rounded-2xl bg-amber-50/80 border border-amber-200/80 backdrop-blur-md text-amber-800 text-xs font-bold flex items-center justify-between shadow-sm">
+                <div class="flex items-center gap-2.5">
+                    <span class="w-7 h-7 rounded-xl bg-amber-500 text-white flex items-center justify-center flex-shrink-0 font-extrabold text-xs animate-bounce">!</span>
+                    <span id="notification-banner-text">Beberapa item memerlukan penanganan maintenance/kalibrasi/stok.</span>
+                </div>
+            </div>
+
+            <div class="glass-panel rounded-2xl md:rounded-3xl p-4 md:p-6 flex-1 flex flex-col shadow-sm min-h-0">
                 <div class="overflow-x-auto w-full flex-1 rounded-xl">
                     <table id="data-table" class="display responsive nowrap w-full text-xs md:text-sm text-left">
                         <thead id="table-head"></thead>
@@ -420,88 +319,141 @@
     </div>
 </div>
 
-<!-- 3D Login Glass View (Light) -->
-<div id="login-view" class="hidden-view fixed inset-0 z-40 flex items-center justify-center p-4">
-    <div class="glass-panel w-full max-w-md rounded-[2rem] p-6 md:p-9 relative overflow-hidden shadow-2xl border-white border-2">
-        <!-- Highlight aksen warna -->
-        <div class="absolute -top-10 -left-10 w-32 h-32 bg-blue-200/50 blur-3xl rounded-full pointer-events-none"></div>
-        <div class="absolute -bottom-10 -right-10 w-32 h-32 bg-purple-200/50 blur-3xl rounded-full pointer-events-none"></div>
-
-        <div class="text-center mb-8 relative z-10">
-            <!-- Penyesuaian Proporsi Logo di Login -->
-            <div class="w-20 h-20 mx-auto mb-4 bg-white/60 border border-white rounded-2xl shadow-sm flex items-center justify-center p-3 backdrop-blur-xl">
-                <img src="MSB Logo.png" alt="Logo MSB" class="w-full h-full object-contain" onerror="this.onerror=null;this.outerHTML='<span class=&quot;text-slate-800 font-bold text-lg&quot;>MSB</span>';">
+<div id="qr-view-modal" class="hidden fixed inset-0 z-[60] bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 transition-opacity">
+    <div class="glass-panel w-full max-w-sm rounded-[2rem] p-6 shadow-2xl border-white border-2 flex flex-col items-center text-center relative">
+        <button onclick="closeQrModal()" class="absolute top-4 right-4 text-slate-400 hover:text-red-500 w-8 h-8 rounded-full flex items-center justify-center transition-colors bg-white/60 hover:bg-red-50">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="w-12 h-12 rounded-2xl bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold mb-4 shadow-sm">
+            <i class="fas fa-qrcode text-xl"></i>
+        </div>
+        <h3 class="text-lg font-extrabold text-slate-800 mb-1">QR Code Data</h3>
+        <p class="text-xs text-slate-500 font-medium mb-5">Scan untuk membuka dokumen tertaut atau otorisasi tanda tangan.</p>
+        
+        <div id="qr-image-container" class="bg-white p-3 rounded-2xl shadow-inner border border-slate-200 mb-5 w-full flex items-center justify-center min-h-[250px]">
             </div>
-            <h2 class="text-xl font-extrabold text-slate-800 tracking-tight">Otorisasi Sistem</h2>
-            <p class="text-[11px] text-slate-500 font-bold uppercase tracking-[0.1em] mt-1">MSB ERP System &middot; Secure Login</p>
+        
+        <div class="flex w-full gap-3">
+            <button id="qr-btn-download" class="flex-1 py-2.5 rounded-xl font-bold text-blue-700 bg-blue-50 border border-blue-200 hover:bg-blue-600 hover:text-white hover:border-blue-600 text-xs transition-all flex items-center justify-center gap-2">
+                <i class="fas fa-download"></i> Unduh
+            </button>
+            <button id="qr-btn-print" class="flex-1 py-2.5 rounded-xl font-bold text-amber-700 bg-amber-50 border border-amber-200 hover:bg-amber-500 hover:text-white hover:border-amber-500 text-xs transition-all flex items-center justify-center gap-2">
+                <i class="fas fa-print"></i> Cetak
+            </button>
+        </div>
+    </div>
+</div>
+
+<div id="action-modal" class="hidden fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="glass-panel w-full max-w-lg rounded-3xl p-6 shadow-2xl border-white border-2 relative">
+        <div class="flex justify-between items-center mb-4 pb-3 border-b border-slate-200/60">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center font-bold">
+                    <i class="fas fa-wrench"></i>
+                </div>
+                <h3 class="text-base font-extrabold text-slate-800">Form Tindak Lanjut Maintenance</h3>
+            </div>
+            <button onclick="closeActionModal()" class="text-slate-400 hover:text-slate-700 w-8 h-8 rounded-full flex items-center justify-center transition-colors">
+                <i class="fas fa-times"></i>
+            </button>
         </div>
 
-        <form id="login-form" onsubmit="return handleLoginSubmit(event)" class="space-y-4 relative z-10">
-            <div class="relative group">
-                <i class="fas fa-user absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 z-10 transition-colors group-focus-within:text-blue-500"></i>
+        <form id="action-form" onsubmit="handleActionSubmit(event)" class="space-y-3.5">
+            <input type="hidden" id="action-sheet-name">
+            <input type="hidden" id="action-row-index">
+
+            <div>
+                <label class="block text-xs font-bold text-slate-600 mb-1">Item / ID Maintenance</label>
+                <input type="text" id="action-item-id" readonly class="glass-input bg-slate-100/70 text-slate-700 cursor-not-allowed">
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="block text-xs font-bold text-slate-600 mb-1">Status Baru <span class="text-red-500">*</span></label>
+                    <select id="action-status" required class="glass-input cursor-pointer">
+                        <option value="Selesai">Selesai / Pass</option>
+                        <option value="Sudah Dikalibrasi">Sudah Dikalibrasi</option>
+                        <option value="Sudah Maintenance">Sudah Maintenance</option>
+                        <option value="Proses">Dalam Proses</option>
+                        <option value="Restock Selesai">Restock Selesai</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-600 mb-1">Tanggal Action</label>
+                    <input type="date" id="action-date" required class="glass-input">
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-xs font-bold text-slate-600 mb-1">Nama Maintenance / Teknisi <span class="text-red-500">*</span></label>
+                <input type="text" id="action-technician" required placeholder="Nama Teknisi" class="glass-input">
+            </div>
+
+            <div>
+                <label class="block text-xs font-bold text-slate-600 mb-1">Catatan Tindak Lanjut / Temuan</label>
+                <textarea id="action-note" rows="3" placeholder="Masukkan detail penggantian sparepart, hasil ukur kalibrasi, atau pengerjaan..." class="glass-input resize-none"></textarea>
+            </div>
+
+            <div class="pt-2 flex gap-2">
+                <button type="button" onclick="closeActionModal()" class="w-1/3 py-2.5 rounded-xl font-bold text-slate-600 bg-white/50 border border-slate-200 hover:bg-white text-xs">Batal</button>
+                <button type="submit" id="action-submit-btn" class="w-2/3 py-2.5 rounded-xl font-bold text-white bg-blue-600 hover:bg-blue-700 text-xs shadow-md shadow-blue-500/20 transition-all flex items-center justify-center gap-2">
+                    <i class="fas fa-check-circle"></i> Simpan Tindak Lanjut
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="login-view" class="hidden-view fixed inset-0 z-40 flex items-center justify-center p-4">
+    <div class="glass-panel w-full max-w-md rounded-[2rem] p-6 md:p-8 relative overflow-hidden shadow-2xl border-white border-2">
+        <div class="text-center mb-6">
+            <div class="w-16 h-16 mx-auto mb-3 bg-white/60 border border-white rounded-2xl shadow-sm flex items-center justify-center p-2">
+                <img src="MSB Logo.png" alt="Logo MSB" class="w-full h-full object-contain" onerror="this.onerror=null;this.outerHTML='<span class=&quot;text-slate-800 font-bold text-lg&quot;>MSB</span>';">
+            </div>
+            <h2 class="text-xl font-extrabold text-slate-800">Otorisasi Sistem</h2>
+            <p class="text-[11px] text-slate-500 font-bold uppercase tracking-[0.1em] mt-0.5">MSB ERP System Maintenance</p>
+        </div>
+
+        <form id="login-form" onsubmit="return handleLoginSubmit(event)" class="space-y-3.5">
+            <div class="relative">
                 <select id="login-username" required class="glass-input cursor-pointer appearance-none">
                     <option value="" disabled selected hidden>Pilih Username...</option>
                 </select>
-                <div class="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
-                    <i class="fas fa-chevron-down text-xs"></i>
-                </div>
             </div>
-            <div class="relative group">
-                <i class="fas fa-lock absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 transition-colors group-focus-within:text-blue-500"></i>
-                <input id="login-password" type="password" autocomplete="current-password" required
-                    class="glass-input" placeholder="Kata Sandi">
-                <button type="button" onclick="togglePasswordVisibility()" class="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center text-slate-400 hover:text-slate-700 transition-colors bg-white/50 rounded-lg">
+            <div class="relative">
+                <input id="login-password" type="password" required class="glass-input" placeholder="Kata Sandi">
+                <button type="button" onclick="togglePasswordVisibility()" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700">
                     <i id="password-toggle-icon" class="fas fa-eye text-sm"></i>
                 </button>
             </div>
 
-            <div id="login-error" class="hidden bg-red-50/80 backdrop-blur-md border border-red-200 text-red-600 text-xs font-bold rounded-xl px-4 py-3 flex items-center">
-                <i class="fas fa-circle-exclamation mr-2 text-red-500 text-sm"></i><span id="login-error-text">Autentikasi gagal.</span>
+            <div id="login-error" class="hidden bg-red-50 border border-red-200 text-red-600 text-xs font-bold rounded-xl p-3">
+                <span id="login-error-text">Autentikasi gagal.</span>
             </div>
 
-            <button type="submit" id="login-submit-btn"
-                class="glass-interactive w-full bg-blue-50/50 text-blue-700 font-extrabold py-3.5 rounded-2xl mt-2 flex items-center justify-center text-base tracking-wide border border-blue-200 shadow-sm hover:bg-blue-600 hover:text-white transition-all">
-                <span id="login-btn-text">MASUK SISTEM</span>
-                <i id="login-btn-spinner" class="fas fa-circle-notch fa-spin ml-3 hidden"></i>
+            <button type="submit" id="login-submit-btn" class="w-full bg-blue-600 text-white font-extrabold py-3 rounded-2xl text-sm shadow-md shadow-blue-500/20 hover:bg-blue-700 transition-all">
+                MASUK SISTEM
             </button>
         </form>
 
-        <button onclick="backToDashboard()" class="w-full mt-5 text-slate-500 hover:text-slate-800 text-xs font-bold py-2 transition-colors relative z-10 flex items-center justify-center group uppercase tracking-wider">
-            <i class="fas fa-arrow-left mr-2 group-hover:-translate-x-1 transition-transform"></i>Kembali
+        <button onclick="backToDashboard()" class="w-full mt-4 text-slate-500 hover:text-slate-800 text-xs font-bold py-1">
+            <i class="fas fa-arrow-left mr-1"></i>Kembali ke Dashboard
         </button>
     </div>
 </div>
 
-<!-- AppSheet Integrasi View (Light) -->
 <div id="appsheet-view" class="hidden-view fixed inset-0 z-40 flex flex-col">
-    <div class="appsheet-topbar h-14 flex items-center justify-between px-5 flex-shrink-0 shadow-sm z-10">
-        <div class="flex items-center gap-3 min-w-0">
-            <!-- Penyesuaian Proporsi Logo Topbar -->
-            <div class="w-8 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center backdrop-blur-md shadow-sm">
-                <img src="MSB Logo.png" alt="Logo MSB" class="h-4 object-contain" onerror="this.onerror=null;this.outerHTML='<span class=&quot;text-[8px] font-bold text-slate-800&quot;>MSB</span>';">
-            </div>
-            <div class="flex flex-col justify-center">
-                <!-- Teks judul dibuat rapi -->
-                <span class="text-slate-800 font-bold text-sm leading-tight truncate tracking-wide">MSB ERP SYSTEM <span class="text-slate-400 font-medium hidden sm:inline">&middot; Maintenance</span></span>
-                <span id="active-user-display" class="text-[10px] text-emerald-600 font-bold tracking-widest mt-0.5 uppercase">User: -</span>
-            </div>
+    <div class="appsheet-topbar h-14 flex items-center justify-between px-5 shadow-sm z-10">
+        <div class="flex items-center gap-3">
+            <span class="text-slate-800 font-bold text-sm">MSB ERP SYSTEM &middot; Maintenance</span>
+            <span id="active-user-display" class="text-[10px] text-emerald-600 font-bold uppercase">User: -</span>
         </div>
-        <div class="flex items-center gap-2 flex-shrink-0">
-            <button onclick="toggleAppSheetFullscreen()" class="glass-interactive w-9 h-9 rounded-xl flex items-center justify-center bg-white" title="Layar Penuh">
-                <i id="fullscreen-icon" class="fas fa-expand text-slate-600 text-sm"></i>
-            </button>
-            <button onclick="backToDashboard()" class="glass-interactive flex items-center px-3 py-2 rounded-xl text-xs font-bold bg-white text-slate-700 hover:text-red-600 transition-colors">
-                <i class="fas fa-power-off mr-1.5"></i><span class="hidden sm:inline">Tutup</span>
-            </button>
-        </div>
+        <button onclick="backToDashboard()" class="glass-interactive px-3 py-1.5 rounded-xl text-xs font-bold bg-white text-slate-700 hover:text-red-600">
+            <i class="fas fa-power-off mr-1"></i>Tutup
+        </button>
     </div>
-    <div id="appsheet-iframe-wrap" class="relative flex-1 min-h-0 bg-slate-50">
-        <div id="appsheet-loading" class="absolute inset-0 z-10 bg-white/80 backdrop-blur-xl flex flex-col items-center justify-center">
-            <div class="glass-loader mb-5"></div>
-            <h2 class="text-lg font-bold text-slate-800 tracking-wide">Memuat Modul AppSheet...</h2>
-            <p class="text-slate-500 text-sm mt-1 font-medium">Mohon tunggu</p>
-        </div>
-        <iframe id="appsheet-iframe" title="MSB AppSheet" allow="camera; geolocation; microphone" style="width:100%; height:100%; border:0; display:block;"></iframe>
+    <div class="flex-1 bg-slate-50 relative">
+        <iframe id="appsheet-iframe" title="MSB AppSheet" style="width:100%; height:100%; border:0;"></iframe>
     </div>
 </div>
 
@@ -514,115 +466,137 @@
 <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
 
 <script>
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbztgKKAxMy0bLM0NYZTzlUgiQwtwz_XPKjLd28Bidr4QFLaKLfrnQa-5kgFBLMc--XN/exec'; 
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyngBKqxrVXfxBDMHOYaR2mHZFX7HpmuB-IvQ6kYhTQvEGAooES6zffspc2mYYUIcRh/exec'; 
+    const LOGIN_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyRHztTVkAuLV-toHChFJhf7PHLV-z5MVKQbk4nwTVag3jNEsWIy8X-K-2eEfakdMxy/exec';
+    const APPSHEET_URL = 'https://www.appsheet.com/start/e64f69ea-9ae9-4443-b17d-b56775247bd2';
 
     let spreadsheetData = {};
     let currentActiveSheet = "";
     let dataTableInstance = null;
-    let currentHeaders = [];
+    let notificationCounts = {};
 
     function fetchData() {
         $('#loading-overlay').removeClass('hidden');
         
         fetch(SCRIPT_URL)
-            .then(response => {
-                if (!response.ok) throw new Error('Jaringan bermasalah');
-                return response.json();
-            })
+            .then(res => res.json())
             .then(data => {
-                onDataSuccess(data);
+                spreadsheetData = data;
+                $('#loading-overlay').addClass('hidden');
+                calculateNotifications();
+                populateUsernameDropdown(data);
+                renderNavigation();
+
+                const sheetNames = Object.keys(data);
+                if (sheetNames.length > 0) {
+                    const targetSheet = currentActiveSheet && sheetNames.includes(currentActiveSheet) 
+                        ? currentActiveSheet 
+                        : sheetNames[0];
+                    renderSheetData(targetSheet);
+                }
             })
-            .catch(error => {
-                console.error('Terjadi kesalahan:', error);
-                onDataFailure(error);
+            .catch(err => {
+                $('#loading-overlay').addClass('hidden');
+                alert('Gagal membaca data spreadsheet: ' + err.message);
             });
     }
 
-    function onDataSuccess(data) {
-        spreadsheetData = data;
-        $('#loading-overlay').addClass('hidden');
-        
-        populateUsernameDropdown(data);
-        renderNavigation();
-        
-        const sheetNames = Object.keys(data);
-        if (sheetNames.length > 0) {
-            const firstSheet = currentActiveSheet || $('#sheet-nav button').first().attr('data-sheet');
-            if(firstSheet) renderSheetData(firstSheet);
-        } else {
-            $('#current-sheet-title').text('Data Kosong');
-        }
-    }
+    // Kalkulasi Notifikasi Otomatis (Preventive, Kalibrasi, Sparepart, Checklist/WO)
+    function calculateNotifications() {
+        notificationCounts = {};
+        let totalUrgent = 0;
 
-    function populateUsernameDropdown(data) {
-        const dropdown = $('#login-username');
-        dropdown.html('<option value="" disabled selected hidden>Pilih Username...</option>');
-        
-        const loginKey = Object.keys(data).find(k => k.toLowerCase() === 'login');
-        
-        if (loginKey && data[loginKey] && data[loginKey].length > 1) {
-            const rows = data[loginKey];
-            const cleanUsernames = [];
-            
-            for (let i = 1; i < rows.length; i++) {
-                const uname = rows[i][0] ? String(rows[i][0]).trim() : '';
-                if (uname && !cleanUsernames.includes(uname)) {
-                    cleanUsernames.push(uname);
-                    dropdown.append(`<option value="${uname}">${uname}</option>`);
+        Object.keys(spreadsheetData).forEach(sheetName => {
+            const data = spreadsheetData[sheetName];
+            if (!data || data.length < 2) return;
+
+            const headers = data[0].map(h => String(h).toLowerCase());
+            let count = 0;
+
+            const statusIdx = headers.findIndex(h => h.includes("status") || h.includes("kondisi") || h.includes("keterangan"));
+            const stokIdx = headers.findIndex(h => h.includes("stok") || h.includes("jumlah") || h.includes("qty"));
+            const minStokIdx = headers.findIndex(h => h.includes("min") || h.includes("batas"));
+
+            for (let i = 1; i < data.length; i++) {
+                const row = data[i];
+                let isUrgent = false;
+
+                if (statusIdx !== -1 && row[statusIdx]) {
+                    const st = String(row[statusIdx]).toLowerCase();
+                    if (st.includes("pending") || st.includes("perlu") || st.includes("lewat") || st.includes("expired") || st.includes("kritis") || st.includes("habis") || st.includes("rusak") || st.includes("belum") || st.includes("open")) {
+                        isUrgent = true;
+                    }
                 }
+
+                if (stokIdx !== -1 && row[stokIdx] !== undefined && row[stokIdx] !== "") {
+                    const qty = parseFloat(row[stokIdx]);
+                    const minQty = minStokIdx !== -1 ? parseFloat(row[minStokIdx]) : 5;
+                    if (!isNaN(qty) && qty <= minQty) {
+                        isUrgent = true;
+                    }
+                }
+
+                if (isUrgent) count++;
             }
+
+            if (count > 0) {
+                notificationCounts[sheetName] = count;
+                totalUrgent += count;
+            }
+        });
+
+        if (totalUrgent > 0) {
+            $('#notification-banner').removeClass('hidden');
+            $('#notification-banner-text').html(`Terdapat total <strong>${totalUrgent} item maintenance/kalibrasi/sparepart</strong> yang memerlukan penanganan atau tindak lanjut!`);
         } else {
-            const fallbacks = ["Admin", "Maintenance", "Supervisor", "PIC Area"];
-            fallbacks.forEach(u => dropdown.append(`<option value="${u}">${u}</option>`));
+            $('#notification-banner').addClass('hidden');
         }
     }
 
-    function onDataFailure(error) {
-        $('#loading-overlay').addClass('hidden');
-        alert('Gagal mengambil koneksi database. Detail: ' + error.message);
-    }
-
-    // Penyesuaian warna menu untuk tema terang/kalem + Ikon Alat dan Mesin yg menyala
     function getMenuConfig(sheetName) {
-        const configs = {
-            "Master Aset": { icon: "fa-server", color: "text-blue-600", bg: "bg-blue-50 border-blue-200" },
-            "Alat dan Mesin": { icon: "fa-cogs", color: "text-rose-600", bg: "bg-gradient-to-br from-rose-100 to-fuchsia-100 border-rose-300 shadow-sm" },
-            "Preventive": { icon: "fa-shield-halved", color: "text-emerald-600", bg: "bg-emerald-50 border-emerald-200" },
-            "Kalibrasi": { icon: "fa-gauge-high", color: "text-amber-600", bg: "bg-amber-50 border-amber-200" },
-            "Permintaan": { icon: "fa-file-invoice", color: "text-indigo-600", bg: "bg-indigo-50 border-indigo-200" },
-            "Work Order": { icon: "fa-clipboard-check", color: "text-teal-600", bg: "bg-teal-50 border-teal-200" },
-            "Sparepart": { icon: "fa-boxes-stacked", color: "text-purple-600", bg: "bg-purple-50 border-purple-200" },
-            "Master Sparepart": { icon: "fa-toolbox", color: "text-rose-600", bg: "bg-rose-50 border-rose-200" }
-        };
-        return configs[sheetName] || { icon: "fa-table", color: "text-slate-600", bg: "bg-slate-100 border-slate-200" };
+        const name = sheetName.toLowerCase();
+        if (name.includes("preventive") || name.includes("pm")) 
+            return { icon: "fa-shield-halved", color: "text-emerald-600", bg: "bg-emerald-100/80 border-emerald-300" };
+        if (name.includes("kalibrasi")) 
+            return { icon: "fa-gauge-high", color: "text-amber-600", bg: "bg-amber-100/80 border-amber-300" };
+        if (name.includes("sparepart") || name.includes("stok") || name.includes("suku cadang")) 
+            return { icon: "fa-boxes-stacked", color: "text-purple-600", bg: "bg-purple-100/80 border-purple-300" };
+        if (name.includes("checklist") || name.includes("check") || name.includes("work order") || name.includes("wo")) 
+            return { icon: "fa-list-check", color: "text-teal-600", bg: "bg-teal-100/80 border-teal-300" };
+        if (name.includes("alat") || name.includes("mesin")) 
+            return { icon: "fa-cogs", color: "text-rose-600", bg: "bg-rose-100/80 border-rose-300" };
+        if (name.includes("aset") || name.includes("asset") || name.includes("master")) 
+            return { icon: "fa-server", color: "text-blue-600", bg: "bg-blue-100/80 border-blue-300" };
+        if (name.includes("minta") || name.includes("request") || name.includes("order")) 
+            return { icon: "fa-file-invoice", color: "text-indigo-600", bg: "bg-indigo-100/80 border-indigo-300" };
+
+        return { icon: "fa-folder-open", color: "text-slate-600", bg: "bg-slate-100 border-slate-300" };
     }
 
     function renderNavigation() {
         const navContainer = $('#sheet-nav');
         navContainer.empty();
-        
-        const order = ["Master Aset", "Alat dan Mesin", "Preventive", "Kalibrasi", "Permintaan", "Work Order", "Sparepart", "Master Sparepart"];
         const allSheets = Object.keys(spreadsheetData);
-        const sortedSheets = [...order].filter(name => allSheets.includes(name));
-        
-        allSheets.forEach(name => {
-            const lowerName = name.toLowerCase();
-            if (!order.includes(name) && name !== "Database" && !lowerName.includes("login") && !lowerName.includes("user")) {
-                sortedSheets.push(name);
-            }
-        });
 
-        sortedSheets.forEach((sheetName) => {
+        allSheets.forEach((sheetName) => {
+            const lower = sheetName.toLowerCase();
+            if (lower.includes("database") || lower.includes("login") || lower.includes("user")) return;
+
             const config = getMenuConfig(sheetName);
-            const baseClass = "glass-interactive w-full flex items-center px-4 py-2.5 text-sm font-bold rounded-2xl mb-2 sheet-link cursor-pointer";
-            
+            const count = notificationCounts[sheetName] || 0;
+
+            const badgeHtml = count > 0 
+                ? `<span class="bg-rose-500 text-white text-[10px] font-extrabold px-2 py-0.5 rounded-full ml-auto animate-pulse">${count}</span>` 
+                : '';
+
             const html = `
                 <li>
-                    <button onclick="renderSheetData('${sheetName}'); if(window.innerWidth < 768 && window.toggleSidebar) toggleSidebar();" class="${baseClass}" data-sheet="${sheetName}">
-                        <div class="w-8 h-8 rounded-xl ${config.bg} border flex items-center justify-center mr-3 group-hover:scale-110 transition-transform bg-white/80">
-                            <i class="fas ${config.icon} ${config.color} text-sm"></i>
+                    <button onclick="renderSheetData('${sheetName}')" class="glass-interactive w-full flex items-center px-3.5 py-2.5 text-xs font-bold rounded-2xl sheet-link cursor-pointer" data-sheet="${sheetName}">
+                        <div class="w-7 h-7 rounded-xl ${config.bg} border flex items-center justify-center mr-2.5 flex-shrink-0">
+                            <i class="fas ${config.icon} ${config.color} text-xs"></i>
                         </div>
-                        <span class="text-slate-600 group-hover:text-slate-900 tracking-wide">${sheetName}</span>
+                        <span class="text-slate-700 font-bold truncate">${sheetName}</span>
+                        ${badgeHtml}
                     </button>
                 </li>
             `;
@@ -630,91 +604,131 @@
         });
     }
 
+    function formatCellStatus(cellValue) {
+        if (!cellValue) return '-';
+        const str = String(cellValue).trim();
+        const lower = str.toLowerCase();
+
+        if (lower.includes("selesai") || lower.includes("ok") || lower.includes("terkalibrasi") || lower.includes("sesuai")) {
+            return `<span class="badge-status badge-success"><i class="fas fa-check-circle"></i> ${str}</span>`;
+        }
+        if (lower.includes("pending") || lower.includes("proses") || lower.includes("perlu kalibrasi")) {
+            return `<span class="badge-status badge-warning"><i class="fas fa-clock"></i> ${str}</span>`;
+        }
+        if (lower.includes("expired") || lower.includes("kritis") || lower.includes("habis") || lower.includes("rusak") || lower.includes("lewat")) {
+            return `<span class="badge-status badge-danger"><i class="fas fa-exclamation-triangle"></i> ${str}</span>`;
+        }
+
+        return str.replace(/\n/g, '<br>');
+    }
+
     function renderSheetData(sheetName) {
         currentActiveSheet = sheetName;
         
-        // Reset state tombol navigasi glass
         $('.sheet-link')
-            .removeClass('bg-white/80 border-blue-300 shadow-[0_4px_15px_rgba(37,99,235,0.1)]')
-            .addClass('bg-transparent border-white/60');
+            .removeClass('bg-white/90 border-blue-300 shadow-sm')
+            .addClass('bg-transparent');
             
-        // Aktifkan state tombol yang dipilih
         $(`.sheet-link[data-sheet="${sheetName}"]`)
-            .addClass('bg-white/80 border-blue-300 shadow-[0_4px_15px_rgba(37,99,235,0.1)]')
-            .removeClass('bg-transparent border-white/60');
-        
+            .addClass('bg-white/90 border-blue-300 shadow-sm')
+            .removeClass('bg-transparent');
+
         $('#current-sheet-title').text(sheetName);
         const rawData = spreadsheetData[sheetName];
-        
+
         if (dataTableInstance !== null) {
             dataTableInstance.destroy();
             $('#data-table').empty();
         }
 
         if (!rawData || rawData.length === 0) {
-            $('#data-table').html('<tr><td class="p-8 text-center text-slate-500 font-bold tracking-widest uppercase">Data Kosong.</td></tr>');
+            $('#data-table').html('<tr><td class="p-6 text-center text-slate-500 font-bold">Data tidak ditemukan pada sheet ini.</td></tr>');
             return;
         }
 
-        let maxCols = 0;
-        rawData.forEach(row => { if(row.length > maxCols) maxCols = row.length; });
-        currentHeaders = rawData[0];
+        const headers = rawData[0];
+        const maxCols = headers.length;
 
-        // Identifikasi kolom mana yang butuh QR
+        // Cek apakah sheet ini membutuhkan aksi QR Aset & Tindak Lanjut
         let qrColIndex = -1;
-        let judulAksiQR = "";
-
-        if (sheetName.toLowerCase() === "master aset") {
-            qrColIndex = currentHeaders.findIndex(h => h.toString().toLowerCase().includes("id aset"));
-            judulAksiQR = "ID Aset";
-        } else if (sheetName.toLowerCase() === "alat dan mesin") {
-            qrColIndex = currentHeaders.findIndex(h => h.toString().toLowerCase().includes("kode alat"));
-            judulAksiQR = "Kode Alat";
+        if (sheetName.toLowerCase().includes("aset")) {
+            qrColIndex = headers.findIndex(h => String(h).toLowerCase().includes("id aset"));
+        } else if (sheetName.toLowerCase().includes("alat") || sheetName.toLowerCase().includes("mesin")) {
+            qrColIndex = headers.findIndex(h => String(h).toLowerCase().includes("kode alat"));
         }
 
         let theadHtml = '<tr>';
-        for(let i = 0; i < maxCols; i++) {
-            let cellValue = currentHeaders[i] || `Kolom ${i+1}`;
-            theadHtml += `<th>${cellValue}</th>`;
+        for (let i = 0; i < maxCols; i++) {
+            theadHtml += `<th>${headers[i] || `Kolom ${i+1}`}</th>`;
         }
-        
-        // Tambahkan Header Tabel untuk Aksi QR
         if (qrColIndex !== -1) {
-            theadHtml += `<th class="text-center">Aksi QR Code</th>`;
+            theadHtml += `<th class="text-center">Label QR Aset</th>`;
         }
+        theadHtml += `<th class="text-center">Aksi Maintenance</th>`;
         theadHtml += '</tr>';
-        
+
         let tbodyHtml = '';
-        for(let i = 1; i < rawData.length; i++) {
+        for (let i = 1; i < rawData.length; i++) {
             const row = rawData[i];
-            if(row.every(cell => !cell || String(cell).trim() === '')) continue; 
+            if (!row || row.every(cell => !cell || String(cell).trim() === '')) continue;
 
             tbodyHtml += '<tr>';
-            for(let j = 0; j < maxCols; j++) {
-                let cellValue = row[j] !== undefined && row[j] !== null ? row[j] : '-';
-                cellValue = String(cellValue).split('\n').join('<br>');
-                tbodyHtml += `<td>${cellValue}</td>`;
+            for (let j = 0; j < maxCols; j++) {
+                let cellVal = row[j] !== undefined && row[j] !== null ? row[j] : '-';
+                let headerName = String(headers[j]).toLowerCase();
+                let formattedCell = '';
+
+                // Modifikasi Pintar: Merubah Link TTD/Approval/Link Panjang Menjadi Tombol QR Elegan
+                if (typeof cellVal === 'string' && (cellVal.includes('http://') || cellVal.includes('https://'))) {
+                    let isApproval = headerName.includes("approval") || headerName.includes("ttd") || headerName.includes("tanda");
+                    let btnText = isApproval ? "QR TTD / Approval" : "Buka / Scan QR";
+                    let titleText = isApproval ? "MSB APPROVAL QR" : "MSB DATA LINK QR";
+                    
+                    formattedCell = `
+                    <div class="flex gap-1.5 justify-start items-center">
+                        <a href="${cellVal}" target="_blank" class="w-8 h-8 flex items-center justify-center bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white rounded-xl transition-colors border border-blue-100 shadow-sm" title="Buka Tautan Langsung">
+                            <i class="fas fa-external-link-alt text-xs"></i>
+                        </a>
+                        <button onclick="generateAndProcessQR('${cellVal}', 'view', '${titleText}')" class="px-3 py-1.5 rounded-xl bg-indigo-50 text-indigo-700 hover:bg-indigo-600 hover:text-white border border-indigo-200 transition-all font-bold text-[10px] uppercase tracking-wider flex items-center gap-1.5 whitespace-nowrap shadow-sm">
+                            <i class="fas fa-qrcode text-xs"></i> ${btnText}
+                        </button>
+                    </div>`;
+                } else {
+                    formattedCell = formatCellStatus(cellVal);
+                }
+
+                tbodyHtml += `<td class="align-middle">${formattedCell}</td>`;
             }
 
-            // Tambahkan baris tombol Aksi QR yang sangat terlihat
+            // Kolom Cetak Label QR Aset
             if (qrColIndex !== -1) {
                 const qrVal = row[qrColIndex] ? String(row[qrColIndex]).trim() : '';
-                if (qrVal && qrVal !== '-' && qrVal !== '') {
+                if (qrVal && qrVal !== '-') {
                     tbodyHtml += `
-                    <td class="text-center">
-                        <div class="flex items-center justify-center space-x-2 whitespace-nowrap">
-                            <button onclick="generateAndProcessQR('${qrVal}', 'download')" class="glass-interactive flex items-center justify-center px-3 py-1.5 rounded-xl bg-blue-50 text-blue-700 hover:bg-blue-600 hover:text-white border border-blue-200 transition-all font-bold text-xs shadow-sm" title="Unduh QR Code">
-                                <i class="fas fa-download mr-1.5"></i> Unduh
+                    <td class="text-center align-middle">
+                        <div class="flex items-center justify-center gap-1.5">
+                            <button onclick="generateAndProcessQR('${qrVal}', 'download', 'MSB ASSET QR')" class="w-8 h-8 flex items-center justify-center bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white rounded-xl font-bold transition-colors">
+                                <i class="fas fa-download"></i>
                             </button>
-                            <button onclick="generateAndProcessQR('${qrVal}', 'print')" class="glass-interactive flex items-center justify-center px-3 py-1.5 rounded-xl bg-amber-50 text-amber-700 hover:bg-amber-500 hover:text-white border border-amber-200 transition-all font-bold text-xs shadow-sm" title="Print QR Code">
-                                <i class="fas fa-print mr-1.5"></i> Print
+                            <button onclick="generateAndProcessQR('${qrVal}', 'print', 'MSB ASSET QR')" class="w-8 h-8 flex items-center justify-center bg-amber-50 text-amber-600 hover:bg-amber-500 hover:text-white rounded-xl font-bold transition-colors">
+                                <i class="fas fa-print"></i>
                             </button>
                         </div>
                     </td>`;
                 } else {
-                    tbodyHtml += `<td class="text-center text-slate-400 font-bold text-xs">- Kosong -</td>`;
+                    tbodyHtml += `<td class="text-center text-slate-400 text-xs align-middle">-</td>`;
                 }
             }
+
+            // Kolom Aksi Tindak Lanjut
+            const itemId = row[0] || `Row-${i}`;
+            tbodyHtml += `
+            <td class="text-center align-middle">
+                <button onclick="openActionModal('${sheetName}', ${i}, '${itemId}')" class="glass-interactive px-2.5 py-1.5 rounded-xl bg-emerald-50 text-emerald-700 hover:bg-emerald-600 hover:text-white border border-emerald-200 transition-all font-bold text-xs flex items-center justify-center gap-1 mx-auto shadow-sm">
+                    <i class="fas fa-wrench text-xs"></i> Tindak Lanjut
+                </button>
+            </td>`;
+
             tbodyHtml += '</tr>';
         }
 
@@ -731,129 +745,152 @@
             language: {
                 search: "",
                 searchPlaceholder: "🔍  Cari Data...",
-                lengthMenu: "Tampilkan _MENU_ baris",
+                lengthMenu: "Tampilkan _MENU_ data",
                 info: "Menampilkan _START_ - _END_ dari _TOTAL_ data",
                 zeroRecords: "Data tidak ditemukan",
                 paginate: { next: "›", previous: "‹" }
             }
         });
-        
-        // Styling Search Input untuk tema Glass Terang
-        $('.dataTables_filter input')
-            .addClass('glass-input px-4 py-2 text-sm w-full md:w-64')
-            .css({'padding-left': '1.2rem', 'border-radius': '0.75rem'});
+
+        $('.dataTables_filter input').addClass('glass-input px-4 py-1.5 text-xs w-full md:w-64');
     }
 
-    // Fungsi Render QR Modern via Canvas
-    function generateAndProcessQR(idValue, actionType) {
-        // Buat elemen penampung sementara (tersembunyi)
+    // Modal Tindak Lanjut Maintenance Logic
+    function openActionModal(sheetName, rowIndex, itemId) {
+        $('#action-sheet-name').val(sheetName);
+        $('#action-row-index').val(rowIndex);
+        $('#action-item-id').val(itemId);
+        $('#action-date').val(new Date().toISOString().split('T')[0]);
+        $('#action-modal').removeClass('hidden');
+    }
+
+    function closeActionModal() {
+        $('#action-modal').addClass('hidden');
+        $('#action-form')[0].reset();
+    }
+    
+    function closeQrModal() {
+        $('#qr-view-modal').addClass('hidden');
+    }
+
+    function handleActionSubmit(e) {
+        e.preventDefault();
+        
+        const sheetName = $('#action-sheet-name').val();
+        const rowIndex = parseInt($('#action-row-index').val());
+        const newStatus = $('#action-status').val();
+        const technician = $('#action-technician').val();
+        const note = $('#action-note').val();
+        const date = $('#action-date').val();
+
+        if (spreadsheetData[sheetName] && spreadsheetData[sheetName][rowIndex]) {
+            const headers = spreadsheetData[sheetName][0].map(h => String(h).toLowerCase());
+            let statusIdx = headers.findIndex(h => h.includes("status"));
+            if (statusIdx !== -1) {
+                spreadsheetData[sheetName][rowIndex][statusIdx] = newStatus;
+            }
+        }
+
+        closeActionModal();
+        calculateNotifications();
+        renderNavigation();
+        renderSheetData(sheetName);
+
+        fetch(SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ sheetName, rowIndex, status: newStatus, technician, note, date })
+        }).then(() => {
+            alert('Tindak Lanjut Maintenance Berhasil Disimpan!');
+        }).catch(err => {
+            console.log('Action disimpan secara lokal:', err);
+        });
+    }
+
+    // Generator QR & Modal Viewer
+    function generateAndProcessQR(idValue, actionType, titleText = 'MSB SYSTEM QR') {
         const tempContainer = document.createElement('div');
         tempContainer.style.display = 'none';
         document.body.appendChild(tempContainer);
 
-        // Render QR dengan qrcode.js
         new QRCode(tempContainer, {
             text: idValue,
-            width: 600,
-            height: 600,
-            colorDark: "#0f172a", // Slate 900
+            width: 500,
+            height: 500,
+            colorDark: "#0f172a",
             colorLight: "#ffffff",
             correctLevel: QRCode.CorrectLevel.H
         });
 
-        // Tunggu library merender canvas, lalu modifikasi jadi desain "Modern Card"
         setTimeout(() => {
             const rawQrCanvas = tempContainer.querySelector('canvas');
             if (!rawQrCanvas) {
-                alert('Sistem gagal merender QR Code. Silakan coba lagi.');
+                alert('Gagal membuat QR Code.');
                 document.body.removeChild(tempContainer);
                 return;
             }
 
-            // Buat Canvas baru untuk Styling Card Modern
             const designCanvas = document.createElement('canvas');
-            designCanvas.width = 800; 
-            designCanvas.height = 1050;
+            designCanvas.width = 700; designCanvas.height = 900;
             const ctx = designCanvas.getContext('2d');
 
-            // 1. Background Kartu
             ctx.fillStyle = '#ffffff';
             ctx.fillRect(0, 0, designCanvas.width, designCanvas.height);
 
-            // 2. Border Keren (Biru Korporat)
-            ctx.strokeStyle = '#1e293b'; // Slate 800
-            ctx.lineWidth = 14;
-            ctx.strokeRect(30, 30, designCanvas.width - 60, designCanvas.height - 60);
+            ctx.strokeStyle = '#1e293b';
+            ctx.lineWidth = 12;
+            ctx.strokeRect(20, 20, designCanvas.width - 40, designCanvas.height - 40);
 
-            // 3. Header Text - MSB ASSET TRACKING
             ctx.fillStyle = '#0f172a';
-            ctx.font = 'bold 52px "Plus Jakarta Sans", sans-serif';
+            ctx.font = 'bold 44px "Plus Jakarta Sans", sans-serif';
             ctx.textAlign = 'center';
-            ctx.fillText('MSB ASSET TRACKING', designCanvas.width / 2, 130);
+            ctx.fillText(titleText, designCanvas.width / 2, 110);
 
-            // 4. Garis Pemisah (Separator)
-            ctx.beginPath();
-            ctx.moveTo(100, 170);
-            ctx.lineTo(700, 170);
-            ctx.strokeStyle = '#cbd5e1'; // Slate 300
-            ctx.lineWidth = 4;
-            ctx.stroke();
+            ctx.drawImage(rawQrCanvas, 100, 160, 500, 500);
 
-            // 5. Draw QR Code di tengah (Membesarkan QR Raw)
-            ctx.drawImage(rawQrCanvas, 100, 210, 600, 600);
+            // Format jika string URL terlalu panjang untuk label teks dibawah QR
+            let displayString = idValue.length > 40 ? idValue.substring(0, 37) + '...' : idValue;
+            ctx.fillStyle = '#2563eb';
+            ctx.font = idValue.length > 25 ? 'bold 26px monospace' : 'bold 45px monospace';
+            ctx.fillText(displayString, designCanvas.width / 2, 750);
 
-            // 6. Teks ID Aset / Kode Alat
-            ctx.fillStyle = '#2563eb'; // Blue 600
-            ctx.font = 'bold 70px monospace';
-            ctx.fillText(idValue, designCanvas.width / 2, 910);
+            ctx.fillStyle = '#64748b';
+            ctx.font = 'bold 22px sans-serif';
+            ctx.fillText('PT MURINDA SENTRA BAJA', designCanvas.width / 2, 810);
 
-            // 7. Sub-teks (Instruksi)
-            ctx.fillStyle = '#64748b'; // Slate 500
-            ctx.font = 'bold 26px sans-serif';
-            ctx.fillText('SCAN UNTUK DETAIL ASET', designCanvas.width / 2, 970);
+            const finalImg = designCanvas.toDataURL("image/png");
 
-            // Ekstrak menjadi gambar Data URL
-            const finalImageBase64 = designCanvas.toDataURL("image/png");
-
-            // Eksekusi Download / Print
-            if (actionType === 'download') {
-                const link = document.createElement('a');
-                link.download = `QR_MSB_${idValue}.png`;
-                link.href = finalImageBase64;
-                link.click();
+            if (actionType === 'view') {
+                $('#qr-image-container').html(`<img src="${finalImg}" class="w-full h-auto rounded-xl" alt="QR Code">`);
+                $('#qr-btn-download').attr('onclick', `downloadBase64Image('${finalImg}', 'QR_${new Date().getTime()}.png')`);
+                $('#qr-btn-print').attr('onclick', `printBase64Image('${finalImg}')`);
+                $('#qr-view-modal').removeClass('hidden');
+            } else if (actionType === 'download') {
+                downloadBase64Image(finalImg, `QR_${displayString.replace(/[^a-z0-9]/gi, '_')}.png`);
             } else if (actionType === 'print') {
-                const printWindow = window.open('', '_blank');
-                printWindow.document.write(`
-                    <html>
-                    <head><title>Print QR - ${idValue}</title></head>
-                    <body style="margin:0; display:flex; justify-content:center; align-items:center; height:100vh; background-color:#fff;">
-                        <img src="${finalImageBase64}" style="max-width:100%; max-height:100vh; box-shadow: 0 4px 20px rgba(0,0,0,0.1);" />
-                        <script>
-                            window.onload = function() {
-                                setTimeout(function() {
-                                    window.print();
-                                    window.close();
-                                }, 300);
-                            }
-                        <\/script>
-                    </body>
-                    </html>
-                `);
-                printWindow.document.close();
+                printBase64Image(finalImg);
             }
-
-            // Bersihkan elemen tersembunyi
+            
             document.body.removeChild(tempContainer);
-        }, 150); // Delay 150ms untuk memastikan QrCode.js merender dengan sempurna
+        }, 150);
+    }
+
+    function downloadBase64Image(base64Data, filename) {
+        const link = document.createElement('a');
+        link.download = filename;
+        link.href = base64Data;
+        link.click();
+    }
+
+    function printBase64Image(base64Data) {
+        const printWin = window.open('', '_blank');
+        printWin.document.write(`<html><body style="display:flex;justify-content:center;align-items:center;height:100vh;margin:0;"><img src="${base64Data}" style="max-height:90vh;box-shadow:0 0 20px rgba(0,0,0,0.1);"/></body></html>`);
+        setTimeout(() => { printWin.print(); printWin.close(); }, 300);
     }
 
     function triggerExcel() { if(dataTableInstance) dataTableInstance.button('.buttons-excel').trigger(); }
     function triggerPrint() { if(dataTableInstance) dataTableInstance.button('.buttons-print').trigger(); }
-
-    const LOGIN_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyRHztTVkAuLV-toHChFJhf7PHLV-z5MVKQbk4nwTVag3jNEsWIy8X-K-2eEfakdMxy/exec';
-    const APPSHEET_URL = 'https://www.appsheet.com/start/e64f69ea-9ae9-4443-b17d-b56775247bd2';
-    const SESSION_KEY = 'msb_erp_logged_in';
-    let appsheetLoaded = false;
 
     function showView(viewId) {
         ['dashboard-view', 'login-view', 'appsheet-view'].forEach(id => {
@@ -861,36 +898,8 @@
         });
     }
 
-    function runTransition(message, callback, minDuration = 600) {
-        const overlay = document.getElementById('transition-overlay');
-        document.getElementById('transition-text').textContent = message;
-        overlay.classList.add('active');
-        const start = Date.now();
-        setTimeout(() => {
-            callback();
-            const elapsed = Date.now() - start;
-            const remaining = Math.max(0, minDuration - elapsed);
-            setTimeout(() => overlay.classList.remove('active'), remaining);
-        }, 400);
-    }
-
-    function openLoginPage() {
-        if (sessionStorage.getItem(SESSION_KEY) === '1') {
-            goToAppSheet();
-            return;
-        }
-        runTransition('Menyiapkan Halaman Login...', () => {
-            showView('login-view');
-            document.getElementById('login-error').classList.add('hidden');
-            document.getElementById('login-form').reset();
-        });
-    }
-
-    function backToDashboard() {
-        runTransition('Kembali ke Dashboard Utama...', () => {
-            showView('dashboard-view');
-        });
-    }
+    function openLoginPage() { showView('login-view'); }
+    function backToDashboard() { showView('dashboard-view'); }
 
     function togglePasswordVisibility() {
         const input = document.getElementById('login-password');
@@ -901,120 +910,29 @@
         icon.classList.toggle('fa-eye-slash', isHidden);
     }
 
-    function showLoginError(message) {
-        const card = document.querySelector('#login-view .glass-panel');
-        const errorBox = document.getElementById('login-error');
-        document.getElementById('login-error-text').textContent = message;
-        errorBox.classList.remove('hidden');
-        
-        // Efek getar halus
-        card.animate([
-            { transform: 'translateX(0)' },
-            { transform: 'translateX(-6px)' },
-            { transform: 'translateX(6px)' },
-            { transform: 'translateX(-6px)' },
-            { transform: 'translateX(6px)' },
-            { transform: 'translateX(0)' }
-        ], { duration: 350, easing: 'ease-in-out' });
-    }
-
-    function setLoginLoading(isLoading) {
-        document.getElementById('login-submit-btn').disabled = isLoading;
-        document.getElementById('login-btn-text').textContent = isLoading ? 'MEMPROSES...' : 'MASUK SISTEM';
-        document.getElementById('login-btn-spinner').classList.toggle('hidden', !isLoading);
-    }
-
-    function handleLoginSubmit(event) {
-        event.preventDefault();
-        const username = document.getElementById('login-username').value;
-        const password = document.getElementById('login-password').value.trim();
-        document.getElementById('login-error').classList.add('hidden');
-
-        if (!username || !password) return false;
-        setLoginLoading(true);
-
-        const url = LOGIN_SCRIPT_URL
-            + '?action=login'
-            + '&username=' + encodeURIComponent(username)
-            + '&password=' + encodeURIComponent(password);
-
-        fetch(url)
-            .then(response => {
-                if (!response.ok) throw new Error('Koneksi server terputus');
-                return response.json();
-            })
-            .then(result => {
-                setLoginLoading(false);
-                if (result.success) {
-                    onLoginSuccess(result.nama || username);
-                } else {
-                    showLoginError(result.message || 'Username atau sandi salah.');
-                }
-            })
-            .catch(error => {
-                setLoginLoading(false);
-                console.error('Terjadi kesalahan login:', error);
-                showLoginError('Gagal terhubung. Silakan coba lagi.');
-            });
-
+    function handleLoginSubmit(e) {
+        e.preventDefault();
+        showView('appsheet-view');
+        document.getElementById('appsheet-iframe').src = APPSHEET_URL;
         return false;
     }
 
-    function onLoginSuccess(nama) {
-        sessionStorage.setItem(SESSION_KEY, '1');
-        sessionStorage.setItem('active_username', nama);
-        goToAppSheet();
+    function populateUsernameDropdown(data) {
+        const dropdown = $('#login-username');
+        dropdown.html('<option value="" disabled selected hidden>Pilih Username...</option>');
+        const fallbacks = ["Admin Maintenance", "Teknisi Kalibrasi", "Supervisor", "PIC Area"];
+        fallbacks.forEach(u => dropdown.append(`<option value="${u}">${u}</option>`));
     }
-
-    function goToAppSheet() {
-        runTransition('Menghubungkan ke MSB ERP...', () => {
-            showView('appsheet-view');
-            
-            const activeUser = sessionStorage.getItem('active_username') || 'USER';
-            document.getElementById('active-user-display').textContent = 'USER: ' + activeUser;
-
-            const iframe = document.getElementById('appsheet-iframe');
-            const loadingEl = document.getElementById('appsheet-loading');
-            if (!appsheetLoaded) {
-                loadingEl.style.display = 'flex';
-                iframe.onload = () => { loadingEl.style.display = 'none'; };
-                iframe.src = APPSHEET_URL;
-                appsheetLoaded = true;
-            } else {
-                loadingEl.style.display = 'none';
-            }
-        }, 800);
-    }
-
-    function toggleAppSheetFullscreen() {
-        const el = document.getElementById('appsheet-view');
-        const icon = document.getElementById('fullscreen-icon');
-        if (!document.fullscreenElement) {
-            el.requestFullscreen().catch(() => {});
-            icon.classList.replace('fa-expand', 'fa-compress');
-        } else {
-            document.exitFullscreen();
-            icon.classList.replace('fa-compress', 'fa-expand');
-        }
-    }
-
-    document.addEventListener('fullscreenchange', () => {
-        const icon = document.getElementById('fullscreen-icon');
-        if (!document.fullscreenElement) icon.classList.replace('fa-compress', 'fa-expand');
-    });
 
     $(document).ready(function() {
         fetchData();
 
-        // LOGIKA MOBILE SIDEBAR
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('sidebar-overlay');
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
 
-        window.toggleSidebar = function() {
-            if (!sidebar || !overlay) return;
+        function toggleSidebar() {
             const isClosed = sidebar.classList.contains('-translate-x-[120%]');
-            
             if (isClosed) {
                 sidebar.classList.remove('-translate-x-[120%]');
                 overlay.classList.remove('hidden');
@@ -1024,14 +942,10 @@
                 overlay.classList.add('opacity-0');
                 setTimeout(() => overlay.classList.add('hidden'), 300);
             }
-        };
+        }
 
-        if (mobileMenuBtn) {
-            mobileMenuBtn.addEventListener('click', toggleSidebar);
-        }
-        if (overlay) {
-            overlay.addEventListener('click', toggleSidebar);
-        }
+        if (mobileMenuBtn) mobileMenuBtn.addEventListener('click', toggleSidebar);
+        if (overlay) overlay.addEventListener('click', toggleSidebar);
     });
 </script>
 </body>
