@@ -486,7 +486,7 @@ tbody td.col-actions{cursor:default;}
   <div class="modal confirm-box">
     <div class="icon"><i class="fa-solid fa-trash-can"></i></div>
     <h3>Hapus data ini?</h3>
-    <p>Tindakan ini akan menghapus baris data secara permanen dari spreadsheet.</p>
+    <p>Tindakan ini akan menghapus baris data secara permanen dari Database ERP Maintenance.</p>
     <div class="confirm-actions">
       <button class="btn btn-ghost" id="btnCancelDelete"><i class="fa-solid fa-xmark"></i> Batal</button>
       <button class="btn btn-danger" id="btnConfirmDelete"><i class="fa-solid fa-trash"></i> Ya, Hapus</button>
@@ -500,7 +500,7 @@ tbody td.col-actions{cursor:default;}
     <div class="loader-ring r2"></div>
     <i class="fa-solid fa-gears loader-icon"></i>
   </div>
-  <p id="loadingText">Memuat data dari Google Sheets</p>
+  <p id="loadingText">Memuat data dari Database ERP Maintenance</p>
   <div class="loader-bar"><div class="loader-bar-fill"></div></div>
 </div>
 
@@ -945,7 +945,7 @@ function loadAll(silent){
       const bar = document.getElementById('apiHint');
       if(errKeys.length){
         bar.style.display = 'flex';
-        bar.innerHTML = icon('triangle-exclamation')+' Sheet berikut gagal dimuat (periksa nama tab persis sama di spreadsheet): <b>'+errKeys.map(esc).join(', ')+'</b>';
+        bar.innerHTML = icon('triangle-exclamation')+' baris berikut gagal dimuat (periksa nama tab persis sama di Database ERP Maintenance): <b>'+errKeys.map(esc).join(', ')+'</b>';
       } else {
         bar.style.display = 'none';
       }
@@ -1378,7 +1378,7 @@ function openForm(mod, rowRow){
   STATE.editing = { mod: mod, rowIndex: rowRow, rowData: rowData };
 
   document.getElementById('formTitle').innerHTML = (rowData? icon('pen')+' Edit ' : icon('plus')+' Tambah ') + esc(mod.label);
-  document.getElementById('formSub').textContent = rowData ? 'Perbarui data lalu simpan ke spreadsheet.' : 'Isi data baru untuk sheet "'+mod.sheet+'".';
+  document.getElementById('formSub').textContent = rowData ? 'Perbarui data lalu simpan ke Database ERP Maintenance.' : 'Isi data baru untuk Database ERP Maintenance "'+mod.sheet+'".';
 
   const grid = document.getElementById('formGrid');
   grid.innerHTML = '';
@@ -1564,11 +1564,11 @@ function renderDashboard(content){
   const hasBiaya = sortedMonths.length>0;
 
   html += '<div class="grid2">'+
-    chartCard('Status Aset (Alat + Mesin)','chart-pie','#3b82f6','chartStatus', hasAssetStatus, 'Belum ada data di sheet Master Alat / Master Mesin.')+
-    chartCard('Status Work Order','chart-column','#f97316','chartWO', hasWO, 'Belum ada data di sheet Work Order.')+
+    chartCard('Status Aset (Alat + Mesin)','chart-pie','#3b82f6','chartStatus', hasAssetStatus, 'Belum ada data di Database ERP Maintenance Master Alat / Master Mesin.')+
+    chartCard('Status Work Order','chart-column','#f97316','chartWO', hasWO, 'Belum ada data di Database ERP Maintenance Work Order.')+
     '</div>';
   html += '<div class="grid2">'+
-    chartCard('Tren Biaya Maintenance','chart-line','#ec4899','chartBiaya', hasBiaya, 'Belum ada data di sheet Biaya Maintenance.')+
+    chartCard('Tren Biaya Maintenance','chart-line','#ec4899','chartBiaya', hasBiaya, 'Belum ada data di Database ERP Maintenance Biaya Maintenance.')+
     '<div class="card"><h3>'+sectionIcon('clock','#eab308')+' PM Segera / Lewat Jadwal</h3>'+renderMiniList(pmOverdue.concat(pmSoon).sort(function(a,b){return a.dd-b.dd;}).slice(0,8), function(p){ return { t1: p.kode+' — '+(p.nama||''), t2: p.dd<0 ? (Math.abs(p.dd)+' hari lewat') : (p.dd===0?'Hari ini':p.dd+' hari lagi') }; })+'</div>'+
     '</div>';
   html += '<div class="grid2">'+
