@@ -257,7 +257,7 @@ tbody tr:last-child td{border-bottom:none;}
   <div class="modal confirm-box">
     <div class="icon">🗑️</div>
     <h3>Hapus data ini?</h3>
-    <p>Tindakan ini akan menghapus baris data secara permanen dari spreadsheet.</p>
+    <p>Tindakan ini akan menghapus baris data secara permanen dari Database ERP Maintenance.</p>
     <div class="confirm-actions">
       <button class="btn btn-ghost" id="btnCancelDelete">Batal</button>
       <button class="btn btn-danger" id="btnConfirmDelete">Ya, Hapus</button>
@@ -267,7 +267,7 @@ tbody tr:last-child td{border-bottom:none;}
 
 <div id="loadingOverlay">
   <div class="spinner"></div>
-  <p id="loadingText">Memuat data dari Google Sheets…</p>
+  <p id="loadingText">Memuat data dari Database ERP Maintenance…</p>
 </div>
 
 <div id="toastHost"></div>
@@ -780,7 +780,7 @@ function openForm(mod, rowRow){
   STATE.editing = { mod: mod, rowIndex: rowRow, rowData: rowData };
 
   document.getElementById('formTitle').textContent = (rowData?'Edit ':'Tambah ') + mod.label;
-  document.getElementById('formSub').textContent = rowData ? 'Perbarui data lalu simpan ke spreadsheet.' : 'Isi data baru untuk sheet "'+mod.sheet+'".';
+  document.getElementById('formSub').textContent = rowData ? 'Perbarui data lalu simpan ke Database ERP Maintenance.' : 'Isi data baru untuk sheet "'+mod.sheet+'".';
 
   const grid = document.getElementById('formGrid');
   grid.innerHTML = '';
