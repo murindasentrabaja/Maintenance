@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="icon" type="image/png" id="favicon">
 <link rel="apple-touch-icon" id="appleTouchIcon">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js" onerror="(function(){var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js';document.head.appendChild(s);})()"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
@@ -339,6 +339,7 @@ tbody td.col-actions{cursor:default;}
 /* ---------- Layar Login ---------- */
 .login-overlay{
   position:fixed; inset:0; z-index:1000; display:none; align-items:center; justify-content:center; padding:20px;
+  overflow:hidden;
   background:
     radial-gradient(circle at 12% 15%, rgba(59,130,246,.20), transparent 45%),
     radial-gradient(circle at 88% 85%, rgba(236,72,153,.18), transparent 45%),
@@ -347,6 +348,7 @@ tbody td.col-actions{cursor:default;}
 }
 .login-overlay.show{display:flex;}
 .login-card{
+  position:relative; z-index:1;
   width:100%; max-width:380px; background:var(--glass-strong); backdrop-filter:blur(20px) saturate(160%); -webkit-backdrop-filter:blur(20px) saturate(160%);
   border:1px solid var(--line); border-radius:22px; box-shadow:var(--shadow-lg); padding:34px 30px 30px;
   text-align:center; animation:loginPop .4s cubic-bezier(.34,1.56,.64,1);
@@ -358,6 +360,54 @@ tbody td.col-actions{cursor:default;}
 .login-card .field{text-align:left; margin-bottom:14px;}
 .login-error{background:#fee2e2; color:var(--bad); font-size:12px; font-weight:700; padding:9px 12px; border-radius:10px; margin-bottom:14px; text-align:left; display:flex; gap:7px; align-items:center;}
 .login-btn{width:100%; justify-content:center; padding:12px; font-size:13.5px;}
+.login-divider{display:flex; align-items:center; gap:10px; margin:16px 0 14px; color:var(--muted); font-size:10.5px; font-weight:800; text-transform:uppercase; letter-spacing:.06em;}
+.login-divider::before,.login-divider::after{content:''; flex:1; height:1px; background:var(--line);}
+.login-guest-btn{background:rgba(255,255,255,.55); color:var(--ink-soft); border:1.5px dashed rgba(148,163,184,.6);}
+.login-guest-btn:hover{background:#fff; color:var(--ink); border-color:var(--biru); transform:translateY(-2px); box-shadow:var(--shadow);}
+.login-guest-btn i{color:var(--biru);}
+
+/* ---------- Dekorasi animasi "mesin bergerak" di background login ---------- */
+.login-bg-decor{position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:0;}
+.ld-gear{position:absolute; line-height:1;}
+.ld-g1{top:-8%; left:-6%; font-size:230px; color:rgba(59,130,246,.10); animation:ldSpin 36s linear infinite;}
+.ld-g2{bottom:-10%; right:-6%; font-size:270px; color:rgba(236,72,153,.09); animation:ldSpinRev 46s linear infinite;}
+.ld-g3{top:10%; right:9%; font-size:74px; color:rgba(234,179,8,.20); animation:ldSpin 13s linear infinite;}
+.ld-g4{bottom:16%; left:7%; font-size:58px; color:rgba(34,197,94,.20); animation:ldSpinRev 11s linear infinite;}
+.ld-g5{top:48%; left:3%; font-size:36px; color:rgba(139,92,246,.24); animation:ldSpin 8s linear infinite;}
+.ld-g6{top:7%; left:52%; font-size:30px; color:rgba(59,130,246,.24); animation:ldSpinRev 9s linear infinite;}
+.ld-g7{bottom:8%; right:30%; font-size:44px; color:rgba(59,130,246,.16); animation:ldSpin 15s linear infinite;}
+@keyframes ldSpin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+@keyframes ldSpinRev{from{transform:rotate(360deg);}to{transform:rotate(0deg);}}
+
+.ld-particle{position:absolute; bottom:-5%; width:6px; height:6px; border-radius:50%; opacity:0; background:radial-gradient(circle,#3b82f6,rgba(59,130,246,0)); animation:ldFloat linear infinite;}
+.ld-particle.p1{left:10%; animation-duration:9s; animation-delay:.2s;}
+.ld-particle.p2{left:24%; animation-duration:12s; animation-delay:2.1s; background:radial-gradient(circle,#ec4899,rgba(236,72,153,0));}
+.ld-particle.p3{left:38%; animation-duration:10s; animation-delay:.8s; background:radial-gradient(circle,#eab308,rgba(234,179,8,0));}
+.ld-particle.p4{left:63%; animation-duration:14s; animation-delay:3s;}
+.ld-particle.p5{left:78%; animation-duration:11s; animation-delay:1.2s; background:radial-gradient(circle,#22c55e,rgba(34,197,94,0));}
+.ld-particle.p6{left:91%; animation-duration:13s; animation-delay:2.6s; background:radial-gradient(circle,#8b5cf6,rgba(139,92,246,0));}
+@keyframes ldFloat{
+  0%{bottom:-5%; opacity:0; transform:translateX(0) scale(.6);}
+  12%{opacity:.65;}
+  88%{opacity:.5;}
+  100%{bottom:104%; opacity:0; transform:translateX(26px) scale(1.1);}
+}
+
+.ld-scan{position:absolute; top:0; bottom:0; width:180px; background:linear-gradient(90deg, transparent, rgba(255,255,255,.55), transparent); transform:skewX(-18deg); animation:ldScan 6.5s ease-in-out infinite; mix-blend-mode:soft-light;}
+@keyframes ldScan{0%{left:-24%;}45%{left:106%;}100%{left:106%;}}
+
+.ld-conveyor{position:absolute; left:0; right:0; bottom:0; height:10px; opacity:.55;
+  background-image:repeating-linear-gradient(-45deg, rgba(59,130,246,.32) 0 12px, transparent 12px 24px);
+  animation:ldConveyor 1.1s linear infinite;
+}
+@keyframes ldConveyor{from{background-position-x:0;}to{background-position-x:-48px;}}
+
+@media(max-width:560px){
+  .ld-g1{font-size:150px;} .ld-g2{font-size:170px;} .ld-g3{font-size:54px;} .ld-g4{font-size:42px;}
+}
+@media (prefers-reduced-motion: reduce){
+  .ld-gear,.ld-particle,.ld-scan,.ld-conveyor{animation:none !important;}
+}
 
 /* ---------- Modal Detail data ---------- */
 .detail-grid{display:grid; grid-template-columns:1fr 1fr; gap:12px 14px; margin:4px 0 6px;}
@@ -400,6 +450,19 @@ tbody td.col-actions{cursor:default;}
 </head>
 <body>
 <div class="login-overlay" id="loginOverlay">
+  <div class="login-bg-decor" aria-hidden="true">
+    <i class="fa-solid fa-gear ld-gear ld-g1"></i>
+    <i class="fa-solid fa-gear ld-gear ld-g2"></i>
+    <i class="fa-solid fa-gear ld-gear ld-g3"></i>
+    <i class="fa-solid fa-gear ld-gear ld-g4"></i>
+    <i class="fa-solid fa-gear ld-gear ld-g5"></i>
+    <i class="fa-solid fa-gear ld-gear ld-g6"></i>
+    <i class="fa-solid fa-screwdriver-wrench ld-gear ld-g7"></i>
+    <span class="ld-particle p1"></span><span class="ld-particle p2"></span><span class="ld-particle p3"></span>
+    <span class="ld-particle p4"></span><span class="ld-particle p5"></span><span class="ld-particle p6"></span>
+    <div class="ld-scan"></div>
+    <div class="ld-conveyor"></div>
+  </div>
   <div class="login-card">
     <img class="login-logo" id="loginLogo" alt="PT Murinda Sentra Baja">
     <h2>ERP Maintenance</h2>
@@ -414,6 +477,8 @@ tbody td.col-actions{cursor:default;}
     </div>
     <div class="login-error" id="loginError" style="display:none;"></div>
     <button class="btn btn-primary login-btn" id="btnLogin"><i class="fa-solid fa-right-to-bracket"></i> Masuk</button>
+    <div class="login-divider"><span>atau</span></div>
+    <button class="btn login-btn login-guest-btn" id="btnGuestLogin" type="button"><i class="fa-solid fa-eye"></i> Masuk sebagai Tamu (Lihat Saja)</button>
   </div>
 </div>
 
@@ -451,7 +516,11 @@ tbody td.col-actions{cursor:default;}
     </div>
 
     <div id="apiHint" class="hint-banner" style="display:none;">
-      <i class="fa-solid fa-triangle-exclamation"></i> CONFIG.API_URL belum diisi. Buka file HTML ini, cari <code>const CONFIG</code>, isi dengan URL Web App hasil deploy Code.gs.
+      <i class="fa-solid fa-triangle-exclamation"></i> CONFIG.API_URL belum diisi. Buka file HTML ini, cari <code>const CONFIG</code>, isi dengan URL API backend yang sudah aktif.
+    </div>
+    <div id="guestBanner" class="hint-banner" style="display:none; background:#eef2ff; border-color:#c7d2fe; color:#3730a3;">
+      <i class="fa-solid fa-eye"></i> Mode Tamu — Anda hanya bisa melihat data. Tombol tambah, edit, dan hapus dinonaktifkan.
+      <button class="btn btn-ghost btn-sm" id="btnExitGuest" style="margin-left:auto;"><i class="fa-solid fa-right-to-bracket"></i> Login sebagai User</button>
     </div>
 
     <div id="content"></div>
@@ -486,7 +555,7 @@ tbody td.col-actions{cursor:default;}
   <div class="modal confirm-box">
     <div class="icon"><i class="fa-solid fa-trash-can"></i></div>
     <h3>Hapus data ini?</h3>
-    <p>Tindakan ini akan menghapus baris data secara permanen dari Database ERP Maintenance.</p>
+    <p>Tindakan ini akan menghapus data secara permanen dari sistem.</p>
     <div class="confirm-actions">
       <button class="btn btn-ghost" id="btnCancelDelete"><i class="fa-solid fa-xmark"></i> Batal</button>
       <button class="btn btn-danger" id="btnConfirmDelete"><i class="fa-solid fa-trash"></i> Ya, Hapus</button>
@@ -500,7 +569,7 @@ tbody td.col-actions{cursor:default;}
     <div class="loader-ring r2"></div>
     <i class="fa-solid fa-gears loader-icon"></i>
   </div>
-  <p id="loadingText">Memuat data dari Database ERP Maintenance</p>
+  <p id="loadingText">Memuat Database ERP Maintenance</p>
   <div class="loader-bar"><div class="loader-bar-fill"></div></div>
 </div>
 
@@ -806,7 +875,8 @@ const MODULES = [
     ]},
 ];
 
-const STATE = { data:{}, activeModule:'dashboard', editing:null, deleteCtx:null, detailCtx:null, search:'', filters:{}, filterPanelOpen:{}, user:null, loadErrors:{} };
+const STATE = { data:{}, activeModule:'dashboard', editing:null, deleteCtx:null, detailCtx:null, search:'', filters:{}, filterPanelOpen:{}, user:null, isGuest:false, loadErrors:{} };
+const GUEST_USER = { Username:'tamu', Nama:'Tamu', Role:'Tamu (Lihat Saja)' };
 
 // ==================================================================
 // UTIL
@@ -931,12 +1001,12 @@ function apiPost(body){
 function loadAll(silent){
   if(!CONFIG.API_URL || CONFIG.API_URL.indexOf('PASTE_URL') > -1){
     document.getElementById('apiHint').style.display = 'flex';
-    document.getElementById('apiHint').innerHTML = icon('triangle-exclamation')+' CONFIG.API_URL belum diisi. Buka file HTML ini, cari <code>const CONFIG</code>, isi dengan URL Web App hasil deploy Code.gs.';
+    document.getElementById('apiHint').innerHTML = icon('triangle-exclamation')+' CONFIG.API_URL belum diisi. Buka file HTML ini, cari <code>const CONFIG</code>, isi dengan URL API backend yang sudah aktif.';
     hideLoading();
     renderCurrent();
     return Promise.resolve();
   }
-  if(!silent) showLoading('Memuat data dari Google Sheets');
+  if(!silent) showLoading('Memuat Database ERP Maintenance');
   return apiGet('all').then(function(res){
     if(res.ok){
       STATE.data = res.data;
@@ -945,7 +1015,7 @@ function loadAll(silent){
       const bar = document.getElementById('apiHint');
       if(errKeys.length){
         bar.style.display = 'flex';
-        bar.innerHTML = icon('triangle-exclamation')+' baris berikut gagal dimuat (periksa nama tab persis sama di Database ERP Maintenance): <b>'+errKeys.map(esc).join(', ')+'</b>';
+        bar.innerHTML = icon('triangle-exclamation')+' Modul data berikut gagal dimuat (periksa kembali konfigurasi sumber datanya): <b>'+errKeys.map(esc).join(', ')+'</b>';
       } else {
         bar.style.display = 'none';
       }
@@ -956,7 +1026,7 @@ function loadAll(silent){
       showToast(res.error || 'Gagal memuat data', 'err');
     }
   }).catch(function(err){
-    showToast('Gagal terhubung ke Apps Script: '+err, 'err');
+    showToast('Gagal terhubung ke server: '+err, 'err');
   }).finally(function(){ hideLoading(); });
 }
 
@@ -971,12 +1041,24 @@ function initAuth(){
 
   let saved = null;
   try{ saved = JSON.parse(sessionStorage.getItem('msb_user') || 'null'); }catch(e){ saved = null; }
+  const guestFlag = sessionStorage.getItem('msb_guest') === '1';
   if(saved && saved.Username){
-    STATE.user = saved;
+    STATE.user = saved; STATE.isGuest = false;
+    enterApp();
+  } else if(guestFlag){
+    STATE.user = GUEST_USER; STATE.isGuest = true;
     enterApp();
   } else {
     showLoginScreen();
   }
+}
+function enterGuestMode(){
+  STATE.user = GUEST_USER;
+  STATE.isGuest = true;
+  sessionStorage.removeItem('msb_user');
+  sessionStorage.setItem('msb_guest', '1');
+  document.getElementById('loginPassword').value = '';
+  enterApp();
 }
 function showLoginScreen(){
   document.getElementById('loginOverlay').classList.add('show');
@@ -996,7 +1078,7 @@ function populateLoginUsers(){
         return '<option value="'+esc(u.Username)+'">'+esc(u.Username)+(u.Nama?' — '+esc(u.Nama):'')+'</option>';
       }).join('');
     } else {
-      sel.innerHTML = '<option value="">Belum ada data user di sheet Login</option>';
+      sel.innerHTML = '<option value="">Belum ada data pengguna terdaftar</option>';
     }
   }).catch(function(){
     sel.innerHTML = '<option value="">Gagal memuat, periksa koneksi</option>';
@@ -1014,7 +1096,9 @@ function doLoginSubmit(){
   apiPost({ action:'login', username:username, password:password }).then(function(res){
     if(res.ok){
       STATE.user = res.user;
+      STATE.isGuest = false;
       sessionStorage.setItem('msb_user', JSON.stringify(res.user));
+      sessionStorage.removeItem('msb_guest');
       document.getElementById('loginPassword').value = '';
       enterApp();
     } else {
@@ -1032,11 +1116,15 @@ function enterApp(){
   document.getElementById('loginOverlay').classList.remove('show');
   document.getElementById('app').style.display = 'flex';
   renderUserChip();
+  const gb = document.getElementById('guestBanner');
+  if(gb) gb.style.display = STATE.isGuest ? 'flex' : 'none';
   loadAll();
 }
 function doLogout(){
   sessionStorage.removeItem('msb_user');
+  sessionStorage.removeItem('msb_guest');
   STATE.user = null;
+  STATE.isGuest = false;
   location.reload();
 }
 function renderUserChip(){
@@ -1099,9 +1187,13 @@ function renderCurrent(){
   const mod = getModule(STATE.activeModule);
   if(!mod){ content.innerHTML=''; return; }
   document.getElementById('pageTitle').textContent = mod.label;
-  document.getElementById('pageSub').textContent = 'Sumber data: sheet "'+mod.sheet+'"';
-  btnAdd.style.display = 'inline-flex';
-  btnAdd.onclick = function(){ openForm(mod, null); };
+  document.getElementById('pageSub').textContent = mod.group+' • Kelola data '+mod.label.toLowerCase();
+  if(STATE.isGuest){
+    btnAdd.style.display = 'none';
+  } else {
+    btnAdd.style.display = 'inline-flex';
+    btnAdd.onclick = function(){ openForm(mod, null); };
+  }
   renderModuleTable(mod, content);
 }
 
@@ -1211,8 +1303,10 @@ function renderModuleTable(mod, content){
         html += '<td>'+display+'</td>';
       });
       html += '<td class="row-actions col-actions">'+
-        '<button class="btn btn-ghost btn-sm" onclick="event.stopPropagation(); openForm(getModule(\''+mod.key+'\'), '+r.__row+')" title="Edit">'+icon('pen')+'</button>'+
-        '<button class="btn btn-danger btn-sm" onclick="event.stopPropagation(); openDeleteConfirm(getModule(\''+mod.key+'\'), '+r.__row+')" title="Hapus">'+icon('trash')+'</button>'+
+        (STATE.isGuest
+          ? '<span class="sub" style="font-size:11px;">'+icon('eye')+' Lihat</span>'
+          : '<button class="btn btn-ghost btn-sm" onclick="event.stopPropagation(); openForm(getModule(\''+mod.key+'\'), '+r.__row+')" title="Edit">'+icon('pen')+'</button>'+
+            '<button class="btn btn-danger btn-sm" onclick="event.stopPropagation(); openDeleteConfirm(getModule(\''+mod.key+'\'), '+r.__row+')" title="Hapus">'+icon('trash')+'</button>')+
         '</td></tr>';
     });
   }
@@ -1373,12 +1467,13 @@ function printTable(mod){
 // FORM MODAL (tambah / edit) — dibangun otomatis dari skema field
 // ==================================================================
 function openForm(mod, rowRow){
+  if(STATE.isGuest){ showToast('Mode Tamu hanya untuk melihat data', 'err'); return; }
   const rows = STATE.data[mod.sheet] || [];
   const rowData = rowRow ? rows.find(function(r){ return r.__row===rowRow; }) : null;
   STATE.editing = { mod: mod, rowIndex: rowRow, rowData: rowData };
 
   document.getElementById('formTitle').innerHTML = (rowData? icon('pen')+' Edit ' : icon('plus')+' Tambah ') + esc(mod.label);
-  document.getElementById('formSub').textContent = rowData ? 'Perbarui data lalu simpan ke Database ERP Maintenance.' : 'Isi data baru untuk Database ERP Maintenance "'+mod.sheet+'".';
+  document.getElementById('formSub').textContent = rowData ? 'Perbarui data yang sudah tersimpan.' : 'Tambahkan data baru untuk '+mod.label+'.';
 
   const grid = document.getElementById('formGrid');
   grid.innerHTML = '';
@@ -1430,7 +1525,7 @@ function openDetail(mod, rowRow){
   if(!rowData) return;
   STATE.detailCtx = { mod: mod, rowIndex: rowRow };
   document.getElementById('detailTitle').innerHTML = icon('circle-info')+' Detail '+esc(mod.label);
-  document.getElementById('detailSub').textContent = 'Sumber data: sheet "'+mod.sheet+'"';
+  document.getElementById('detailSub').textContent = mod.id+': '+(rowData[mod.id]||'-');
   const grid = document.getElementById('detailGrid');
   grid.innerHTML = mod.fields.map(function(f){
     const val = rowData[f.k];
@@ -1443,6 +1538,8 @@ function openDetail(mod, rowRow){
     if(STATUS_LIKE_KEYS.indexOf(f.k)>-1 && val){ display = '<span class="badge '+badgeClass(val)+'">'+esc(val)+'</span>'; }
     return '<div class="ditem'+(f.t==='textarea'?' full':'')+'"><div class="dl">'+esc(f.l)+'</div><div class="dv">'+display+'</div></div>';
   }).join('');
+  const btnEdit = document.getElementById('btnEditFromDetail');
+  if(btnEdit) btnEdit.style.display = STATE.isGuest ? 'none' : 'inline-flex';
   document.getElementById('detailOverlay').classList.add('show');
 }
 function closeDetail(){ document.getElementById('detailOverlay').classList.remove('show'); STATE.detailCtx = null; }
@@ -1477,6 +1574,7 @@ function saveForm(){
 // KONFIRMASI HAPUS
 // ==================================================================
 function openDeleteConfirm(mod, rowRow){
+  if(STATE.isGuest){ showToast('Mode Tamu hanya untuk melihat data', 'err'); return; }
   STATE.deleteCtx = { mod: mod, rowIndex: rowRow };
   document.getElementById('confirmOverlay').classList.add('show');
 }
@@ -1564,11 +1662,11 @@ function renderDashboard(content){
   const hasBiaya = sortedMonths.length>0;
 
   html += '<div class="grid2">'+
-    chartCard('Status Aset (Alat + Mesin)','chart-pie','#3b82f6','chartStatus', hasAssetStatus, 'Belum ada data di Database ERP Maintenance Master Alat / Master Mesin.')+
-    chartCard('Status Work Order','chart-column','#f97316','chartWO', hasWO, 'Belum ada data di Database ERP Maintenance Work Order.')+
+    chartCard('Status Aset (Alat + Mesin)','chart-pie','#3b82f6','chartStatus', hasAssetStatus, 'Belum ada data Aset (Alat/Mesin).')+
+    chartCard('Status Work Order','chart-column','#f97316','chartWO', hasWO, 'Belum ada data Work Order.')+
     '</div>';
   html += '<div class="grid2">'+
-    chartCard('Tren Biaya Maintenance','chart-line','#ec4899','chartBiaya', hasBiaya, 'Belum ada data di Database ERP Maintenance Biaya Maintenance.')+
+    chartCard('Tren Biaya Maintenance','chart-line','#ec4899','chartBiaya', hasBiaya, 'Belum ada data Biaya Maintenance.')+
     '<div class="card"><h3>'+sectionIcon('clock','#eab308')+' PM Segera / Lewat Jadwal</h3>'+renderMiniList(pmOverdue.concat(pmSoon).sort(function(a,b){return a.dd-b.dd;}).slice(0,8), function(p){ return { t1: p.kode+' — '+(p.nama||''), t2: p.dd<0 ? (Math.abs(p.dd)+' hari lewat') : (p.dd===0?'Hari ini':p.dd+' hari lagi') }; })+'</div>'+
     '</div>';
   html += '<div class="grid2">'+
@@ -1580,28 +1678,51 @@ function renderDashboard(content){
   requestAnimationFrame(function(){ content.classList.add('fade-in'); });
   destroyCharts();
 
-  if(hasAssetStatus){
-    const statusLabels = Object.keys(statusCounts);
-    charts.status = new Chart(document.getElementById('chartStatus'), {
-      type:'doughnut',
-      data:{ labels: statusLabels, datasets:[{ data: statusLabels.map(function(s){return statusCounts[s];}), backgroundColor:['#22c55e','#dc2626','#f97316','#94a3b8','#3b82f6'] }] },
-      options:{ maintainAspectRatio:false, animation:{ duration:900, easing:'easeOutQuart' }, plugins:{ legend:{ position:'bottom', labels:{ boxWidth:10, font:{size:11} } } } }
-    });
+  drawDashboardCharts_({
+    hasAssetStatus: hasAssetStatus, statusCounts: statusCounts,
+    hasWO: hasWO, woStatusCounts: woStatusCounts,
+    hasBiaya: hasBiaya, sortedMonths: sortedMonths, monthMap: monthMap
+  });
+}
+
+// Digambar terpisah dari renderDashboard() supaya kalau library Chart.js
+// gagal/telat dimuat (diblokir firewall/ad-blocker, CDN lambat, dll),
+// errornya tidak lagi "membajak" promise chain loadAll() dan muncul sebagai
+// toast palsu "Gagal terhubung ke Apps Script". KPI & tabel tetap tampil
+// normal; hanya area grafik yang menampilkan peringatan kalau gagal.
+function drawDashboardCharts_(p, retried){
+  if (typeof Chart === 'undefined') {
+    if (!retried) { setTimeout(function(){ drawDashboardCharts_(p, true); }, 1500); }
+    else { console.warn('Chart.js tidak termuat. Cek tab Network di DevTools: request ke cdnjs.cloudflare.com/.../chart.umd.min.js mungkin diblokir ad-blocker/firewall.'); showToast('Grafik dashboard tidak tampil (library Chart.js gagal dimuat). Coba nonaktifkan ad-blocker untuk halaman ini lalu refresh.', 'err'); }
+    return;
   }
-  if(hasWO){
-    const woLabels = Object.keys(woStatusCounts);
-    charts.wo = new Chart(document.getElementById('chartWO'), {
-      type:'bar',
-      data:{ labels: woLabels, datasets:[{ label:'Jumlah WO', data: woLabels.map(function(s){return woStatusCounts[s];}), backgroundColor:'#f97316', borderRadius:8 }] },
-      options:{ maintainAspectRatio:false, animation:{ duration:900, easing:'easeOutQuart' }, plugins:{ legend:{display:false} }, scales:{ y:{ beginAtZero:true, ticks:{precision:0} } } }
-    });
-  }
-  if(hasBiaya){
-    charts.biaya = new Chart(document.getElementById('chartBiaya'), {
-      type:'line',
-      data:{ labels: sortedMonths.map(monthLabel), datasets:[{ label:'Biaya (Rp)', data: sortedMonths.map(function(m){return monthMap[m];}), borderColor:'#ec4899', backgroundColor:'rgba(236,72,153,.15)', tension:.35, fill:true }] },
-      options:{ maintainAspectRatio:false, animation:{ duration:900, easing:'easeOutQuart' }, plugins:{ legend:{display:false} }, scales:{ y:{ beginAtZero:true, ticks:{ callback:function(v){ return (v/1000000)+'jt'; } } } } }
-    });
+  try {
+    if(p.hasAssetStatus){
+      const statusLabels = Object.keys(p.statusCounts);
+      charts.status = new Chart(document.getElementById('chartStatus'), {
+        type:'doughnut',
+        data:{ labels: statusLabels, datasets:[{ data: statusLabels.map(function(s){return p.statusCounts[s];}), backgroundColor:['#22c55e','#dc2626','#f97316','#94a3b8','#3b82f6'] }] },
+        options:{ maintainAspectRatio:false, animation:{ duration:900, easing:'easeOutQuart' }, plugins:{ legend:{ position:'bottom', labels:{ boxWidth:10, font:{size:11} } } } }
+      });
+    }
+    if(p.hasWO){
+      const woLabels = Object.keys(p.woStatusCounts);
+      charts.wo = new Chart(document.getElementById('chartWO'), {
+        type:'bar',
+        data:{ labels: woLabels, datasets:[{ label:'Jumlah WO', data: woLabels.map(function(s){return p.woStatusCounts[s];}), backgroundColor:'#f97316', borderRadius:8 }] },
+        options:{ maintainAspectRatio:false, animation:{ duration:900, easing:'easeOutQuart' }, plugins:{ legend:{display:false} }, scales:{ y:{ beginAtZero:true, ticks:{precision:0} } } }
+      });
+    }
+    if(p.hasBiaya){
+      charts.biaya = new Chart(document.getElementById('chartBiaya'), {
+        type:'line',
+        data:{ labels: p.sortedMonths.map(monthLabel), datasets:[{ label:'Biaya (Rp)', data: p.sortedMonths.map(function(m){return p.monthMap[m];}), borderColor:'#ec4899', backgroundColor:'rgba(236,72,153,.15)', tension:.35, fill:true }] },
+        options:{ maintainAspectRatio:false, animation:{ duration:900, easing:'easeOutQuart' }, plugins:{ legend:{display:false} }, scales:{ y:{ beginAtZero:true, ticks:{ callback:function(v){ return (v/1000000)+'jt'; } } } } }
+      });
+    }
+  } catch(chartErr){
+    console.warn('Gagal menggambar grafik dashboard:', chartErr);
+    showToast('Grafik dashboard gagal digambar: '+chartErr, 'err');
   }
 }
 
@@ -1629,6 +1750,8 @@ document.addEventListener('DOMContentLoaded', function(){
   document.getElementById('btnLogin').addEventListener('click', doLoginSubmit);
   document.getElementById('loginPassword').addEventListener('keydown', function(e){ if(e.key==='Enter') doLoginSubmit(); });
   document.getElementById('loginUsername').addEventListener('keydown', function(e){ if(e.key==='Enter') document.getElementById('loginPassword').focus(); });
+  document.getElementById('btnGuestLogin').addEventListener('click', enterGuestMode);
+  document.getElementById('btnExitGuest').addEventListener('click', doLogout);
   document.getElementById('btnLogout').addEventListener('click', doLogout);
   initAuth();
 });
