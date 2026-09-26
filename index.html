@@ -218,13 +218,14 @@ a{color:inherit;}
 }
 .search:focus{border-color:var(--biru); box-shadow:0 0 0 3px rgba(59,130,246,.12);}
 .table-wrap{overflow-x:auto; border-radius:14px; border:1px solid var(--line);}
-table{border-collapse:collapse; width:100%; min-width:640px; font-size:12.8px; background:rgba(255,255,255,.5);}
+table{border-collapse:collapse; min-width:100%; width:max-content; font-size:12.8px; background:rgba(255,255,255,.5);}
 thead th{
   position:sticky; top:0; background:var(--glass-strong); backdrop-filter:blur(10px);
   text-align:left; padding:11px 12px; font-weight:800; color:var(--ink-soft); font-size:11.5px;
   text-transform:uppercase; letter-spacing:.03em; border-bottom:1px solid var(--line); white-space:nowrap;
 }
-tbody td{padding:10px 12px; border-bottom:1px solid var(--line); white-space:normal; word-break:break-word; max-width:260px; vertical-align:top;}
+tbody td{padding:10px 12px; border-bottom:1px solid var(--line); white-space:nowrap; vertical-align:middle; max-width:320px; overflow:hidden; text-overflow:ellipsis;}
+tbody td.td-wrap{white-space:normal; word-break:normal; overflow-wrap:break-word; max-width:280px; vertical-align:top;}
 tbody tr{transition:background .15s ease; cursor:pointer;}
 tbody tr:hover{background:rgba(59,130,246,.07);}
 tbody tr:hover td:first-child{box-shadow:inset 3px 0 0 var(--biru);}
@@ -1293,14 +1294,14 @@ function renderModuleTable(mod, content){
       html += '<tr onclick="openDetail(getModule(\''+mod.key+'\'), '+r.__row+')" title="Klik untuk lihat detail">';
       mod.fields.forEach(function(f){
         const val = r[f.k];
-        let display;
+        let display, plainText;
         const kLower = f.k.toLowerCase();
-        if(f.t==='date') display = formatTanggal(val);
-        else if(kLower.indexOf('harga')>-1 || kLower.indexOf('biaya')>-1) display = (val!==undefined && val!=='') ? formatRupiah(val) : '-';
-        else if(f.k==='Kode Alat') display = esc(assetLabel(val));
-        else display = esc(val!==undefined && val!=='' ? val : '-');
-        if(STATUS_LIKE_KEYS.indexOf(f.k)>-1 && val){ display = '<span class="badge '+badgeClass(val)+'">'+esc(val)+'</span>'; }
-        html += '<td>'+display+'</td>';
+        if(f.t==='date'){ display = formatTanggal(val); plainText = display; }
+        else if(kLower.indexOf('harga')>-1 || kLower.indexOf('biaya')>-1){ display = (val!==undefined && val!=='') ? formatRupiah(val) : '-'; plainText = display; }
+        else if(f.k==='Kode Alat'){ plainText = assetLabel(val); display = esc(plainText); }
+        else { plainText = (val!==undefined && val!=='' ? val : '-'); display = esc(plainText); }
+        if(STATUS_LIKE_KEYS.indexOf(f.k)>-1 && val){ display = '<span class="badge '+badgeClass(val)+'">'+esc(val)+'</span>'; plainText = val; }
+        html += '<td'+(f.t==='textarea' ? ' class="td-wrap"' : ' title="'+esc(String(plainText))+'"')+'>'+display+'</td>';
       });
       html += '<td class="row-actions col-actions">'+
         (STATE.isGuest
