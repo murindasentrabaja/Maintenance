@@ -438,6 +438,95 @@ tbody td.col-actions{cursor:default;}
   @page{margin:14mm; size:A4 landscape;}
 }
 
+/* ---------- Catatan modul & tombol "Belum Dieksekusi" ---------- */
+.mod-note{display:flex; gap:9px; align-items:flex-start; background:#eff6ff; border:1px solid #bfdbfe; color:#1e40af; font-size:12px; font-weight:600; padding:10px 14px; border-radius:12px; margin-bottom:14px; line-height:1.5;}
+.mod-note i{margin-top:2px;}
+.btn-pending{background:var(--glass-strong); color:#c2410c; border:1px solid #fed7aa;}
+.btn-pending i{color:var(--orange);}
+.btn-pending:hover{background:#fff7ed; transform:translateY(-2px);}
+.btn-pending.on{background:linear-gradient(135deg,#f97316,#dc2626); color:#fff; border-color:transparent; box-shadow:0 8px 18px rgba(249,115,22,.34);}
+.btn-pending.on i{color:#fff;}
+.btn-pending .fcount{background:#f97316; color:#fff; font-size:10px; font-weight:800; border-radius:999px; padding:1px 7px;}
+.btn-pending.on .fcount{background:rgba(255,255,255,.3);}
+tbody tr.row-pending td:first-child{box-shadow:inset 3px 0 0 var(--orange);}
+.navitem .cnt.alert, .navitem.active .cnt.alert{background:linear-gradient(135deg,#f97316,#dc2626); color:#fff;}
+
+/* ---------- Chip penanda ---------- */
+.chip{display:inline-block; font-size:9.5px; font-weight:800; letter-spacing:.03em; padding:2px 8px; border-radius:999px; margin-left:6px; white-space:nowrap; vertical-align:middle;}
+.chip-new{background:linear-gradient(135deg,var(--biru),#6366f1); color:#fff;}
+.chip-late{background:#fee2e2; color:var(--bad);}
+.chip-urg{background:#ffedd5; color:#c2410c;}
+.chip-wait{background:#fef3c7; color:#b45309;}
+
+/* ---------- Lonceng & panel notifikasi ---------- */
+.bell-btn{position:relative; padding:10px 13px;}
+.bell-btn.has-pending i{color:var(--orange);}
+.bell-badge{position:absolute; top:-7px; right:-7px; min-width:20px; height:20px; padding:0 5px; border-radius:999px; align-items:center; justify-content:center;
+  background:linear-gradient(135deg,#f97316,#dc2626); color:#fff; font-size:10.5px; font-weight:800; border:2px solid #fff; box-shadow:0 4px 10px rgba(220,38,38,.4);}
+.bell-btn.has-new .bell-badge{animation:badgePulse 1.6s ease-in-out infinite;}
+@keyframes badgePulse{0%,100%{transform:scale(1); box-shadow:0 4px 10px rgba(220,38,38,.4);} 50%{transform:scale(1.14); box-shadow:0 0 0 6px rgba(249,115,22,.18);}}
+.bell-btn.ring i{animation:bellRing 1.1s ease-in-out 2; transform-origin:50% 0;}
+@keyframes bellRing{0%,100%{transform:rotate(0);} 12%{transform:rotate(16deg);} 28%{transform:rotate(-14deg);} 44%{transform:rotate(10deg);} 60%{transform:rotate(-7deg);} 76%{transform:rotate(3deg);}}
+
+.notif-panel{
+  position:fixed; top:78px; right:26px; width:min(430px, calc(100vw - 24px)); max-height:min(76vh, 640px); z-index:95;
+  display:flex; flex-direction:column; border-radius:20px; border:1px solid var(--line);
+  background:var(--glass-strong); backdrop-filter:blur(22px) saturate(170%); -webkit-backdrop-filter:blur(22px) saturate(170%);
+  box-shadow:var(--shadow-lg); opacity:0; pointer-events:none; transform:translateY(-10px) scale(.98); transform-origin:top right;
+  transition:opacity .2s ease, transform .26s cubic-bezier(.34,1.56,.64,1);
+}
+.notif-panel.show{opacity:1; pointer-events:auto; transform:translateY(0) scale(1);}
+.np-head{display:flex; align-items:flex-start; justify-content:space-between; gap:10px; padding:16px 18px 8px;}
+.np-head h4{margin:0; font-size:15px; font-weight:800; display:flex; align-items:center; gap:8px;}
+.np-head h4 i{color:var(--orange);}
+.np-head span{font-size:11.5px; color:var(--ink-soft); font-weight:600;}
+.np-tabs{display:flex; gap:6px; padding:4px 14px 10px; overflow-x:auto;}
+.np-tab{border:1px solid var(--line); background:#fff; color:var(--ink-soft); font-family:inherit; font-size:11.5px; font-weight:700; padding:6px 11px; border-radius:999px; cursor:pointer; white-space:nowrap; transition:.15s;}
+.np-tab span{background:#f1f5f9; color:var(--ink-soft); border-radius:999px; padding:0 6px; margin-left:3px; font-size:10px;}
+.np-tab:hover{border-color:var(--orange); color:var(--ink);}
+.np-tab.on{background:linear-gradient(135deg,#f97316,#ef4444); color:#fff; border-color:transparent;}
+.np-tab.on span{background:rgba(255,255,255,.28); color:#fff;}
+.np-body{overflow-y:auto; padding:2px 10px 6px; min-height:70px;}
+.np-list{display:flex; flex-direction:column; gap:4px;}
+.np-item{display:flex; align-items:flex-start; gap:11px; padding:10px 10px; border-radius:14px; cursor:pointer; border:1px solid transparent; transition:background .15s ease, border-color .15s ease, transform .15s ease;}
+.np-item:hover{background:rgba(249,115,22,.07); border-color:rgba(249,115,22,.22); transform:translateX(2px);}
+.np-ic{width:34px; height:34px; flex-shrink:0; border-radius:11px; display:flex; align-items:center; justify-content:center; font-size:14px;}
+.np-txt{display:flex; flex-direction:column; gap:2px; min-width:0; flex:1;}
+.np-t1{font-size:12.8px; font-weight:800; color:var(--ink); line-height:1.35; overflow-wrap:anywhere;}
+.np-t2{font-size:11.5px; color:var(--ink-soft); font-weight:500;}
+.np-chips{display:flex; flex-wrap:wrap; align-items:center; gap:2px; margin-top:4px;}
+.np-chips .chip{margin-left:4px;}
+.np-go{color:var(--muted); font-size:11px; margin-top:12px;}
+.np-foot{display:flex; align-items:center; gap:10px; flex-wrap:wrap; padding:10px 16px 14px; border-top:1px dashed var(--line);}
+.np-opt{font-size:11.5px; font-weight:600; color:var(--ink-soft); display:inline-flex; align-items:center; gap:6px; cursor:pointer;}
+.np-opt.ok{color:var(--ok); cursor:default;}
+.np-opt input{accent-color:var(--orange);}
+
+/* ---------- Dashboard: Permintaan Masuk ---------- */
+.req-head{display:flex; align-items:center; justify-content:space-between; gap:12px; margin:0 2px 12px; flex-wrap:wrap;}
+.req-head h3{margin:0; font-size:15px; font-weight:800; display:flex; align-items:center; gap:9px;}
+.req-sub{font-size:12px; font-weight:600; color:var(--ink-soft);}
+.req-sub b{color:var(--biru);}
+.kpi-link{cursor:pointer;}
+.kpi .chip{margin-left:0;}
+.req-card{margin-bottom:18px;}
+
+/* ---------- Toast permintaan ---------- */
+.toast.req{border-left:4px solid var(--orange); cursor:pointer; max-width:360px; align-items:flex-start;
+  animation:slidein .3s cubic-bezier(.34,1.56,.64,1), fadeout .35s ease 7.6s forwards;}
+.toast.req i{color:var(--orange); margin-top:2px;}
+.toast.req .t-main{display:block; font-weight:800;}
+.toast.req .t-sub{display:block; font-size:11.5px; font-weight:600; color:var(--ink-soft); margin-top:2px;}
+
+/* ---------- Modal Proses ---------- */
+.proses-sep{display:flex; align-items:center; gap:10px; margin:18px 0 10px; color:var(--muted); font-size:10.5px; font-weight:800; text-transform:uppercase; letter-spacing:.06em;}
+.proses-sep::before,.proses-sep::after{content:''; flex:1; height:1px; background:var(--line);}
+.proses-hint{margin-bottom:12px;}
+
+@media(max-width:560px){
+  .notif-panel{top:64px; right:8px; left:8px; width:auto;}
+}
+
 @media(max-width:880px){
   .sidebar{position:fixed; left:0; top:0; z-index:80; transform:translateX(-104%); transition:.25s; box-shadow:var(--shadow-lg);}
   .sidebar.open{transform:translateX(0);}
@@ -511,6 +600,7 @@ tbody td.col-actions{cursor:default;}
         <span class="sub" id="syncInfo">Belum sinkron</span>
         <div class="user-chip" id="userChip"></div>
         <button class="btn btn-ghost btn-sm" id="btnLogout" title="Keluar"><i class="fa-solid fa-right-from-bracket"></i></button>
+        <button class="btn btn-ghost bell-btn" id="btnBell" title="Notifikasi permintaan" aria-label="Notifikasi permintaan"><i class="fa-solid fa-bell"></i><span class="bell-badge" id="bellBadge" style="display:none;">0</span></button>
         <button class="btn btn-ghost" id="btnRefresh"><i class="fa-solid fa-rotate"></i> Refresh</button>
         <button class="btn btn-primary" id="btnAdd" style="display:none;"><i class="fa-solid fa-plus"></i> Tambah Data</button>
       </div>
@@ -574,6 +664,37 @@ tbody td.col-actions{cursor:default;}
   <div class="loader-bar"><div class="loader-bar-fill"></div></div>
 </div>
 
+<div class="overlay" id="prosesOverlay">
+  <div class="modal" id="prosesModal">
+    <h3 id="prosesTitle">Proses Permintaan</h3>
+    <div class="sub" id="prosesSub"></div>
+    <div class="detail-grid" id="prosesSummary"></div>
+    <div class="proses-sep"><span>Tindak lanjut Maintenance</span></div>
+    <div class="mod-note proses-hint" id="prosesHint"></div>
+    <div class="form-grid" id="prosesGrid"></div>
+    <datalist id="dlTekVendor"></datalist>
+    <div class="field full" style="margin-top:14px;">
+      <label>Konfirmasi password <span class="req">*</span></label>
+      <input type="password" id="prosesPw" placeholder="Password akun Anda" autocomplete="current-password">
+    </div>
+    <div class="login-error" id="prosesError" style="display:none; margin:12px 0 0;"></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" id="btnCancelProses"><i class="fa-solid fa-xmark"></i> Batal</button>
+      <button class="btn btn-primary" id="btnSaveProses"><i class="fa-solid fa-floppy-disk"></i> Simpan</button>
+    </div>
+  </div>
+</div>
+
+<div class="notif-panel" id="notifPanel" role="dialog" aria-label="Notifikasi permintaan">
+  <div class="np-head">
+    <div><h4><i class="fa-solid fa-bell"></i> Permintaan Masuk</h4><span id="npSub">-</span></div>
+    <button class="btn btn-ghost btn-sm" id="npClose" title="Tutup"><i class="fa-solid fa-xmark"></i></button>
+  </div>
+  <div class="np-tabs" id="npTabs"></div>
+  <div class="np-body" id="npBody"></div>
+  <div class="np-foot" id="npFoot"></div>
+</div>
+
 <div id="toastHost"></div>
 <div id="printArea" class="print-area"></div>
 
@@ -602,24 +723,38 @@ const NEON = ['n0','n1','n2','n3','n4'];
 // Opsi statis & fungsi opsi dinamis (diambil dari data master)
 // ------------------------------------------------------------------
 const STATIC_OPTIONS = {
-  statusAsset: ['Aktif','Rusak','Dalam Perbaikan','Non-Aktif'],
+  // --- disamakan dengan validasi dropdown di Database_Maintenance.xlsx ---
+  statusAsset: ['Aktif','Standby','Rusak','Non-Aktif','Dijual'],
   statusUmum: ['Aktif','Non-Aktif'],
-  satuanMeter: ['Jam (HM)','KM','Kali (HM)','Lainnya'],
-  jenisPM: ['Bulanan','Mingguan','Tahunan','Berdasarkan Jam Operasi','Kondisional'],
+  statusTeknisi: ['Aktif','Non-Aktif','Cuti','Resign'],
+  statusSparepart: ['Aktif','Non-Aktif','Discontinued'],
+  satuanMeterAlat: ['Kilometer (km)','Hektometer (hm)','Dekameter (dam)','Meter (m)','Desimeter (dm)','Sentimeter (cm)','Milimeter (mm)','Mikrometer / Micron'],
+  satuanMeterReading: ['Jam (HM)','KM'],
+  jenisPM: ['Harian','Mingguan','Bulanan','Berdasarkan Jam Operasi','Tahunan'],
   statusJadwalPM: ['Terjadwal','Selesai','Terlambat','Dibatalkan'],
-  jenisPekerjaanWO: ['Preventive','Corrective','Predictive','Overhaul'],
-  prioritasWO: ['Rendah','Sedang','Tinggi','Darurat'],
-  statusWO: ['Open','In Progress','Selesai','Dibatalkan'],
+  jenisPekerjaanWO: ['Preventive','Corrective','Breakdown','Inspeksi'],
+  prioritasWO: ['Rendah','Sedang','Tinggi','Kritis'],
+  statusWO: ['Open','In Progress','Selesai','Ditutup'],
   kondisiUmum: ['Baik','Perlu Perhatian','Rusak'],
-  statusChecklist: ['Layak Operasi','Tidak Layak Operasi'],
-  statusLOTO: ['Terpasang','Selesai'],
+  statusChecklist: ['Layak Operasi','Tidak Layak'],
+  statusLOTO: ['Aktif','Selesai'],
   hasilKalibrasi: ['Lulus','Tidak Lulus','Perlu Penyesuaian'],
-  jenisPR: ['Sparepart','Jasa Servis','Pembelian Alat','Kalibrasi','Sewa Alat'],
+  jenisPR: ['Sparepart','Jasa Service','Alat Baru','Lainnya'],
   statusPR: ['Diajukan','Disetujui','Ditolak','Selesai'],
-  jenisBiaya: ['Sparepart','Jasa/Service','Kalibrasi','Sewa Alat','Lainnya'],
+  jenisBiaya: ['Sparepart','Jasa Service','Tenaga Kerja','Lainnya'],
   jenisGaransi: ['Garansi','Kontrak Servis','Kontrak Sewa'],
-  statusGaransi: ['Aktif','Kedaluwarsa','Akan Berakhir'],
+  statusGaransi: ['Aktif','Kedaluwarsa'],
   tipeLokasi: ['Workshop','Warehouse','Kantor','Lainnya'],
+  // --- sheet permintaan (portal) ---
+  prioritasReq: ['Rendah','Sedang','Tinggi','Darurat'],
+  jenisAsetReq: ['Alat','Mesin'],
+  statusOrder: ['Diajukan','Diterima','Dijadwalkan','Diproses','Menunggu Sparepart','Selesai','Ditolak'],
+  statusKalReq: ['Diajukan','Diterima','Dijadwalkan','Diproses','Selesai','Ditolak'],
+  hasilKalReq: ['Lulus','Lulus dengan Catatan','Tidak Lulus'],
+  statusTambah: ['Diajukan','Direview','Disetujui','Pengadaan','Selesai','Ditolak'],
+  jenisTambah: ['Alat','Mesin'],
+  statusRiwayat: ['Diajukan','Diterima','Dijadwalkan','Diproses','Menunggu Sparepart','Direview','Disetujui','Pengadaan','Selesai','Ditolak'],
+  jenisDokumen: ['Order Perbaikan','Permintaan Kalibrasi','Permintaan Penambahan'],
 };
 
 function optFrom(sheet, valueField, labelField){
@@ -642,18 +777,154 @@ function assetLabel(kode){
 }
 
 // ------------------------------------------------------------------
+// Peran yang boleh memproses permintaan (harus sama dengan STAFF_ROLE di Code.gs)
+// ------------------------------------------------------------------
+const STAFF_ROLE = /maint|teknisi|developer|admin/i;
+function canProcess(){ return !STATE.isGuest && !!STATE.user && STAFF_ROLE.test(String(STATE.user.Role||'')); }
+function isAssetKey(k){ return k==='Kode Alat' || k==='Kode Aset'; }
+
+// ------------------------------------------------------------------
+// Konfigurasi notifikasi permintaan
+//  pending : status yang BELUM dieksekusi (menunggu tindakan Maintenance)
+//  closed  : status akhir (tidak dihitung lagi)
+//  dueField/dueScope : kolom tenggat; scope 'pending' = hanya dicek selama belum dieksekusi,
+//                      'open' = dicek sampai permintaan ditutup
+// ------------------------------------------------------------------
+const REQ_CFG = {
+  order:     { label:'Order Perbaikan',       short:'Perbaikan',  icon:'screwdriver-wrench', hex:'#f97316', kc:'c2',
+               pending:['Diajukan','Diterima','Dijadwalkan'], closed:['Selesai','Ditolak'],
+               dueField:'Tanggal Jadwal',     dueScope:'pending', dueLabel:'Lewat jadwal' },
+  reqkal:    { label:'Permintaan Kalibrasi',  short:'Kalibrasi',  icon:'ruler-combined',     hex:'#8b5cf6', kc:'c4',
+               pending:['Diajukan','Diterima','Dijadwalkan'], closed:['Selesai','Ditolak'],
+               dueField:'Tanggal Dibutuhkan', dueScope:'open',    dueLabel:'Lewat tenggat' },
+  reqtambah: { label:'Permintaan Penambahan', short:'Penambahan', icon:'cart-plus',          hex:'#0ea5e9', kc:'c0',
+               pending:['Diajukan','Direview','Disetujui'],   closed:['Selesai','Ditolak'],
+               dueField:'Tanggal Dibutuhkan', dueScope:'open',    dueLabel:'Lewat tenggat' },
+};
+const REQ_KEYS = Object.keys(REQ_CFG);
+const AGING_DAYS = 2;     // permintaan yang menunggu >= 2 hari diberi penanda "menunggu N hr"
+const POLL_MS = 60000;    // cek permintaan baru otomatis tiap 60 detik
+
+// Kolom yang boleh diubah Maintenance lewat tombol "Proses" (sesuai STAFF_FIELDS di Code.gs)
+const PROSES_FIELDS = {
+  order:     ['Status','Teknisi Ditugaskan','Tanggal Jadwal','Tanggal Selesai','Tindakan Maintenance','Catatan Maintenance'],
+  reqkal:    ['Status','Teknisi/Vendor','Tanggal Jadwal','Tanggal Selesai','Hasil Kalibrasi','Sertifikat URL','Catatan Maintenance'],
+  reqtambah: ['Status','Disetujui Oleh','Tanggal Selesai','Catatan Maintenance'],
+};
+const PROSES_SUMMARY = {
+  order:     ['Pemohon','Departemen','Nama Aset','Lokasi','Prioritas','Tanggal Diajukan','Kondisi Aset','Dampak ke Produksi','Deskripsi Kerusakan'],
+  reqkal:    ['Pemohon','Departemen','Nama Aset','Lokasi','Jenis Kalibrasi','Parameter Kalibrasi','Standar/Acuan','Tanggal Dibutuhkan','Prioritas','Alasan/Keterangan'],
+  reqtambah: ['Pemohon','Departemen','Jenis Permintaan','Nama Alat/Mesin Diminta','Spesifikasi/Kapasitas','Jumlah','Lokasi Penempatan','Tanggal Dibutuhkan','Estimasi Biaya (Rp)','Vendor Usulan','Prioritas','Alasan Kebutuhan'],
+};
+
+// ------------------------------------------------------------------
 // SKEMA MODUL — urutan ini menentukan urutan menu sidebar
 // t: tipe field -> text | number | date | textarea | select
 // opt: array statis / fungsi yang mengembalikan [{value,label}]
 // icon: nama ikon Font Awesome (tanpa prefix "fa-solid fa-")
 // ------------------------------------------------------------------
 const MODULES = [
+  // ================= PERMINTAAN (dari portal pemohon) =================
+  { key:'order', label:'Order Perbaikan', icon:'screwdriver-wrench', group:'Permintaan', sheet:'Order Perbaikan', id:'No Order', req:true, statusField:'Status',
+    note:'Order dibuat pemohon lewat portal. Maintenance memproses lewat tombol Proses — Work Order & riwayat status dibuat otomatis oleh sistem.',
+    tableCols:['No Order','Tanggal Diajukan','Pemohon','Departemen','Nama Aset','Deskripsi Kerusakan','Prioritas','Status','Teknisi Ditugaskan','Tanggal Jadwal'],
+    fields:[
+      {k:'No Order', l:'No Order', t:'text'},
+      {k:'Tanggal Diajukan', l:'Tanggal Diajukan', t:'date'},
+      {k:'Pemohon', l:'Pemohon', t:'text'},
+      {k:'Jabatan', l:'Jabatan', t:'text'},
+      {k:'Departemen', l:'Departemen', t:'text'},
+      {k:'Jenis Aset', l:'Jenis Aset', t:'select', opt:STATIC_OPTIONS.jenisAsetReq},
+      {k:'Kode Aset', l:'Kode Aset', t:'select', opt:optAsset},
+      {k:'Nama Aset', l:'Nama Aset', t:'text'},
+      {k:'Lokasi', l:'Lokasi', t:'text'},
+      {k:'Kondisi Aset', l:'Kondisi Aset', t:'text'},
+      {k:'Deskripsi Kerusakan', l:'Deskripsi Kerusakan', t:'textarea'},
+      {k:'Prioritas', l:'Prioritas', t:'select', opt:STATIC_OPTIONS.prioritasReq},
+      {k:'Dampak ke Produksi', l:'Dampak ke Produksi', t:'textarea'},
+      {k:'Foto URL', l:'Foto URL', t:'text'},
+      {k:'Status', l:'Status', t:'select', opt:STATIC_OPTIONS.statusOrder},
+      {k:'Teknisi Ditugaskan', l:'Teknisi Ditugaskan', t:'select', opt:optFrom('Master Teknisi','Nama')},
+      {k:'Tanggal Jadwal', l:'Tanggal Jadwal', t:'date'},
+      {k:'Tanggal Selesai', l:'Tanggal Selesai', t:'date'},
+      {k:'Tindakan Maintenance', l:'Tindakan Maintenance', t:'textarea'},
+      {k:'No WO Terkait', l:'No WO Terkait', t:'text'},
+      {k:'Catatan Maintenance', l:'Catatan Maintenance', t:'textarea'},
+      {k:'Terakhir Diperbarui', l:'Terakhir Diperbarui', t:'datetime'},
+    ]},
+  { key:'reqkal', label:'Permintaan Kalibrasi', icon:'ruler-combined', group:'Permintaan', sheet:'Permintaan Kalibrasi', id:'No Permintaan', req:true, statusField:'Status',
+    note:'Permintaan dibuat pemohon lewat portal. Saat status Selesai, sistem otomatis menambah catatan di Kalibrasi Log.',
+    tableCols:['No Permintaan','Tanggal Diajukan','Pemohon','Departemen','Nama Aset','Parameter Kalibrasi','Tanggal Dibutuhkan','Prioritas','Status','Teknisi/Vendor','Tanggal Jadwal'],
+    fields:[
+      {k:'No Permintaan', l:'No Permintaan', t:'text'},
+      {k:'Tanggal Diajukan', l:'Tanggal Diajukan', t:'date'},
+      {k:'Pemohon', l:'Pemohon', t:'text'},
+      {k:'Jabatan', l:'Jabatan', t:'text'},
+      {k:'Departemen', l:'Departemen', t:'text'},
+      {k:'Jenis Aset', l:'Jenis Aset', t:'select', opt:STATIC_OPTIONS.jenisAsetReq},
+      {k:'Kode Aset', l:'Kode Aset', t:'select', opt:optAsset},
+      {k:'Nama Aset', l:'Nama Aset', t:'text'},
+      {k:'Lokasi', l:'Lokasi', t:'text'},
+      {k:'Jenis Kalibrasi', l:'Jenis Kalibrasi', t:'text'},
+      {k:'Parameter Kalibrasi', l:'Parameter Kalibrasi', t:'text'},
+      {k:'Standar/Acuan', l:'Standar/Acuan', t:'text'},
+      {k:'Tanggal Dibutuhkan', l:'Tanggal Dibutuhkan', t:'date'},
+      {k:'Prioritas', l:'Prioritas', t:'select', opt:STATIC_OPTIONS.prioritasReq},
+      {k:'Alasan/Keterangan', l:'Alasan/Keterangan', t:'textarea'},
+      {k:'Status', l:'Status', t:'select', opt:STATIC_OPTIONS.statusKalReq},
+      {k:'Teknisi/Vendor', l:'Teknisi/Vendor', t:'text'},
+      {k:'Tanggal Jadwal', l:'Tanggal Jadwal', t:'date'},
+      {k:'Tanggal Selesai', l:'Tanggal Selesai', t:'date'},
+      {k:'Hasil Kalibrasi', l:'Hasil Kalibrasi', t:'select', opt:STATIC_OPTIONS.hasilKalReq},
+      {k:'Sertifikat URL', l:'Sertifikat URL', t:'text'},
+      {k:'Catatan Maintenance', l:'Catatan Maintenance', t:'textarea'},
+      {k:'Terakhir Diperbarui', l:'Terakhir Diperbarui', t:'datetime'},
+    ]},
+  { key:'reqtambah', label:'Permintaan Penambahan', icon:'cart-plus', group:'Permintaan', sheet:'Permintaan Penambahan', id:'No Permintaan', req:true, statusField:'Status',
+    note:'Permintaan alat/mesin baru dari pemohon. Saat status Disetujui, sistem otomatis membuat Purchase Request.',
+    tableCols:['No Permintaan','Tanggal Diajukan','Pemohon','Departemen','Jenis Permintaan','Nama Alat/Mesin Diminta','Jumlah','Estimasi Biaya (Rp)','Tanggal Dibutuhkan','Prioritas','Status'],
+    fields:[
+      {k:'No Permintaan', l:'No Permintaan', t:'text'},
+      {k:'Tanggal Diajukan', l:'Tanggal Diajukan', t:'date'},
+      {k:'Pemohon', l:'Pemohon', t:'text'},
+      {k:'Jabatan', l:'Jabatan', t:'text'},
+      {k:'Departemen', l:'Departemen', t:'text'},
+      {k:'Jenis Permintaan', l:'Jenis Permintaan', t:'select', opt:STATIC_OPTIONS.jenisTambah},
+      {k:'Nama Alat/Mesin Diminta', l:'Nama Alat/Mesin Diminta', t:'text'},
+      {k:'Spesifikasi/Kapasitas', l:'Spesifikasi/Kapasitas', t:'textarea'},
+      {k:'Jumlah', l:'Jumlah', t:'number'},
+      {k:'Alasan Kebutuhan', l:'Alasan Kebutuhan', t:'textarea'},
+      {k:'Lokasi Penempatan', l:'Lokasi Penempatan', t:'text'},
+      {k:'Tanggal Dibutuhkan', l:'Tanggal Dibutuhkan', t:'date'},
+      {k:'Estimasi Biaya (Rp)', l:'Estimasi Biaya (Rp)', t:'number'},
+      {k:'Vendor Usulan', l:'Vendor Usulan', t:'text'},
+      {k:'Prioritas', l:'Prioritas', t:'select', opt:STATIC_OPTIONS.prioritasReq},
+      {k:'Status', l:'Status', t:'select', opt:STATIC_OPTIONS.statusTambah},
+      {k:'Disetujui Oleh', l:'Disetujui Oleh', t:'text'},
+      {k:'Tanggal Selesai', l:'Tanggal Selesai', t:'date'},
+      {k:'No PR Terkait', l:'No PR Terkait', t:'text'},
+      {k:'Catatan Maintenance', l:'Catatan Maintenance', t:'textarea'},
+      {k:'Terakhir Diperbarui', l:'Terakhir Diperbarui', t:'datetime'},
+    ]},
+  { key:'riwayat', label:'Riwayat Status', icon:'clock-rotate-left', group:'Permintaan', sheet:'Riwayat Status', id:'No', readonly:true,
+    note:'Log perubahan status permintaan — dicatat otomatis oleh sistem, hanya untuk dilihat.',
+    fields:[
+      {k:'No', l:'No', t:'text'},
+      {k:'Waktu', l:'Waktu', t:'datetime'},
+      {k:'No Dokumen', l:'No Dokumen', t:'text'},
+      {k:'Jenis Dokumen', l:'Jenis Dokumen', t:'select', opt:STATIC_OPTIONS.jenisDokumen},
+      {k:'Status Lama', l:'Status Lama', t:'select', opt:STATIC_OPTIONS.statusRiwayat},
+      {k:'Status Baru', l:'Status Baru', t:'select', opt:STATIC_OPTIONS.statusRiwayat},
+      {k:'Diubah Oleh', l:'Diubah Oleh', t:'text'},
+      {k:'Catatan', l:'Catatan', t:'textarea'},
+    ]},
+  // ================= MASTER DATA =================
   { key:'kategori', label:'Kategori Alat', icon:'tags', group:'Master Data', sheet:'Master Kategori Alat', id:'Kode Kategori', autoId:true,
     fields:[
       {k:'Kode Kategori', l:'Kode Kategori', t:'text', ro:true},
       {k:'Nama Kategori', l:'Nama Kategori', t:'text', req:true},
       {k:'Keterangan', l:'Keterangan', t:'textarea'},
-      {k:'Kelompok Aset', l:'Kelompok Aset', t:'select', opt:['Alat','Mesin','Keduanya']},
+      {k:'Kelompok Aset', l:'Kelompok Aset', t:'text'},
     ]},
   { key:'alat', label:'Master Alat', icon:'truck', group:'Master Data', sheet:'Master Alat', id:'Kode Alat', autoId:true, statusField:'Status',
     fields:[
@@ -671,9 +942,9 @@ const MODULES = [
       {k:'Umur Ekonomis (Tahun)', l:'Umur Ekonomis (Th)', t:'number'},
       {k:'Lokasi', l:'Lokasi', t:'select', opt:optFrom('Master Lokasi','Nama_Lokasi')},
       {k:'Departemen', l:'Departemen', t:'text'},
-      {k:'PIC/Penanggung Jawab', l:'PIC', t:'text'},
+      {k:'PIC/Penanggung Jawab', l:'PIC', t:'select', opt:optFrom('Master Teknisi','Nama')},
       {k:'Status', l:'Status', t:'select', opt:STATIC_OPTIONS.statusAsset},
-      {k:'Satuan Meter', l:'Satuan Meter', t:'select', opt:STATIC_OPTIONS.satuanMeter},
+      {k:'Satuan Meter', l:'Satuan Meter', t:'select', opt:STATIC_OPTIONS.satuanMeterAlat},
       {k:'Meter Reading Terakhir', l:'Meter Reading Terakhir', t:'number'},
       {k:'Interval PM (Meter)', l:'Interval PM (Meter)', t:'number'},
       {k:'Interval PM (Hari)', l:'Interval PM (Hari)', t:'number'},
@@ -704,7 +975,7 @@ const MODULES = [
       {k:'Kapasitas/Spesifikasi Kerja', l:'Kapasitas/Spesifikasi', t:'textarea'},
       {k:'Lokasi', l:'Lokasi', t:'select', opt:optFrom('Master Lokasi','Nama_Lokasi')},
       {k:'Departemen', l:'Departemen', t:'text'},
-      {k:'PIC/Penanggung Jawab', l:'PIC', t:'text'},
+      {k:'PIC/Penanggung Jawab', l:'PIC', t:'select', opt:optFrom('Master Teknisi','Nama')},
       {k:'Status', l:'Status', t:'select', opt:STATIC_OPTIONS.statusAsset},
       {k:'Jam Operasi Terakhir', l:'Jam Operasi Terakhir', t:'number'},
       {k:'Interval PM (Jam Operasi)', l:'Interval PM (Jam Operasi)', t:'number'},
@@ -716,7 +987,8 @@ const MODULES = [
       {k:'Dokumen URL', l:'Dokumen URL', t:'text'},
       {k:'Catatan', l:'Catatan', t:'textarea'},
     ]},
-  { key:'lokasi', label:'Master Lokasi', icon:'location-dot', group:'Master Data', sheet:'Master Lokasi', id:'Kode_Lokasi_Hub', autoId:false,
+  { key:'lokasi', label:'Master Lokasi', icon:'location-dot', group:'Master Data', sheet:'Master Lokasi', id:'Kode_Lokasi_Hub', autoId:false, readonly:true,
+    note:'Data lokasi diambil otomatis (IMPORTRANGE) dari spreadsheet pusat, jadi hanya bisa dilihat di sini. Untuk mengubah, edit di spreadsheet sumbernya.',
     fields:[
       {k:'Kode_Lokasi_Hub', l:'Kode Lokasi', t:'text', req:true},
       {k:'Nama_Lokasi', l:'Nama Lokasi', t:'text', req:true},
@@ -745,7 +1017,7 @@ const MODULES = [
       {k:'No HP', l:'No HP', t:'text'},
       {k:'Sertifikasi', l:'Sertifikasi', t:'text'},
       {k:'Tanggal Bergabung', l:'Tanggal Bergabung', t:'date'},
-      {k:'Status', l:'Status', t:'select', opt:STATIC_OPTIONS.statusUmum},
+      {k:'Status', l:'Status', t:'select', opt:STATIC_OPTIONS.statusTeknisi},
     ]},
   { key:'sparepart', label:'Master Sparepart', icon:'boxes-stacked', group:'Master Data', sheet:'Master Sparepart', id:'Kode Part', autoId:true, statusField:'Status',
     fields:[
@@ -761,7 +1033,7 @@ const MODULES = [
       {k:'Lokasi Penyimpanan', l:'Lokasi Penyimpanan', t:'text'},
       {k:'Vendor Utama', l:'Vendor Utama', t:'select', opt:optFrom('Master Vendor','Nama Vendor')},
       {k:'Lead Time (Hari)', l:'Lead Time (Hari)', t:'number'},
-      {k:'Status', l:'Status', t:'select', opt:STATIC_OPTIONS.statusUmum},
+      {k:'Status', l:'Status', t:'select', opt:STATIC_OPTIONS.statusSparepart},
     ]},
   { key:'jadwalpm', label:'Jadwal PM', icon:'calendar-days', group:'Transaksi', sheet:'Jadwal PM', id:'ID Jadwal', autoId:true, statusField:'Status',
     fields:[
@@ -789,6 +1061,7 @@ const MODULES = [
       {k:'Downtime (Jam)', l:'Downtime (Jam)', t:'number'},
       {k:'Biaya (Rp)', l:'Biaya (Rp)', t:'number'},
       {k:'Catatan', l:'Catatan', t:'textarea'},
+      {k:'No Order Terkait', l:'No Order Terkait', t:'text', ro:true, roText:'Terisi otomatis dari Order Perbaikan'},
     ]},
   { key:'meter', label:'Meter Reading', icon:'gauge', group:'Transaksi', sheet:'Meter Reading', id:'No', autoId:true,
     fields:[
@@ -796,7 +1069,7 @@ const MODULES = [
       {k:'Tanggal', l:'Tanggal', t:'date'},
       {k:'Kode Alat', l:'Kode Alat/Mesin', t:'select', opt:optAsset, req:true},
       {k:'Meter Reading', l:'Meter Reading', t:'number'},
-      {k:'Satuan', l:'Satuan', t:'select', opt:STATIC_OPTIONS.satuanMeter},
+      {k:'Satuan', l:'Satuan', t:'select', opt:STATIC_OPTIONS.satuanMeterReading},
       {k:'Dicatat Oleh', l:'Dicatat Oleh', t:'select', opt:optFrom('Master Teknisi','Nama')},
       {k:'Catatan', l:'Catatan', t:'textarea'},
     ]},
@@ -834,6 +1107,7 @@ const MODULES = [
       {k:'Tanggal Kalibrasi Berikutnya', l:'Tgl Kalibrasi Berikutnya', t:'date'},
       {k:'Sertifikat URL', l:'Sertifikat URL', t:'text'},
       {k:'Catatan', l:'Catatan', t:'textarea'},
+      {k:'No Permintaan Terkait', l:'No Permintaan Terkait', t:'text', ro:true, roText:'Terisi otomatis dari Permintaan Kalibrasi'},
     ]},
   { key:'pr', label:'Purchase Request', icon:'cart-shopping', group:'Transaksi', sheet:'Purchase Request', id:'No PR', autoId:true, statusField:'Status',
     fields:[
@@ -845,10 +1119,11 @@ const MODULES = [
       {k:'Satuan', l:'Satuan', t:'text'},
       {k:'Vendor Usulan', l:'Vendor Usulan', t:'select', opt:optFrom('Master Vendor','Nama Vendor')},
       {k:'Estimasi Biaya (Rp)', l:'Estimasi Biaya (Rp)', t:'number'},
-      {k:'Diminta Oleh', l:'Diminta Oleh', t:'select', opt:optFrom('Master Teknisi','Nama')},
+      {k:'Diminta Oleh', l:'Diminta Oleh', t:'text'},
       {k:'Disetujui Oleh', l:'Disetujui Oleh', t:'text'},
       {k:'Status', l:'Status', t:'select', opt:STATIC_OPTIONS.statusPR},
       {k:'Catatan', l:'Catatan', t:'textarea'},
+      {k:'No Permintaan Terkait', l:'No Permintaan Terkait', t:'text', ro:true, roText:'Terisi otomatis dari Permintaan Penambahan'},
     ]},
   { key:'biaya', label:'Biaya Maintenance', icon:'money-bill-wave', group:'Transaksi', sheet:'Biaya Maintenance', id:'No', autoId:true,
     fields:[
@@ -876,7 +1151,7 @@ const MODULES = [
     ]},
 ];
 
-const STATE = { data:{}, activeModule:'dashboard', editing:null, deleteCtx:null, detailCtx:null, search:'', filters:{}, filterPanelOpen:{}, user:null, isGuest:false, loadErrors:{} };
+const STATE = { data:{}, activeModule:'dashboard', editing:null, deleteCtx:null, detailCtx:null, search:'', filters:{}, filterPanelOpen:{}, user:null, isGuest:false, loadErrors:{}, proses:null };
 const GUEST_USER = { Username:'tamu', Nama:'Tamu', Role:'Tamu (Lihat Saja)' };
 
 // ==================================================================
@@ -886,16 +1161,33 @@ function formatRupiah(n){
   n = Number(n)||0;
   return 'Rp ' + n.toLocaleString('id-ID');
 }
-function formatTanggal(v){
-  if(!v) return '-';
-  const d = new Date(v);
-  if(isNaN(d)) return v;
-  return d.toLocaleDateString('id-ID',{day:'2-digit',month:'short',year:'numeric'});
+// Parser tanggal yang aman (Safari tidak mengerti "yyyy-MM-dd HH:mm" tanpa huruf T)
+function parseDt(v){
+  if(v===undefined || v===null || v==='') return null;
+  if(v instanceof Date) return isNaN(v) ? null : v;
+  let t = String(v).trim();
+  if(/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}/.test(t)) t = t.replace(' ', 'T');
+  const d = new Date(t);
+  return isNaN(d) ? null : d;
 }
-function todayISO(){ return new Date().toISOString().slice(0,10); }
+function formatTanggal(v, withTime){
+  if(!v) return '-';
+  const d = parseDt(v);
+  if(!d) return v;
+  let out = d.toLocaleDateString('id-ID',{day:'2-digit',month:'short',year:'numeric'});
+  if(withTime && /\d{2}:\d{2}/.test(String(v))){
+    out += ' ' + String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0');
+  }
+  return out;
+}
+// Tanggal hari ini menurut jam lokal perangkat (toISOString memakai UTC sehingga lewat tengah malam WIB bisa mundur 1 hari)
+function todayISO(){
+  const d = new Date();
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
 function daysDiff(dateStr){
   if(!dateStr) return null;
-  const d = new Date(dateStr); if(isNaN(d)) return null;
+  const d = parseDt(dateStr); if(!d) return null;
   const t = new Date(); t.setHours(0,0,0,0); d.setHours(0,0,0,0);
   return Math.round((d-t)/86400000);
 }
@@ -908,15 +1200,27 @@ function monthLabel(key){
   const names = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
   return names[parseInt(m,10)-1]+' '+y;
 }
-const STATUS_LIKE_KEYS = ['Status','Prioritas','Hasil','Kondisi Umum'];
+const STATUS_LIKE_KEYS = ['Status','Prioritas','Hasil','Hasil Kalibrasi','Kondisi Umum','Status Lama','Status Baru'];
 function badgeClass(v){
   const s = String(v||'').toLowerCase();
   if(['aktif','selesai','lulus','layak operasi','disetujui','rendah'].includes(s)) return 'badge-ok';
-  if(['rusak','non-aktif','tidak lulus','tidak layak operasi','ditolak','kedaluwarsa','dibatalkan'].includes(s)) return 'badge-bad';
-  if(['dalam perbaikan','in progress','perlu perhatian','perlu penyesuaian','terjadwal','akan berakhir','diajukan','terpasang','sedang','terlambat'].includes(s)) return 'badge-warn';
-  if(['open'].includes(s)) return 'badge-info';
-  if(['tinggi','darurat'].includes(s)) return 'badge-bad';
+  if(['rusak','non-aktif','tidak lulus','tidak layak','tidak layak operasi','ditolak','kedaluwarsa','dibatalkan','resign'].includes(s)) return 'badge-bad';
+  if(['tinggi','darurat','kritis'].includes(s)) return 'badge-bad';
+  if(['dalam perbaikan','dalam proses','in progress','perlu perhatian','perlu penyesuaian','lulus dengan catatan','terjadwal','akan berakhir','diajukan','terpasang','sedang','terlambat','cuti','menunggu sparepart','direview'].includes(s)) return 'badge-warn';
+  if(['open','diterima','dijadwalkan','diproses','pengadaan','standby'].includes(s)) return 'badge-info';
   return 'badge-muted';
+}
+// Nilai sel -> {display: HTML aman, plain: teks biasa}. Dipakai tabel, detail, dan ringkasan proses.
+function cellOf(f, val){
+  const kLower = f.k.toLowerCase();
+  const isMoney = f.t==='number' && (kLower.indexOf('harga')>-1 || kLower.indexOf('biaya')>-1 || kLower.indexOf('(rp)')>-1);
+  let display, plain;
+  if(f.t==='date' || f.t==='datetime'){ plain = formatTanggal(val, f.t==='datetime'); display = esc(plain); }
+  else if(isMoney){ plain = (val!==undefined && val!==null && val!=='') ? formatRupiah(val) : '-'; display = esc(plain); }
+  else if(isAssetKey(f.k)){ plain = assetLabel(val); display = esc(plain); }
+  else { plain = (val!==undefined && val!==null && val!=='') ? String(val) : '-'; display = esc(plain); }
+  if(STATUS_LIKE_KEYS.indexOf(f.k)>-1 && val){ display = '<span class="badge '+badgeClass(val)+'">'+esc(val)+'</span>'; plain = String(val); }
+  return { display:display, plain:plain };
 }
 function esc(v){
   if(v===undefined||v===null) return '';
@@ -1021,7 +1325,7 @@ function loadAll(silent){
         bar.style.display = 'none';
       }
       document.getElementById('syncInfo').textContent = 'Tersinkron ' + new Date().toLocaleTimeString('id-ID');
-      renderSidebarCounts();
+      processRequestAlerts('load');
       renderCurrent();
     } else {
       showToast(res.error || 'Gagal memuat data', 'err');
@@ -1119,6 +1423,7 @@ function enterApp(){
   renderUserChip();
   const gb = document.getElementById('guestBanner');
   if(gb) gb.style.display = STATE.isGuest ? 'flex' : 'none';
+  initNotif();
   loadAll();
 }
 function doLogout(){
@@ -1160,7 +1465,11 @@ function renderSidebar(){
 function renderSidebarCounts(){
   MODULES.forEach(function(m){
     const el = document.getElementById('cnt_'+m.key);
-    if(el) el.textContent = (STATE.data[m.sheet]||[]).length;
+    if(!el) return;
+    const total = (STATE.data[m.sheet]||[]).length;
+    const p = m.req ? (NOTIF.pendingByKey[m.key]||0) : 0;
+    if(p>0){ el.textContent = p; el.classList.add('alert'); el.title = p+' belum dieksekusi dari '+total+' data'; }
+    else { el.textContent = total; el.classList.remove('alert'); el.removeAttribute('title'); }
   });
 }
 function getModule(key){ return MODULES.find(function(m){ return m.key===key; }); }
@@ -1188,8 +1497,8 @@ function renderCurrent(){
   const mod = getModule(STATE.activeModule);
   if(!mod){ content.innerHTML=''; return; }
   document.getElementById('pageTitle').textContent = mod.label;
-  document.getElementById('pageSub').textContent = mod.group+' • Kelola data '+mod.label.toLowerCase();
-  if(STATE.isGuest){
+  document.getElementById('pageSub').textContent = mod.group+' • '+((mod.readonly||mod.req)?'Pantau data ':'Kelola data ')+mod.label.toLowerCase();
+  if(STATE.isGuest || mod.readonly || mod.req){
     btnAdd.style.display = 'none';
   } else {
     btnAdd.style.display = 'inline-flex';
@@ -1202,7 +1511,7 @@ function renderCurrent(){
 // FILTER — util
 // ==================================================================
 function getFilterableFields(mod){ return mod.fields.filter(function(f){ return f.t==='select'; }); }
-function getDateField(mod){ return mod.fields.find(function(f){ return f.t==='date'; }); }
+function getDateField(mod){ return mod.fields.find(function(f){ return f.t==='date' || f.t==='datetime'; }); }
 function getFieldOptions(mod, f){
   const rows = STATE.data[mod.sheet]||[];
   const set = {};
@@ -1216,7 +1525,7 @@ function countActiveFilters(mod){
   const filt = STATE.filters[mod.key]; if(!filt) return 0;
   let c = 0;
   Object.keys(filt).forEach(function(fk){
-    if(fk==='__dateField') return;
+    if(fk==='__dateField' || fk==='__pendingOnly') return;
     if(filt[fk]) c++;
   });
   return c;
@@ -1230,13 +1539,17 @@ function getFilteredRows(mod){
   const filt = STATE.filters[mod.key];
   if(filt){
     Object.keys(filt).forEach(function(fk){
-      if(fk==='__dateField' || fk==='__dateFrom' || fk==='__dateTo') return;
+      if(fk==='__dateField' || fk==='__dateFrom' || fk==='__dateTo' || fk==='__pendingOnly') return;
       const v = filt[fk];
       if(v) out = out.filter(function(r){ return String(r[fk]||'')===v; });
     });
+    if(filt.__pendingOnly && mod.req){
+      const pend = REQ_CFG[mod.key].pending;
+      out = out.filter(function(r){ const st = String(r['Status']||'').trim(); return !st || pend.indexOf(st)>-1; });
+    }
     if(filt.__dateField && (filt.__dateFrom || filt.__dateTo)){
       out = out.filter(function(r){
-        const d = new Date(r[filt.__dateField]); if(isNaN(d)) return false;
+        const d = parseDt(r[filt.__dateField]); if(!d) return false;
         if(filt.__dateFrom && d < new Date(filt.__dateFrom)) return false;
         if(filt.__dateTo && d > new Date(filt.__dateTo+'T23:59:59')) return false;
         return true;
@@ -1249,15 +1562,37 @@ function getFilteredRows(mod){
 // ==================================================================
 // TABLE MODUL
 // ==================================================================
+function tableFields(mod){
+  if(!mod.tableCols) return mod.fields;
+  return mod.fields.filter(function(f){ return mod.tableCols.indexOf(f.k)>-1; });
+}
+function rowActionsHtml(mod, r){
+  const viewOnly = '<span class="sub" style="font-size:11px;">'+icon('eye')+' Lihat</span>';
+  if(STATE.isGuest || mod.readonly) return viewOnly;
+  if(mod.req){
+    if(!canProcess()) return viewOnly;
+    return '<button class="btn btn-primary btn-sm" onclick="event.stopPropagation(); openProses(getModule(\''+mod.key+'\'), '+r.__row+')" title="Proses permintaan">'+icon('play')+' Proses</button>'+
+           '<button class="btn btn-danger btn-sm" onclick="event.stopPropagation(); openDeleteConfirm(getModule(\''+mod.key+'\'), '+r.__row+')" title="Hapus">'+icon('trash')+'</button>';
+  }
+  return '<button class="btn btn-ghost btn-sm" onclick="event.stopPropagation(); openForm(getModule(\''+mod.key+'\'), '+r.__row+')" title="Edit">'+icon('pen')+'</button>'+
+         '<button class="btn btn-danger btn-sm" onclick="event.stopPropagation(); openDeleteConfirm(getModule(\''+mod.key+'\'), '+r.__row+')" title="Hapus">'+icon('trash')+'</button>';
+}
 function renderModuleTable(mod, content){
   const filterFields = getFilterableFields(mod);
   const dateField = getDateField(mod);
+  const cols = tableFields(mod);
   const filt = STATE.filters[mod.key] || {};
   const activeCount = countActiveFilters(mod);
   const panelOpen = !!STATE.filterPanelOpen[mod.key];
 
-  let html = '<div class="toolbar">';
+  let html = '';
+  if(mod.note) html += '<div class="mod-note">'+icon('circle-info')+' <span>'+esc(mod.note)+'</span></div>';
+  html += '<div class="toolbar">';
   html += '<div class="search-wrap">'+icon('magnifying-glass')+'<input class="search" id="searchInput" placeholder="Cari data di modul ini..." value="'+esc(STATE.search)+'"></div>';
+  if(mod.req){
+    const pn = NOTIF.pendingByKey[mod.key]||0;
+    html += '<button class="btn btn-pending'+(filt.__pendingOnly?' on':'')+'" id="btnPendingOnly" title="Tampilkan hanya yang belum dieksekusi">'+icon('hourglass-half')+' Belum Dieksekusi <span class="fcount">'+pn+'</span></button>';
+  }
   html += '<button class="btn btn-filter'+(activeCount?' has-active':'')+'" id="btnToggleFilter">'+icon('filter')+' Filter'+(activeCount?' <span class="fcount">'+activeCount+'</span>':'')+'</button>';
   html += '<button class="btn btn-print" id="btnPrintTable">'+icon('print')+' Cetak</button>';
   html += '<button class="btn btn-excel" id="btnExportExcel">'+icon('file-excel')+' Excel</button>';
@@ -1284,31 +1619,23 @@ function renderModuleTable(mod, content){
   const filtered = getFilteredRows(mod);
 
   html += '<div class="table-wrap"><table><thead><tr>';
-  mod.fields.forEach(function(f){ html += '<th>'+esc(f.l)+'</th>'; });
+  cols.forEach(function(f){ html += '<th>'+esc(f.l)+'</th>'; });
   html += '<th>Aksi</th></tr></thead><tbody>';
 
   if(filtered.length===0){
-    html += '<tr><td colspan="'+(mod.fields.length+1)+'" style="text-align:center;color:var(--muted);padding:28px;">'+icon('inbox')+' Belum ada data'+((STATE.search||activeCount)?' yang cocok filter/pencarian':'')+'.</td></tr>';
+    html += '<tr><td colspan="'+(cols.length+1)+'" style="text-align:center;color:var(--muted);padding:28px;">'+icon('inbox')+' Belum ada data'+((STATE.search||activeCount||filt.__pendingOnly)?' yang cocok filter/pencarian':'')+'.</td></tr>';
   } else {
     filtered.forEach(function(r){
-      html += '<tr onclick="openDetail(getModule(\''+mod.key+'\'), '+r.__row+')" title="Klik untuk lihat detail">';
-      mod.fields.forEach(function(f){
+      const alertItem = mod.req ? NOTIF.map[mod.sheet+'|'+r[mod.id]] : null;
+      html += '<tr'+(alertItem && alertItem.pending ? ' class="row-pending"' : '')+' onclick="openDetail(getModule(\''+mod.key+'\'), '+r.__row+')" title="Klik untuk lihat detail">';
+      cols.forEach(function(f){
         const val = r[f.k];
-        let display, plainText;
-        const kLower = f.k.toLowerCase();
-        if(f.t==='date'){ display = formatTanggal(val); plainText = display; }
-        else if(kLower.indexOf('harga')>-1 || kLower.indexOf('biaya')>-1){ display = (val!==undefined && val!=='') ? formatRupiah(val) : '-'; plainText = display; }
-        else if(f.k==='Kode Alat'){ plainText = assetLabel(val); display = esc(plainText); }
-        else { plainText = (val!==undefined && val!=='' ? val : '-'); display = esc(plainText); }
-        if(STATUS_LIKE_KEYS.indexOf(f.k)>-1 && val){ display = '<span class="badge '+badgeClass(val)+'">'+esc(val)+'</span>'; plainText = val; }
-        html += '<td'+(f.t==='textarea' ? ' class="td-wrap"' : ' title="'+esc(String(plainText))+'"')+'>'+display+'</td>';
+        const c = cellOf(f, val);
+        let display = c.display;
+        if(alertItem && f.k===mod.id) display += chipsHtml(alertItem, true);
+        html += '<td'+(f.t==='textarea' ? ' class="td-wrap"' : ' title="'+esc(String(c.plain))+'"')+'>'+display+'</td>';
       });
-      html += '<td class="row-actions col-actions">'+
-        (STATE.isGuest
-          ? '<span class="sub" style="font-size:11px;">'+icon('eye')+' Lihat</span>'
-          : '<button class="btn btn-ghost btn-sm" onclick="event.stopPropagation(); openForm(getModule(\''+mod.key+'\'), '+r.__row+')" title="Edit">'+icon('pen')+'</button>'+
-            '<button class="btn btn-danger btn-sm" onclick="event.stopPropagation(); openDeleteConfirm(getModule(\''+mod.key+'\'), '+r.__row+')" title="Hapus">'+icon('trash')+'</button>')+
-        '</td></tr>';
+      html += '<td class="row-actions col-actions">'+rowActionsHtml(mod, r)+'</td></tr>';
     });
   }
   html += '</tbody></table></div>';
@@ -1325,6 +1652,12 @@ function renderModuleTable(mod, content){
     inp2.focus(); inp2.setSelectionRange(pos,pos);
   });
 
+  const bp = document.getElementById('btnPendingOnly');
+  if(bp) bp.addEventListener('click', function(){
+    if(!STATE.filters[mod.key]) STATE.filters[mod.key] = {};
+    STATE.filters[mod.key].__pendingOnly = !STATE.filters[mod.key].__pendingOnly;
+    renderModuleTable(mod, content);
+  });
   document.getElementById('btnToggleFilter').addEventListener('click', function(){
     STATE.filterPanelOpen[mod.key] = !STATE.filterPanelOpen[mod.key];
     document.getElementById('filterPanel').classList.toggle('open', STATE.filterPanelOpen[mod.key]);
@@ -1372,8 +1705,8 @@ function buildExportRows(mod){
     const o = {};
     mod.fields.forEach(function(f){
       let v = r[f.k];
-      if(f.t==='date') v = formatTanggal(v);
-      else if(f.k==='Kode Alat') v = assetLabel(v);
+      if(f.t==='date' || f.t==='datetime') v = formatTanggal(v, f.t==='datetime');
+      else if(isAssetKey(f.k)) v = assetLabel(v);
       o[f.l] = (v===undefined||v===null) ? '' : v;
     });
     return o;
@@ -1447,14 +1780,7 @@ function printTable(mod){
   rows.forEach(function(r, idx){
     html += '<tr><td>'+(idx+1)+'</td>';
     mod.fields.forEach(function(f){
-      const val = r[f.k];
-      const kLower = f.k.toLowerCase();
-      let display;
-      if(f.t==='date') display = formatTanggal(val);
-      else if(kLower.indexOf('harga')>-1 || kLower.indexOf('biaya')>-1) display = (val!==undefined && val!=='') ? formatRupiah(val) : '-';
-      else if(f.k==='Kode Alat') display = esc(assetLabel(val));
-      else display = esc(val!==undefined && val!=='' ? val : '-');
-      html += '<td>'+display+'</td>';
+      html += '<td>'+esc(cellOf(f, r[f.k]).plain)+'</td>';
     });
     html += '</tr>';
   });
@@ -1469,6 +1795,11 @@ function printTable(mod){
 // ==================================================================
 function openForm(mod, rowRow){
   if(STATE.isGuest){ showToast('Mode Tamu hanya untuk melihat data', 'err'); return; }
+  if(mod.readonly){ showToast('Modul ini hanya untuk dilihat', 'err'); return; }
+  if(mod.req){
+    if(!rowRow){ showToast('Permintaan dibuat oleh pemohon lewat portal', 'err'); return; }
+    return openProses(mod, rowRow);
+  }
   const rows = STATE.data[mod.sheet] || [];
   const rowData = rowRow ? rows.find(function(r){ return r.__row===rowRow; }) : null;
   STATE.editing = { mod: mod, rowIndex: rowRow, rowData: rowData };
@@ -1489,13 +1820,15 @@ function openForm(mod, rowRow){
     let input;
     if(f.ro && !rowData){
       input = document.createElement('input');
-      input.type = 'text'; input.value = 'Otomatis dibuat sistem'; input.disabled = true;
+      input.type = 'text'; input.value = f.roText || 'Otomatis dibuat sistem'; input.disabled = true;
     } else if(f.ro && rowData){
       input = document.createElement('input');
       input.type = 'text'; input.value = currentVal; input.disabled = true;
     } else if(f.t==='select'){
       input = document.createElement('select');
       const opts = typeof f.opt==='function' ? f.opt() : (Array.isArray(f.opt) ? f.opt.map(function(v){return {value:v,label:v};}) : []);
+      // nilai yang sudah tersimpan tapi tidak ada di daftar pilihan tetap dipertahankan (supaya tidak terhapus saat Simpan)
+      if(currentVal && !opts.some(function(o){ return String(o.value)===String(currentVal); })) opts.unshift({value:currentVal, label:currentVal});
       input.innerHTML = '<option value="">— pilih —</option>' + opts.map(function(o){
         return '<option value="'+esc(o.value)+'"'+(String(o.value)===String(currentVal)?' selected':'')+'>'+esc(o.label)+'</option>';
       }).join('');
@@ -1529,18 +1862,14 @@ function openDetail(mod, rowRow){
   document.getElementById('detailSub').textContent = mod.id+': '+(rowData[mod.id]||'-');
   const grid = document.getElementById('detailGrid');
   grid.innerHTML = mod.fields.map(function(f){
-    const val = rowData[f.k];
-    let display;
-    const kLower = f.k.toLowerCase();
-    if(f.t==='date') display = formatTanggal(val);
-    else if(kLower.indexOf('harga')>-1 || kLower.indexOf('biaya')>-1) display = (val!==undefined && val!=='') ? formatRupiah(val) : '-';
-    else if(f.k==='Kode Alat') display = esc(assetLabel(val));
-    else display = esc(val!==undefined && val!=='' ? val : '-');
-    if(STATUS_LIKE_KEYS.indexOf(f.k)>-1 && val){ display = '<span class="badge '+badgeClass(val)+'">'+esc(val)+'</span>'; }
+    const display = cellOf(f, rowData[f.k]).display;
     return '<div class="ditem'+(f.t==='textarea'?' full':'')+'"><div class="dl">'+esc(f.l)+'</div><div class="dv">'+display+'</div></div>';
   }).join('');
   const btnEdit = document.getElementById('btnEditFromDetail');
-  if(btnEdit) btnEdit.style.display = STATE.isGuest ? 'none' : 'inline-flex';
+  if(btnEdit){
+    btnEdit.style.display = (STATE.isGuest || mod.readonly || (mod.req && !canProcess())) ? 'none' : 'inline-flex';
+    btnEdit.innerHTML = mod.req ? icon('play')+' Proses' : icon('pen')+' Edit Data';
+  }
   document.getElementById('detailOverlay').classList.add('show');
 }
 function closeDetail(){ document.getElementById('detailOverlay').classList.remove('show'); STATE.detailCtx = null; }
@@ -1576,6 +1905,7 @@ function saveForm(){
 // ==================================================================
 function openDeleteConfirm(mod, rowRow){
   if(STATE.isGuest){ showToast('Mode Tamu hanya untuk melihat data', 'err'); return; }
+  if(mod.readonly){ showToast('Modul ini hanya untuk dilihat', 'err'); return; }
   STATE.deleteCtx = { mod: mod, rowIndex: rowRow };
   document.getElementById('confirmOverlay').classList.add('show');
 }
@@ -1588,6 +1918,437 @@ function confirmDelete(){
     else { showToast(res.error || 'Gagal menghapus data', 'err'); }
   }).catch(function(err){ showToast('Gagal menghapus: '+err, 'err'); })
   .finally(hideLoading);
+}
+
+// ==================================================================
+// NOTIFIKASI PERMINTAAN — Order Perbaikan, Permintaan Kalibrasi, Permintaan Penambahan
+//  • BARU            : ID yang belum pernah dilihat user ini (disimpan di localStorage per username)
+//  • BELUM DIEKSEKUSI: status masih di tahap awal (lihat REQ_CFG.pending)
+//  • LEWAT JADWAL/TENGGAT: tanggal sudah lewat tetapi belum selesai
+// Data dicek ulang otomatis tiap POLL_MS tanpa memuat ulang seluruh database.
+// ==================================================================
+const BASE_TITLE = document.title;
+const NOTIF = { seen:{}, announced:{}, items:[], map:{}, pendingByKey:{}, newByKey:{}, overdueByKey:{},
+  totalPending:0, totalNew:0, tab:'all', soundOn:true, started:false, first:true, timer:null, ac:null, polling:false, panelOpen:false };
+
+function notifKey(){ return 'msb_notif_seen_v1_'+((STATE.user && STATE.user.Username) || 'tamu'); }
+function notifLoad(){
+  try{ NOTIF.seen = JSON.parse(localStorage.getItem(notifKey()) || '{}') || {}; }catch(e){ NOTIF.seen = {}; }
+  try{ NOTIF.soundOn = localStorage.getItem('msb_notif_sound') !== '0'; }catch(e){ NOTIF.soundOn = true; }
+}
+function notifSave(){ try{ localStorage.setItem(notifKey(), JSON.stringify(NOTIF.seen)); }catch(e){} }
+
+function reqTitle(k, r){
+  if(k==='order') return r['Nama Aset'] || r['Kode Aset'] || '-';
+  if(k==='reqkal') return (r['Nama Aset'] || r['Kode Aset'] || '-') + (r['Parameter Kalibrasi'] ? ' — '+r['Parameter Kalibrasi'] : '');
+  return (r['Nama Alat/Mesin Diminta'] || '-') + (r['Jumlah'] ? ' ×'+r['Jumlah'] : '');
+}
+
+function computeRequestAlerts(){
+  const items = [], map = {}, pendingByKey = {}, newByKey = {}, overdueByKey = {};
+  REQ_KEYS.forEach(function(k){
+    const cfg = REQ_CFG[k], mod = getModule(k);
+    pendingByKey[k] = 0; newByKey[k] = 0; overdueByKey[k] = 0;
+    (STATE.data[mod.sheet] || []).forEach(function(r){
+      const id = r[mod.id]; if(!id) return;
+      const st = String(r['Status'] || '').trim();
+      const isPending = !st || cfg.pending.indexOf(st) > -1;
+      const isClosed = cfg.closed.indexOf(st) > -1;
+      const dd = daysDiff(r[cfg.dueField]);
+      const inScope = cfg.dueScope === 'pending' ? isPending : !isClosed;
+      const overdue = inScope && dd !== null && dd < 0;
+      if(!isPending && !overdue) return;
+      const key = mod.sheet+'|'+id;
+      const ad = daysDiff(r['Tanggal Diajukan']);
+      const prio = String(r['Prioritas'] || '');
+      const it = { key:key, modKey:k, id:id, row:r.__row, status:st || '-', pending:isPending, overdue:overdue,
+        overdueDays: overdue ? -dd : 0, dueLabel:cfg.dueLabel, age: ad===null ? null : -ad, prio:prio,
+        urgent: prio==='Darurat' || prio==='Tinggi', isNew: isPending && !NOTIF.seen[key],
+        title: reqTitle(k, r), sub: [r['Pemohon'], r['Departemen']].filter(Boolean).join(' • ') || '-' };
+      it.score = (overdue?1000:0) + (prio==='Darurat'?600:(prio==='Tinggi'?400:0)) + (it.isNew?100:0) + (it.age||0);
+      items.push(it); map[key] = it;
+      if(isPending) pendingByKey[k]++;
+      if(it.isNew) newByKey[k]++;
+      if(overdue) overdueByKey[k]++;
+    });
+  });
+  items.sort(function(a,b){ return b.score - a.score; });
+  NOTIF.items = items; NOTIF.map = map;
+  NOTIF.pendingByKey = pendingByKey; NOTIF.newByKey = newByKey; NOTIF.overdueByKey = overdueByKey;
+  NOTIF.totalPending = REQ_KEYS.reduce(function(s,k){ return s + pendingByKey[k]; }, 0);
+  NOTIF.totalNew = REQ_KEYS.reduce(function(s,k){ return s + newByKey[k]; }, 0);
+}
+
+function chipsHtml(it, compact){
+  let h = '';
+  if(it.isNew) h += '<span class="chip chip-new">BARU</span>';
+  if(it.overdue) h += '<span class="chip chip-late">'+esc(it.dueLabel)+' '+it.overdueDays+' hr</span>';
+  if(!compact){
+    if(it.urgent) h += '<span class="chip chip-urg">'+esc(it.prio)+'</span>';
+    if(it.pending && it.age!==null && it.age >= AGING_DAYS) h += '<span class="chip chip-wait">menunggu '+it.age+' hr</span>';
+  }
+  return h;
+}
+function notifItemHtml(it){
+  const cfg = REQ_CFG[it.modKey];
+  return '<div class="np-item" data-key="'+esc(it.key)+'" title="Klik untuk lihat detail">'+
+    '<span class="np-ic" style="background:'+cfg.hex+'22;color:'+cfg.hex+'">'+icon(cfg.icon)+'</span>'+
+    '<span class="np-txt"><span class="np-t1">'+esc(it.id)+' — '+esc(it.title)+'</span>'+
+      '<span class="np-t2">'+esc(it.sub)+'</span>'+
+      '<span class="np-chips"><span class="badge '+badgeClass(it.status)+'">'+esc(it.status)+'</span>'+chipsHtml(it, false)+'</span></span>'+
+    '<i class="fa-solid fa-chevron-right np-go"></i></div>';
+}
+
+// ---------- bunyi & notifikasi browser ----------
+function playBeep(){
+  if(!NOTIF.soundOn) return;
+  try{
+    const AC = window.AudioContext || window.webkitAudioContext; if(!AC) return;
+    NOTIF.ac = NOTIF.ac || new AC();
+    const ac = NOTIF.ac; if(ac.state === 'suspended') ac.resume();
+    const t = ac.currentTime;
+    [880, 1175].forEach(function(freq, i){
+      const o = ac.createOscillator(), g = ac.createGain();
+      o.type = 'sine'; o.frequency.value = freq;
+      g.gain.setValueAtTime(0.0001, t+i*.16);
+      g.gain.exponentialRampToValueAtTime(.18, t+i*.16+.02);
+      g.gain.exponentialRampToValueAtTime(.0001, t+i*.16+.24);
+      o.connect(g); g.connect(ac.destination);
+      o.start(t+i*.16); o.stop(t+i*.16+.26);
+    });
+  }catch(e){}
+}
+function notifyBrowser(title, body){
+  try{
+    if(!('Notification' in window) || Notification.permission !== 'granted' || !document.hidden) return;
+    const n = new Notification(title, { body:body, icon:ASSET_FAVICON, tag:'msb-permintaan' });
+    n.onclick = function(){ window.focus(); openNotifPanel(); n.close(); };
+  }catch(e){}
+}
+function showReqToast(title, sub, onClick){
+  const host = document.getElementById('toastHost');
+  const el = document.createElement('div');
+  el.className = 'toast req';
+  el.innerHTML = icon('bell')+'<span><span class="t-main">'+esc(title)+'</span>'+(sub ? '<span class="t-sub">'+esc(sub)+'</span>' : '')+'</span>';
+  el.addEventListener('click', function(){ el.remove(); if(onClick) onClick(); });
+  host.appendChild(el);
+  setTimeout(function(){ el.remove(); }, 8000);
+}
+
+// ---------- lonceng & judul tab ----------
+function renderBell(){
+  const badge = document.getElementById('bellBadge'), btn = document.getElementById('btnBell');
+  if(!badge || !btn) return;
+  const n = NOTIF.totalPending;
+  badge.style.display = n > 0 ? 'flex' : 'none';
+  badge.textContent = n > 99 ? '99+' : n;
+  btn.classList.toggle('has-pending', n > 0);
+  btn.classList.toggle('has-new', NOTIF.totalNew > 0);
+  btn.title = n > 0 ? (n+' permintaan belum dieksekusi'+(NOTIF.totalNew ? ' ('+NOTIF.totalNew+' baru)' : '')) : 'Tidak ada permintaan yang menunggu';
+  document.title = (n > 0 ? '('+n+') ' : '') + BASE_TITLE;
+}
+function ringBell(){
+  const btn = document.getElementById('btnBell'); if(!btn) return;
+  btn.classList.remove('ring'); void btn.offsetWidth; btn.classList.add('ring');
+  setTimeout(function(){ btn.classList.remove('ring'); }, 2600);
+}
+function recomputeNotif(){
+  computeRequestAlerts();
+  renderBell();
+  renderSidebarCounts();
+}
+
+// ---------- alur utama: dipanggil setelah data dimuat (load) / dicek ulang (poll) ----------
+function processRequestAlerts(mode){
+  recomputeNotif();
+  const fresh = NOTIF.items.filter(function(i){ return i.isNew && !NOTIF.announced[i.key]; });
+  fresh.forEach(function(i){ NOTIF.announced[i.key] = 1; });
+  if(!STATE.isGuest){
+    if(NOTIF.first){
+      if(NOTIF.totalPending > 0){
+        showReqToast(NOTIF.totalPending+' permintaan belum dieksekusi',
+          (NOTIF.totalNew ? NOTIF.totalNew+' di antaranya belum Anda lihat' : 'Klik untuk melihat daftar'), openNotifPanel);
+        if(NOTIF.totalNew > 0){ playBeep(); ringBell(); }
+      }
+    } else if(fresh.length){
+      fresh.slice(0,3).forEach(function(it){
+        showReqToast('Permintaan baru — '+REQ_CFG[it.modKey].short+' '+it.id, it.title+(it.urgent ? ' • '+it.prio : ''),
+          function(){ openRequestItem(it.key); });
+      });
+      if(fresh.length > 3) showReqToast('+'+(fresh.length-3)+' permintaan baru lainnya', 'Klik untuk melihat daftar', openNotifPanel);
+      playBeep(); ringBell();
+      notifyBrowser(fresh.length+' permintaan baru masuk', fresh.slice(0,3).map(function(i){ return REQ_CFG[i.modKey].short+' '+i.id; }).join(', '));
+    }
+  }
+  NOTIF.first = false;
+  if(NOTIF.panelOpen) renderNotifPanel();
+}
+
+function reqSignature(){
+  return REQ_KEYS.map(function(k){
+    const m = getModule(k);
+    return (STATE.data[m.sheet] || []).map(function(r){ return r[m.id]+'|'+r['Status']+'|'+r['Terakhir Diperbarui']; }).join(';');
+  }).join('#');
+}
+// Perbarui tampilan yang sedang terbuka tanpa mengganggu user (tidak saat modal terbuka / sedang mengetik di pencarian)
+function softRefreshView(){
+  const k = STATE.activeModule, m = getModule(k);
+  const host = document.getElementById('reqDash');
+  if(k === 'dashboard' && host){ host.innerHTML = renderRequestDashboard(); return; }
+  if(!(m && m.req)) return;
+  if(document.querySelector('.overlay.show')) return;
+  const ae = document.activeElement; if(ae && ae.id === 'searchInput') return;
+  renderCurrent();
+}
+function pollRequests(){
+  if(!STATE.user || NOTIF.polling) return;
+  if(!CONFIG.API_URL || CONFIG.API_URL.indexOf('PASTE_URL') > -1) return;
+  NOTIF.polling = true;
+  Promise.all(REQ_KEYS.map(function(k){
+    const m = getModule(k);
+    return apiGet('sheet', { sheet:m.sheet }).then(function(r){ return (r && r.ok) ? { sheet:m.sheet, data:r.data } : null; });
+  })).then(function(res){
+    if(res.some(function(x){ return !x; })) return;           // gagal sebagian -> abaikan, coba lagi nanti
+    const before = reqSignature();
+    res.forEach(function(x){ STATE.data[x.sheet] = x.data; });
+    if(reqSignature() === before) return;
+    processRequestAlerts('poll');
+    softRefreshView();
+    document.getElementById('syncInfo').textContent = 'Tersinkron ' + new Date().toLocaleTimeString('id-ID');
+  }).catch(function(){ /* diam: jangan ganggu user dengan error jaringan sesaat */ })
+  .finally(function(){ NOTIF.polling = false; });
+}
+function initNotif(){
+  if(NOTIF.started) return;
+  NOTIF.started = true;
+  notifLoad();
+  NOTIF.timer = setInterval(pollRequests, POLL_MS);
+}
+
+// ---------- panel notifikasi ----------
+function openNotifPanel(){
+  NOTIF.panelOpen = true;
+  renderNotifPanel();
+  document.getElementById('notifPanel').classList.add('show');
+}
+function closeNotifPanel(){
+  if(!NOTIF.panelOpen) return;
+  NOTIF.panelOpen = false;
+  document.getElementById('notifPanel').classList.remove('show');
+  if(NOTIF.items.some(function(i){ return i.isNew; })) markAllSeen();   // membuka daftar = sudah dilihat
+}
+function toggleNotifPanel(){ if(NOTIF.panelOpen) closeNotifPanel(); else openNotifPanel(); }
+function markAllSeen(){
+  NOTIF.items.forEach(function(it){ NOTIF.seen[it.key] = 1; });
+  notifSave();
+  recomputeNotif();
+  softRefreshView();
+}
+function renderNotifPanel(){
+  const tabs = [{ k:'all', l:'Semua', n:NOTIF.items.length }].concat(REQ_KEYS.map(function(k){
+    return { k:k, l:REQ_CFG[k].short, n:NOTIF.items.filter(function(i){ return i.modKey===k; }).length };
+  }));
+  if(!tabs.some(function(t){ return t.k===NOTIF.tab; })) NOTIF.tab = 'all';
+  const list = NOTIF.items.filter(function(i){ return NOTIF.tab==='all' || i.modKey===NOTIF.tab; });
+  document.getElementById('npSub').textContent = NOTIF.totalPending+' belum dieksekusi'+(NOTIF.totalNew ? ' • '+NOTIF.totalNew+' baru' : '');
+  document.getElementById('npTabs').innerHTML = tabs.map(function(t){
+    return '<button class="np-tab'+(t.k===NOTIF.tab?' on':'')+'" data-tab="'+t.k+'">'+esc(t.l)+' <span>'+t.n+'</span></button>';
+  }).join('');
+  document.getElementById('npBody').innerHTML = list.length
+    ? list.slice(0,40).map(notifItemHtml).join('') + (list.length>40 ? '<div class="empty-note">+'+(list.length-40)+' lainnya — buka modulnya untuk melihat semua</div>' : '')
+    : '<div class="empty-note">'+icon('circle-check')+' Semua permintaan sudah ditangani</div>';
+  let foot = '<label class="np-opt"><input type="checkbox" id="npSound"'+(NOTIF.soundOn?' checked':'')+'> Bunyi notifikasi</label>';
+  if('Notification' in window){
+    if(Notification.permission === 'granted') foot += '<span class="np-opt ok">'+icon('circle-check')+' Notifikasi browser aktif</span>';
+    else if(Notification.permission === 'denied') foot += '<span class="np-opt">'+icon('ban')+' Notifikasi browser diblokir</span>';
+    else foot += '<button class="btn btn-ghost btn-sm" id="npBrowser">'+icon('bell')+' Aktifkan notifikasi browser</button>';
+  }
+  if(NOTIF.tab !== 'all') foot += '<button class="btn btn-ghost btn-sm" data-go="'+NOTIF.tab+'" style="margin-left:auto;">Buka modul '+icon('arrow-right')+'</button>';
+  document.getElementById('npFoot').innerHTML = foot;
+}
+function openRequestItem(key){
+  const it = NOTIF.map[key]; if(!it) return;
+  NOTIF.seen[key] = 1; notifSave();
+  NOTIF.panelOpen = false; document.getElementById('notifPanel').classList.remove('show');
+  recomputeNotif(); softRefreshView();
+  openDetail(getModule(it.modKey), it.row);
+}
+function goToModule(key, pendingOnly){
+  if(NOTIF.panelOpen) closeNotifPanel();
+  if(pendingOnly){ if(!STATE.filters[key]) STATE.filters[key] = {}; STATE.filters[key].__pendingOnly = true; }
+  setActive(key);
+}
+
+// ---------- kartu ringkasan di Dashboard ----------
+function reqTile(k){
+  const cfg = REQ_CFG[k], n = NOTIF.pendingByKey[k]||0, nw = NOTIF.newByKey[k]||0, od = NOTIF.overdueByKey[k]||0;
+  const sub = n===0 ? 'Semua sudah ditangani' : (nw+' baru • '+od+' '+(k==='order' ? 'lewat jadwal' : 'lewat tenggat'));
+  const cls = od>0 ? 'bad' : (n>0 ? 'warn' : 'ok');
+  return '<div class="kpi '+cfg.kc+' kpi-link" data-go="'+k+'" title="Buka '+esc(cfg.label)+'">'+
+    '<div class="kpi-top"><div class="kpi-icon">'+icon(cfg.icon)+'</div>'+(nw ? '<span class="chip chip-new">'+nw+' BARU</span>' : '')+'</div>'+
+    '<div class="val">'+n+'</div><div class="lbl">'+esc(cfg.label)+' — belum dieksekusi</div><div class="sub '+cls+'">'+sub+'</div></div>';
+}
+function renderRequestDashboard(){
+  const top = NOTIF.items.slice(0, 6);
+  let h = '<div class="req-head"><h3>'+sectionIcon('bell','#f97316')+' Permintaan Masuk</h3><span class="req-sub">'+NOTIF.totalPending+' belum dieksekusi'+(NOTIF.totalNew ? ' • <b>'+NOTIF.totalNew+' baru</b>' : '')+'</span></div>';
+  h += '<div class="kpi-grid">'+REQ_KEYS.map(reqTile).join('')+'</div>';
+  h += '<div class="card req-card"><h3>'+sectionIcon('hourglass-half','#f97316')+' Antrean Teratas</h3>'+
+    (top.length ? '<div class="np-list">'+top.map(notifItemHtml).join('')+'</div>' : '<div class="empty-note">'+icon('circle-check')+' Tidak ada permintaan yang menunggu tindakan</div>')+'</div>';
+  return h;
+}
+
+// ==================================================================
+// PROSES PERMINTAAN (Maintenance) — memakai action "setStatus" di Code.gs,
+// sehingga riwayat status & otomasi (Work Order / Kalibrasi Log / Purchase Request) ikut berjalan.
+// ==================================================================
+const PROSES_HINT = {
+  order:     'Saat status diubah ke Diproses, Work Order dibuat otomatis. Saat Selesai, Work Order ikut ditutup.',
+  reqkal:    'Saat status Selesai, hasil tercatat otomatis di Kalibrasi Log — isi Hasil Kalibrasi terlebih dulu.',
+  reqtambah: 'Saat status Disetujui, Purchase Request dibuat otomatis.',
+};
+function prosesId(k){ return 'p_'+k.replace(/[^a-zA-Z0-9]/g, '_'); }
+function openProses(mod, rowRow){
+  if(!canProcess()){ showToast('Hanya Maintenance/Admin yang dapat memproses permintaan', 'err'); return; }
+  const rowData = (STATE.data[mod.sheet] || []).find(function(r){ return r.__row === rowRow; });
+  if(!rowData){ showToast('Data tidak ditemukan — coba Refresh', 'err'); return; }
+  STATE.proses = { mod:mod, rowData:rowData };
+  document.getElementById('prosesTitle').innerHTML = icon('screwdriver-wrench')+' Proses '+esc(mod.label);
+  document.getElementById('prosesSub').textContent = mod.id+': '+rowData[mod.id];
+  document.getElementById('prosesHint').innerHTML = icon('circle-info')+' '+esc(PROSES_HINT[mod.key] || '');
+  document.getElementById('prosesSummary').innerHTML = PROSES_SUMMARY[mod.key].map(function(k){
+    const f = mod.fields.find(function(x){ return x.k === k; }); if(!f) return '';
+    return '<div class="ditem'+(f.t==='textarea'?' full':'')+'"><div class="dl">'+esc(f.l)+'</div><div class="dv">'+cellOf(f, rowData[k]).display+'</div></div>';
+  }).join('');
+
+  const grid = document.getElementById('prosesGrid');
+  grid.innerHTML = '';
+  PROSES_FIELDS[mod.key].forEach(function(k){
+    const f = mod.fields.find(function(x){ return x.k === k; }); if(!f) return;
+    const cur = rowData[k] === undefined || rowData[k] === null ? '' : rowData[k];
+    const wrap = document.createElement('div');
+    wrap.className = 'field' + (f.t==='textarea' ? ' full' : '');
+    wrap.innerHTML = '<label>'+esc(f.l)+(k==='Status' ? ' <span class="req">*</span>' : '')+'</label>';
+    let input;
+    if(f.t === 'select'){
+      input = document.createElement('select');
+      const opts = typeof f.opt==='function' ? f.opt() : (f.opt||[]).map(function(v){ return {value:v,label:v}; });
+      if(cur && !opts.some(function(o){ return String(o.value)===String(cur); })) opts.unshift({value:cur, label:cur});
+      input.innerHTML = '<option value="">— pilih —</option>'+opts.map(function(o){
+        return '<option value="'+esc(o.value)+'"'+(String(o.value)===String(cur)?' selected':'')+'>'+esc(o.label)+'</option>';
+      }).join('');
+    } else if(f.t === 'textarea'){
+      input = document.createElement('textarea'); input.value = cur;
+    } else if(f.t === 'date'){
+      input = document.createElement('input'); input.type = 'date'; input.value = String(cur).slice(0,10);
+    } else {
+      input = document.createElement('input'); input.type = 'text'; input.value = cur;
+      if(k === 'Teknisi/Vendor'){
+        input.setAttribute('list', 'dlTekVendor');
+        input.placeholder = 'Pilih teknisi/vendor atau ketik sendiri';
+      }
+    }
+    input.id = prosesId(k);
+    wrap.appendChild(input);
+    grid.appendChild(wrap);
+  });
+  // daftar saran untuk Teknisi/Vendor
+  const dl = document.getElementById('dlTekVendor');
+  dl.innerHTML = (STATE.data['Master Teknisi']||[]).map(function(r){ return r['Nama']; })
+    .concat((STATE.data['Master Vendor']||[]).map(function(r){ return r['Nama Vendor']; }))
+    .filter(Boolean).map(function(v){ return '<option value="'+esc(v)+'"></option>'; }).join('');
+
+  // bantuan pengisian otomatis saat status berubah
+  const st = document.getElementById(prosesId('Status'));
+  st.addEventListener('change', function(){
+    const tgl = document.getElementById(prosesId('Tanggal Selesai'));
+    if(st.value === 'Selesai' && tgl && !tgl.value) tgl.value = todayISO();
+    const ap = document.getElementById(prosesId('Disetujui Oleh'));
+    if(st.value === 'Disetujui' && ap && !ap.value) ap.value = (STATE.user && (STATE.user.Username || STATE.user.Nama)) || '';
+  });
+
+  document.getElementById('prosesPw').value = '';
+  document.getElementById('prosesError').style.display = 'none';
+  document.getElementById('btnSaveProses').disabled = false;
+  document.getElementById('prosesOverlay').classList.add('show');
+}
+function closeProses(){
+  document.getElementById('prosesOverlay').classList.remove('show');
+  document.getElementById('prosesPw').value = '';
+  STATE.proses = null;
+}
+function prosesError(msg){
+  const el = document.getElementById('prosesError');
+  el.innerHTML = icon('triangle-exclamation')+' '+esc(msg);
+  el.style.display = 'flex';
+}
+function saveProses(){
+  const ctx = STATE.proses; if(!ctx) return;
+  const mod = ctx.mod, row = ctx.rowData;
+  const fields = {};
+  PROSES_FIELDS[mod.key].forEach(function(k){
+    const el = document.getElementById(prosesId(k));
+    fields[k] = el ? el.value : '';
+  });
+  const pw = document.getElementById('prosesPw').value;
+  document.getElementById('prosesError').style.display = 'none';
+  if(!fields['Status']){ prosesError('Status wajib dipilih.'); return; }
+  if(mod.key === 'reqkal' && fields['Status'] === 'Selesai' && !fields['Hasil Kalibrasi']){ prosesError('Hasil Kalibrasi wajib diisi sebelum status Selesai.'); return; }
+  if(!pw){ prosesError('Masukkan password akun Anda untuk konfirmasi.'); document.getElementById('prosesPw').focus(); return; }
+
+  const btn = document.getElementById('btnSaveProses');
+  btn.disabled = true;
+  showLoading('Menyimpan perubahan');
+  apiPost({ action:'setStatus', username:STATE.user.Username, password:pw, sheet:mod.sheet, id:row[mod.id], fields:fields })
+  .then(function(res){
+    if(res && res.ok){
+      NOTIF.seen[mod.sheet+'|'+row[mod.id]] = 1; notifSave();
+      showToast(row[mod.id]+' diperbarui → '+fields['Status']);
+      closeProses();
+      loadAll(true);
+    } else {
+      prosesError((res && res.error) || 'Gagal menyimpan perubahan.');
+      document.getElementById('prosesPw').value = '';
+    }
+  }).catch(function(err){ prosesError('Gagal terhubung ke server: '+err); })
+  .finally(function(){ hideLoading(); btn.disabled = false; });
+}
+
+// ---------- pengikat event (dipanggil sekali saat halaman siap) ----------
+function bindNotifUi(){
+  document.getElementById('btnBell').addEventListener('click', toggleNotifPanel);
+  document.getElementById('npClose').addEventListener('click', closeNotifPanel);
+  document.getElementById('btnCancelProses').addEventListener('click', closeProses);
+  document.getElementById('btnSaveProses').addEventListener('click', saveProses);
+  document.getElementById('prosesOverlay').addEventListener('click', function(e){ if(e.target.id === 'prosesOverlay') closeProses(); });
+  document.getElementById('prosesPw').addEventListener('keydown', function(e){ if(e.key === 'Enter') saveProses(); });
+
+  // satu pendengar klik untuk daftar permintaan (panel & dashboard), kartu ringkasan, tab, dan klik di luar panel
+  document.addEventListener('click', function(e){
+    const item = e.target.closest('.np-item[data-key]');
+    if(item){ openRequestItem(item.getAttribute('data-key')); return; }
+    const go = e.target.closest('[data-go]');
+    if(go){ goToModule(go.getAttribute('data-go'), true); return; }
+    const tab = e.target.closest('.np-tab[data-tab]');
+    if(tab){ NOTIF.tab = tab.getAttribute('data-tab'); renderNotifPanel(); return; }
+    if(e.target.closest('#npBrowser')){
+      try{ Notification.requestPermission().then(function(){ if(NOTIF.panelOpen) renderNotifPanel(); }); }catch(err){}
+      return;
+    }
+    if(NOTIF.panelOpen && !e.target.closest('#notifPanel') && !e.target.closest('#btnBell') && !e.target.closest('.toast')) closeNotifPanel();
+  });
+  document.addEventListener('change', function(e){
+    if(e.target && e.target.id === 'npSound'){
+      NOTIF.soundOn = e.target.checked;
+      try{ localStorage.setItem('msb_notif_sound', NOTIF.soundOn ? '1' : '0'); }catch(err){}
+      if(NOTIF.soundOn) playBeep();
+    }
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key !== 'Escape') return;
+    if(document.getElementById('prosesOverlay').classList.contains('show')) closeProses();
+    else if(NOTIF.panelOpen) closeNotifPanel();
+  });
+  document.addEventListener('visibilitychange', function(){ if(!document.hidden) pollRequests(); });
 }
 
 // ==================================================================
@@ -1626,8 +2387,8 @@ function renderDashboard(content){
   const wo = d['Work Order']||[];
   const woStatusCounts = {};
   wo.forEach(function(w){ const s=w['Status']||'Tanpa Status'; woStatusCounts[s]=(woStatusCounts[s]||0)+1; });
-  const woOpen = (woStatusCounts['Open']||0) + (woStatusCounts['In Progress']||0);
-  const woSelesai = woStatusCounts['Selesai']||0;
+  const woOpen = (woStatusCounts['Open']||0) + (woStatusCounts['In Progress']||0) + (woStatusCounts['Dalam Proses']||0);
+  const woSelesai = (woStatusCounts['Selesai']||0) + (woStatusCounts['Ditutup']||0);
 
   const biaya = d['Biaya Maintenance']||[];
   const thisMonth = todayISO().slice(0,7);
@@ -1649,7 +2410,8 @@ function renderDashboard(content){
   });
   kalGar.sort(function(a,b){ return a.dd-b.dd; });
 
-  let html = '<div class="kpi-grid">';
+  let html = '<div id="reqDash">'+renderRequestDashboard()+'</div>';
+  html += '<div class="kpi-grid">';
   html += kpi('c0','truck','Alat Aktif', alat.filter(function(a){return a['Status']==='Aktif';}).length, 'dari total '+alat.length+' unit alat', alat.filter(function(a){return a['Status']==='Rusak';}).length ? 'warn':'ok');
   html += kpi('c1','gears','Mesin Aktif', mesin.filter(function(a){return a['Status']==='Aktif';}).length, 'dari total '+mesin.length+' unit mesin', mesin.filter(function(a){return a['Status']==='Rusak';}).length ? 'warn':'ok');
   html += kpi('c2','clock-rotate-left','PM Overdue', pmOverdue.length, pmSoon.length+' lagi jatuh tempo ≤7 hari', pmOverdue.length>0?'bad':'ok');
@@ -1754,6 +2516,7 @@ document.addEventListener('DOMContentLoaded', function(){
   document.getElementById('btnGuestLogin').addEventListener('click', enterGuestMode);
   document.getElementById('btnExitGuest').addEventListener('click', doLogout);
   document.getElementById('btnLogout').addEventListener('click', doLogout);
+  bindNotifUi();
   initAuth();
 });
 </script>
