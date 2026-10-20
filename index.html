@@ -755,6 +755,11 @@ const STATIC_OPTIONS = {
   jenisTambah: ['Alat','Mesin'],
   statusRiwayat: ['Diajukan','Diterima','Dijadwalkan','Diproses','Menunggu Sparepart','Direview','Disetujui','Pengadaan','Selesai','Ditolak'],
   jenisDokumen: ['Order Perbaikan','Permintaan Kalibrasi','Permintaan Penambahan'],
+  // --- distribusi aset ---
+  jenisTransaksiDistribusi: ['Distribusi Awal','Mutasi Permanen','Peminjaman Sementara'],
+  jenisAsetPosisi: ['Alat','Mesin'],
+  statusDistribusi: ['Belum ada riwayat','Terdistribusi','Sedang Dipinjam','Terlambat Kembali','Dikembalikan'],
+  sinkronMaster: ['Sesuai','Perbarui Master','-'],
 };
 
 function optFrom(sheet, valueField, labelField){
@@ -1035,6 +1040,9 @@ const MODULES = [
       {k:'Lead Time (Hari)', l:'Lead Time (Hari)', t:'number'},
       {k:'Status', l:'Status', t:'select', opt:STATIC_OPTIONS.statusSparepart},
     ]},
+  // kolom modul dinamis dibaca otomatis dari data (lihat hydrateDynamicModules)
+  { key:'departemen', label:'Master Departemen', icon:'sitemap', group:'Master Data', sheet:'Master Departemen', id:'', readonly:true, dynamic:true, fields:[],
+    note:'Daftar departemen — hanya untuk dilihat di sini.' },
   { key:'jadwalpm', label:'Jadwal PM', icon:'calendar-days', group:'Transaksi', sheet:'Jadwal PM', id:'ID Jadwal', autoId:true, statusField:'Status',
     fields:[
       {k:'ID Jadwal', l:'ID Jadwal', t:'text', ro:true},
@@ -1149,9 +1157,74 @@ const MODULES = [
       {k:'Dokumen URL', l:'Dokumen URL', t:'text'},
       {k:'Status', l:'Status', t:'select', opt:STATIC_OPTIONS.statusGaransi},
     ]},
+  // ================= DISTRIBUSI ASET =================
+  { key:'distribusi', label:'Distribusi Aset', icon:'truck-ramp-box', group:'Distribusi Aset', sheet:'Distribusi Aset', id:'', autoId:true, dynamic:true, fields:[],
+    note:'Catat distribusi awal, mutasi, dan peminjaman alat/mesin. Kolom hasil hitung otomatis tidak ikut tertimpa saat data diedit.' },
+  { key:'posisi', label:'Posisi Aset', icon:'location-crosshairs', group:'Distribusi Aset', sheet:'Posisi Aset', id:'', readonly:true, dynamic:true, fields:[],
+    note:'Posisi terkini alat/mesin — dihitung otomatis dari riwayat distribusi, hanya untuk dilihat.' },
+  { key:'refaset', label:'Ref Kode Aset', icon:'barcode', group:'Distribusi Aset', sheet:'Ref Kode Aset', id:'', readonly:true, dynamic:true, fields:[],
+    note:'Daftar acuan kode aset — hanya untuk dilihat.' },
+  { key:'rekapdist', label:'Rekap Distribusi', icon:'table-list', group:'Distribusi Aset', sheet:'Rekap Distribusi', id:'', readonly:true, dynamic:true, fields:[],
+    note:'Rekap distribusi aset — dihitung otomatis, hanya untuk dilihat.' },
+  { key:'ringkasan', label:'Ringkasan Dashboard', icon:'chart-pie', group:'Distribusi Aset', sheet:'Dashboard', id:'', readonly:true, dynamic:true, fields:[],
+    note:'Ringkasan angka yang dihitung otomatis — hanya untuk dilihat.' },
 ];
 
-const STATE = { data:{}, activeModule:'dashboard', editing:null, deleteCtx:null, detailCtx:null, search:'', filters:{}, filterPanelOpen:{}, user:null, isGuest:false, loadErrors:{}, proses:null };
+// ------------------------------------------------------------------
+// MODUL DINAMIS — kolom mengikuti baris judul data yang dikirim server (STATE.headers),
+// jadi nama kolom tidak perlu ditulis manual. Dipakai modul distribusi aset & Master Departemen.
+// ------------------------------------------------------------------
+function dynHeaders(mod){
+  const h = STATE.headers && STATE.headers[mod.sheet];
+  if(Array.isArray(h) && h.length) return h;
+  const rows = STATE.data[mod.sheet] || [];
+  return rows.length ? Object.keys(rows[0]).filter(function(k){ return k!=='__row'; }) : [];
+}
+function dynIsIdHeader(h){ return /^(no\b|no\.|nomor|id\b|id[ _]|kode|code)/i.test(String(h).trim()); }
+function optDepartemen(){
+  const rows = STATE.data['Master Departemen'] || [];
+  const hs = STATE.headers['Master Departemen'] || [];
+  const col = hs.find(function(h){ return /nama/i.test(h); }) || hs.find(function(h){ return /departemen/i.test(h); }) || hs[1] || hs[0];
+  return rows.map(function(r){ return { value:r[col], label:r[col] }; }).filter(function(o){ return o.value; });
+}
+function dynField(mod, h, idx){
+  const lk = String(h).toLowerCase();
+  const rows = STATE.data[mod.sheet] || [];
+  const ro = !!mod.readonly;
+  const f = { k:h, l:String(h).replace(/_/g,' '), t:'text' };
+  const hasTime = rows.some(function(r){ return /\d{1,2}:\d{2}/.test(String(r[h]||'')); });
+
+  if(idx===0 && dynIsIdHeader(h) && mod.autoId){ f.ro = true; return f; }
+  if(/tanggal|tgl/.test(lk)) f.t = hasTime ? 'datetime' : 'date';
+  else if(/waktu|timestamp/.test(lk)) f.t = 'datetime';
+  else if(/(^|\s)(jumlah|qty|kuantitas|durasi|nilai|biaya|harga|lama)(\s|$)|\(rp\)|\(hari\)|\(jam\)/.test(lk)) f.t = 'number';
+  else if(/catatan|keterangan|alasan|deskripsi|alamat|remark|spesifikasi/.test(lk)) f.t = 'textarea';
+
+  // kolom pilihan: untuk modul lihat-saja cukup type select (jadi bisa difilter, isi diambil dari data)
+  if(h==='Kode Alat' || h==='Kode Aset'){ if(!ro){ f.t='select'; f.opt=optAsset; } }
+  else if(/^jenis transaksi/.test(lk)){ f.t='select'; f.opt=STATIC_OPTIONS.jenisTransaksiDistribusi; }
+  else if(lk==='jenis aset' || lk==='tipe aset'){ f.t='select'; f.opt=STATIC_OPTIONS.jenisAsetPosisi; }
+  else if(lk==='status distribusi'){ f.t='select'; f.opt=STATIC_OPTIONS.statusDistribusi; }
+  else if(lk==='sinkron master'){ f.t='select'; f.opt=STATIC_OPTIONS.sinkronMaster; }
+  else if(lk==='status aset'){ f.t='select'; f.opt=STATIC_OPTIONS.statusAsset; }
+  else if(/^lokasi|lokasi (asal|tujuan|baru|lama)|^(dari|ke) lokasi/.test(lk)){ f.t='select'; f.opt=optFrom('Master Lokasi','Nama_Lokasi'); }
+  else if(/departemen/.test(lk) && mod.sheet!=='Master Departemen' && !/^(kode|no|id)\b/.test(lk)){
+    if(ro || (STATE.data['Master Departemen']||[]).length){ f.t='select'; f.opt=optDepartemen; }
+  }
+  else if(ro && /^(status|jenis|tipe|kategori)/.test(lk)){ f.t='select'; }
+  return f;
+}
+function hydrateDynamicModules(){
+  MODULES.forEach(function(mod){
+    if(!mod.dynamic) return;
+    const hs = dynHeaders(mod);
+    mod.fields = hs.map(function(h, i){ return dynField(mod, h, i); });
+    mod.id = hs.length ? hs[0] : '';
+    mod.tableCols = hs.length > 10 ? hs.slice(0, 10) : undefined;  // tabel ringkas; semua kolom tetap tampil di Detail
+  });
+}
+
+const STATE = { data:{}, headers:{}, activeModule:'dashboard', editing:null, deleteCtx:null, detailCtx:null, search:'', filters:{}, filterPanelOpen:{}, user:null, isGuest:false, loadErrors:{}, proses:null };
 const GUEST_USER = { Username:'tamu', Nama:'Tamu', Role:'Tamu (Lihat Saja)' };
 
 // ==================================================================
@@ -1200,14 +1273,14 @@ function monthLabel(key){
   const names = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
   return names[parseInt(m,10)-1]+' '+y;
 }
-const STATUS_LIKE_KEYS = ['Status','Prioritas','Hasil','Hasil Kalibrasi','Kondisi Umum','Status Lama','Status Baru'];
+const STATUS_LIKE_KEYS = ['Status','Prioritas','Hasil','Hasil Kalibrasi','Kondisi Umum','Status Lama','Status Baru','Status Aset','Status Distribusi','Sinkron Master','Kondisi Saat Serah Terima'];
 function badgeClass(v){
   const s = String(v||'').toLowerCase();
-  if(['aktif','selesai','lulus','layak operasi','disetujui','rendah'].includes(s)) return 'badge-ok';
-  if(['rusak','non-aktif','tidak lulus','tidak layak','tidak layak operasi','ditolak','kedaluwarsa','dibatalkan','resign'].includes(s)) return 'badge-bad';
+  if(['aktif','selesai','lulus','layak operasi','disetujui','rendah','terdistribusi','sesuai','dikembalikan'].includes(s)) return 'badge-ok';
+  if(['rusak','non-aktif','tidak lulus','tidak layak','tidak layak operasi','ditolak','kedaluwarsa','dibatalkan','resign','terlambat kembali','perbarui master'].includes(s)) return 'badge-bad';
   if(['tinggi','darurat','kritis'].includes(s)) return 'badge-bad';
-  if(['dalam perbaikan','dalam proses','in progress','perlu perhatian','perlu penyesuaian','lulus dengan catatan','terjadwal','akan berakhir','diajukan','terpasang','sedang','terlambat','cuti','menunggu sparepart','direview'].includes(s)) return 'badge-warn';
-  if(['open','diterima','dijadwalkan','diproses','pengadaan','standby'].includes(s)) return 'badge-info';
+  if(['dalam perbaikan','dalam proses','in progress','perlu perhatian','perlu penyesuaian','lulus dengan catatan','terjadwal','akan berakhir','diajukan','terpasang','sedang','terlambat','cuti','menunggu sparepart','direview','sedang dipinjam'].includes(s)) return 'badge-warn';
+  if(['open','diterima','dijadwalkan','diproses','pengadaan','standby','belum ada riwayat'].includes(s)) return 'badge-info';
   return 'badge-muted';
 }
 // Nilai sel -> {display: HTML aman, plain: teks biasa}. Dipakai tabel, detail, dan ringkasan proses.
@@ -1315,6 +1388,8 @@ function loadAll(silent){
   return apiGet('all').then(function(res){
     if(res.ok){
       STATE.data = res.data;
+      STATE.headers = res.headers || {};
+      hydrateDynamicModules();
       STATE.loadErrors = res.errors || {};
       const errKeys = Object.keys(STATE.loadErrors);
       const bar = document.getElementById('apiHint');
